@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VoltSwap — Convierte tu auto de combustión a 100% eléctrico</title>
+<meta name="description" content="VoltSwap: taller premium de electrificación. Convertimos autos clásicos y de combustión a 100% eléctricos con ingeniería seria, autonomía real y cero emisiones." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   VoltSwap — Design system
+   Style: Modern Dark (Cinema) — graphite base + glass surfaces
+   Accent: electric cyan/teal (brief override of DB red accent)
+   Type: Inter precision system (single family)
+   Easing: cubic-bezier(.16,1,.3,1)
+   ============================================================ */
+:root{
+  /* graphite base */
+  --bg-deep:#0b0f17;
+  --bg-base:#0f1420;
+  --bg-elev:#161c2b;
+  --surface:rgba(255,255,255,.045);
+  --surface-2:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.10);
+  --border-strong:rgba(255,255,255,.18);
+
+  /* text */
+  --fg:#EEF1F6;
+  --fg-muted:#9AA4B6;
+  --fg-dim:#6B7689;
+
+  /* electric accent (cyan / teal) */
+  --accent:#2CD8E6;
+  --accent-2:#16B5C8;
+  --accent-deep:#0E7E8C;
+  --on-accent:#04161a;
+  --accent-glow:rgba(44,216,230,.22);
+
+  /* feedback */
+  --ok:#34D399;
+  --warn:#FBBF24;
+
+  /* scale */
+  --r-sm:10px; --r:16px; --r-lg:22px; --r-pill:999px;
+  --maxw:1180px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --t-fast:160ms; --t:240ms; --t-slow:480ms;
+
+  /* type scale: 12 13 16 18 22 30 42 60 */
+  --fs-label:13px; --fs-body:16px; --fs-lg:18px;
+  --fs-h3:22px; --fs-h2:30px; --fs-h1:42px; --fs-display:60px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+body{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:var(--bg-deep);
+  color:var(--fg);
+  font-size:var(--fs-body);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+ul{list-style:none}
+
+/* long-form text justification (global rule) */
+.prose p, .faq__a, .estimate__note{
+  text-align:justify;
+  text-justify:inter-word;
+  hyphens:manual;
+  -webkit-hyphens:manual;
+}
+
+/* focus visibility — AA */
+:focus-visible{
+  outline:3px solid var(--accent);
+  outline-offset:3px;
+  border-radius:6px;
+}
+::selection{background:var(--accent);color:var(--on-accent)}
+
+/* skip link */
+.skip{
+  position:absolute;left:-999px;top:0;z-index:2000;
+  background:var(--accent);color:var(--on-accent);
+  padding:.7rem 1.1rem;border-radius:0 0 var(--r-sm) 0;font-weight:600;
+}
+.skip:focus{left:0}
+
+/* ---------- layout helpers ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+.section{padding:88px 0;position:relative}
+.section--tight{padding:64px 0}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:var(--fs-label);font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:14px;
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent)}
+.h2{font-size:var(--fs-h2);font-weight:700;line-height:1.18;letter-spacing:-.02em}
+.h3{font-size:var(--fs-h3);font-weight:600;line-height:1.25;letter-spacing:-.01em}
+.lead{color:var(--fg-muted);font-size:var(--fs-lg);max-width:62ch;margin-top:14px}
+.section__head{margin-bottom:48px;max-width:680px}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:48px;padding:0 24px;border-radius:var(--r-pill);
+  font-weight:600;font-size:15px;border:1px solid transparent;
+  transition:transform var(--t-fast) var(--ease),
+             box-shadow var(--t) var(--ease),
+             background var(--t) var(--ease),
+             border-color var(--t) var(--ease);
+}
+.btn svg{width:18px;height:18px;flex:none}
+.btn--primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:var(--on-accent);
+  box-shadow:0 8px 28px -8px var(--accent-glow),
+             inset 0 1px 0 rgba(255,255,255,.35);
+}
+.btn--primary:hover{transform:translateY(-2px);
+  box-shadow:0 16px 40px -10px var(--accent-glow),
+             inset 0 1px 0 rgba(255,255,255,.45)}
+.btn--primary:active{transform:translateY(0) scale(.99)}
+.btn--ghost{
+  background:var(--surface);color:var(--fg);
+  border-color:var(--border-strong);
+}
+.btn--ghost:hover{background:var(--surface-2);transform:translateY(-2px);
+  border-color:var(--accent)}
+.btn--ghost:active{transform:translateY(0) scale(.99)}
+.btn--block{width:100%}
+
+/* ---------- header / nav ---------- */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(11,15,23,.72);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  transition:background var(--t) var(--ease),border-color var(--t) var(--ease);
+}
+.header.scrolled{background:rgba(11,15,23,.92);border-color:var(--border-strong)}
+.nav{display:flex;align-items:center;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.02em}
+.brand__mark{
+  width:34px;height:34px;border-radius:9px;flex:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent-deep));
+  display:grid;place-items:center;
+  box-shadow:0 0 18px -2px var(--accent-glow);
+}
+.brand__mark svg{width:20px;height:20px}
+.nav__links{display:none;gap:6px;margin-left:auto}
+.nav__links a{
+  padding:9px 13px;border-radius:var(--r-sm);font-size:14px;
+  color:var(--fg-muted);font-weight:500;
+  transition:color var(--t-fast) var(--ease),background var(--t-fast) var(--ease);
+}
+.nav__links a:hover{color:var(--fg);background:var(--surface)}
+.nav__cta{margin-left:auto}
+.nav__links + .nav__cta{margin-left:8px}
+@media(min-width:940px){
+  .nav__links{display:flex}
+  .nav__cta{margin-left:8px}
+}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:96px 0 88px;overflow:hidden}
+.hero__glow{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+}
+.hero__glow::before,.hero__glow::after{
+  content:"";position:absolute;border-radius:50%;filter:blur(90px);
+}
+.hero__glow::before{
+  width:520px;height:520px;top:-160px;right:-120px;
+  background:radial-gradient(circle,var(--accent-glow),transparent 70%);
+}
+.hero__glow::after{
+  width:440px;height:440px;bottom:-200px;left:-140px;
+  background:radial-gradient(circle,rgba(14,126,140,.22),transparent 70%);
+}
+.hero__grid{position:absolute;inset:0;z-index:0;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:54px 54px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000,transparent 75%);
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000,transparent 75%);
+}
+.hero .wrap{position:relative;z-index:1}
+.hero__layout{display:grid;gap:48px;align-items:center}
+@media(min-width:980px){.hero__layout{grid-template-columns:1.05fr .95fr;gap:56px}}
+.hero__badge{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--surface);border:1px solid var(--border-strong);
+  padding:7px 14px 7px 8px;border-radius:var(--r-pill);
+  font-size:13px;color:var(--fg-muted);font-weight:500;margin-bottom:22px;
+}
+.hero__badge .dot{
+  width:8px;height:8px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 4px var(--accent-glow);
+}
+.hero h1{
+  font-size:var(--fs-h1);font-weight:800;line-height:1.08;
+  letter-spacing:-.03em;margin-bottom:18px;
+}
+@media(min-width:720px){.hero h1{font-size:52px}}
+@media(min-width:1100px){.hero h1{font-size:var(--fs-display)}}
+.hero h1 .grad{
+  background:linear-gradient(110deg,var(--accent),#7FF0F8 60%,var(--accent));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero__sub{color:var(--fg-muted);font-size:var(--fs-lg);max-width:54ch;margin-bottom:30px}
+.hero__actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:34px}
+.hero__stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  border-top:1px solid var(--border);padding-top:26px;max-width:520px;
+}
+.hero__stat .num{font-size:26px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.hero__stat .num .u{color:var(--accent);font-size:18px;font-weight:600}
+.hero__stat .lbl{font-size:13px;color:var(--fg-dim);margin-top:2px}
+
+/* hero visual card */
+.hero__visual{position:relative}
+.carcard{
+  position:relative;border-radius:var(--r-lg);overflow:hidden;
+  border:1px solid var(--border-strong);
+  background:linear-gradient(160deg,var(--bg-elev),var(--bg-base));
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.7);
+}
+.carcard__img{
+  aspect-ratio:16/11;position:relative;
+  background:
+    radial-gradient(ellipse 60% 70% at 30% 30%,rgba(44,216,230,.16),transparent 60%),
+    linear-gradient(160deg,#1b2233,#0d1320);
+  display:grid;place-items:center;
+}
+.carcard__img svg{width:78%;height:auto;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}
+.carcard__tag{
+  position:absolute;left:16px;top:16px;
+  background:rgba(11,15,23,.82);backdrop-filter:blur(8px);
+  border:1px solid var(--border-strong);
+  padding:6px 12px;border-radius:var(--r-pill);
+  font-size:12px;font-weight:600;letter-spacing:.04em;
+  display:flex;align-items:center;gap:7px;
+}
+.carcard__tag .pulse{width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.carcard__meta{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--border);
+}
+.carcard__meta div{padding:16px 14px;border-right:1px solid var(--border)}
+.carcard__meta div:last-child{border-right:none}
+.carcard__meta .k{font-size:11px;color:var(--fg-dim);letter-spacing:.06em;text-transform:uppercase}
+.carcard__meta .v{font-size:17px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums}
+.hero__float{
+  position:absolute;right:-10px;bottom:-22px;
+  background:var(--bg-elev);border:1px solid var(--border-strong);
+  border-radius:var(--r);padding:14px 16px;
+  box-shadow:0 24px 50px -18px rgba(0,0,0,.7);
+  display:flex;align-items:center;gap:12px;max-width:240px;
+}
+.hero__float .ic{
+  width:38px;height:38px;border-radius:10px;flex:none;
+  background:var(--accent-glow);display:grid;place-items:center;
+}
+.hero__float .ic svg{width:20px;height:20px;color:var(--accent)}
+.hero__float .t{font-size:13px;font-weight:600}
+.hero__float .d{font-size:12px;color:var(--fg-dim)}
+@media(max-width:520px){.hero__float{display:none}}
+
+/* ---------- trust strip ---------- */
+.trust{border-block:1px solid var(--border);background:var(--bg-base)}
+.trust__row{display:flex;flex-wrap:wrap;gap:14px 32px;align-items:center;justify-content:center;padding:26px 0}
+.trust__item{display:flex;align-items:center;gap:9px;color:var(--fg-dim);font-size:13px;font-weight:500}
+.trust__item svg{width:17px;height:17px;color:var(--accent);flex:none}
+
+/* ---------- value props ---------- */
+.values{display:grid;gap:18px}
+@media(min-width:640px){.values{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.values{grid-template-columns:repeat(4,1fr)}}
+.vcard{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:26px 22px;
+  transition:transform var(--t) var(--ease),
+             border-color var(--t) var(--ease),
+             background var(--t) var(--ease);
+  position:relative;overflow:hidden;
+}
+.vcard::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform var(--t-slow) var(--ease);
+}
+.vcard:hover{transform:translateY(-5px);border-color:var(--border-strong);background:var(--surface-2)}
+.vcard:hover::after{transform:scaleX(1)}
+.vcard__ic{
+  width:46px;height:46px;border-radius:12px;
+  background:var(--accent-glow);display:grid;place-items:center;margin-bottom:16px;
+}
+.vcard__ic svg{width:24px;height:24px;color:var(--accent)}
+.vcard h3{font-size:17px;font-weight:600;margin-bottom:7px}
+.vcard p{font-size:14px;color:var(--fg-muted);line-height:1.6}
+
+/* ---------- process ---------- */
+.process{background:var(--bg-base);border-block:1px solid var(--border)}
+.steps{display:grid;gap:16px;counter-reset:step}
+@media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+@media(min-width:1080px){.steps{grid-template-columns:repeat(5,1fr);gap:0}}
+.step{
+  position:relative;padding:28px 22px;
+  border:1px solid var(--border);border-radius:var(--r);
+  background:var(--surface);
+  transition:background var(--t) var(--ease),border-color var(--t) var(--ease),transform var(--t) var(--ease);
+}
+@media(min-width:1080px){
+  .step{border-radius:0;border-right:none}
+  .step:first-child{border-radius:var(--r) 0 0 var(--r)}
+  .step:last-child{border-radius:0 var(--r) var(--r) 0;border-right:1px solid var(--border)}
+}
+.step:hover{background:var(--surface-2);border-color:var(--border-strong);transform:translateY(-4px);z-index:2}
+.step__n{
+  width:40px;height:40px;border-radius:11px;
+  display:grid;place-items:center;margin-bottom:16px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-deep));
+  color:var(--on-accent);font-weight:800;font-size:16px;
+  box-shadow:0 0 18px -3px var(--accent-glow);
+}
+.step h3{font-size:16px;font-weight:600;margin-bottom:7px}
+.step p{font-size:13.5px;color:var(--fg-muted);line-height:1.6}
+.step__line{
+  display:none;position:absolute;top:48px;right:-1px;width:2px;
+}
+@media(min-width:1080px){
+  .step::before{
+    content:"";position:absolute;top:48px;right:-7px;z-index:3;
+    width:13px;height:13px;border-radius:50%;
+    background:var(--bg-base);border:2px solid var(--accent);
+  }
+  .step:last-child::before{display:none}
+}
+
+/* ---------- pricing ---------- */
+.plans{display:grid;gap:20px;align-items:start}
+@media(min-width:760px){.plans{grid-template-columns:repeat(3,1fr)}}
+.plan{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:30px 26px;
+  display:flex;flex-direction:column;
+  transition:transform var(--t) var(--ease),border-color var(--t) var(--ease),box-shadow var(--t) var(--ease);
+}
+.plan:hover{transform:translateY(-6px);border-color:var(--border-strong)}
+.plan--featured{
+  border-color:var(--accent);
+  background:linear-gradient(180deg,rgba(44,216,230,.07),var(--surface));
+  box-shadow:0 30px 70px -30px var(--accent-glow);
+}
+.plan--featured:hover{box-shadow:0 40px 90px -28px var(--accent-glow)}
+.plan__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.plan__name{font-size:var(--fs-h3);font-weight:700;letter-spacing:-.01em}
+.plan__badge{
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--accent);color:var(--on-accent);
+  padding:5px 10px;border-radius:var(--r-pill);
+}
+.plan__for{font-size:13.5px;color:var(--fg-dim);margin-bottom:22px}
+.plan__spec{display:flex;gap:10px;margin-bottom:20px}
+.plan__spec .box{
+  flex:1;background:var(--bg-base);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:14px 12px;text-align:center;
+}
+.plan__spec .num{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.plan__spec .num .u{font-size:13px;color:var(--accent);font-weight:600}
+.plan__spec .lbl{font-size:11px;color:var(--fg-dim);text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
+.plan__price{margin-bottom:4px;font-size:13px;color:var(--fg-dim)}
+.plan__price b{display:block;font-size:24px;color:var(--fg);font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums;margin-top:2px}
+.plan__time{font-size:13px;color:var(--fg-muted);margin-bottom:22px}
+.plan__time b{color:var(--accent);font-weight:600}
+.plan ul{display:flex;flex-direction:column;gap:11px;margin-bottom:26px;flex:1}
+.plan li{display:flex;gap:10px;font-size:14px;color:var(--fg-muted);line-height:1.5}
+.plan li svg{width:18px;height:18px;color:var(--accent);flex:none;margin-top:1px}
+
+/* ---------- gallery before/after ---------- */
+.gallery{display:grid;gap:22px}
+@media(min-width:760px){.gallery{grid-template-columns:1fr 1fr}}
+.case{
+  border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;
+  background:var(--surface);
+  transition:transform var(--t) var(--ease),border-color var(--t) var(--ease);
+}
+.case:hover{transform:translateY(-5px);border-color:var(--border-strong)}
+.case__imgs{display:grid;grid-template-columns:1fr 1fr;position:relative}
+.case__half{aspect-ratio:4/3;position:relative;display:grid;place-items:center}
+.case__half svg{width:84%;height:auto}
+.case__half--before{background:linear-gradient(160deg,#2a2419,#171410)}
+.case__half--after{background:linear-gradient(160deg,#10242a,#0c1820)}
+.case__lbl{
+  position:absolute;left:10px;top:10px;
+  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 9px;border-radius:var(--r-pill);
+  background:rgba(11,15,23,.82);border:1px solid var(--border-strong);
+}
+.case__lbl--after{color:var(--accent);border-color:var(--accent)}
+.case__divider{
+  position:absolute;left:50%;top:0;bottom:0;width:2px;
+  background:linear-gradient(var(--accent),transparent);transform:translateX(-50%);
+}
+.case__body{padding:20px 22px}
+.case__body h3{font-size:17px;font-weight:600;margin-bottom:4px}
+.case__body .sub{font-size:13px;color:var(--fg-dim);margin-bottom:14px}
+.case__chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  font-size:12px;font-weight:500;color:var(--fg-muted);
+  background:var(--bg-base);border:1px solid var(--border);
+  padding:5px 11px;border-radius:var(--r-pill);
+}
+.chip b{color:var(--accent);font-weight:600}
+
+/* ---------- estimate ---------- */
+.estimate{background:var(--bg-base);border-block:1px solid var(--border)}
+.estimate__grid{display:grid;gap:30px}
+@media(min-width:900px){.estimate__grid{grid-template-columns:.8fr 1.2fr;align-items:center}}
+.esttable{
+  border:1px solid var(--border);border-radius:var(--r);overflow:hidden;
+  background:var(--surface);
+}
+.esttable__row{
+  display:grid;grid-template-columns:1.1fr 1fr 1fr;
+  border-bottom:1px solid var(--border);
+}
+.esttable__row:last-child{border-bottom:none}
+.esttable__row--head{background:var(--surface-2)}
+.esttable__cell{
+  padding:15px 16px;font-size:14px;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;justify-content:center;
+}
+.esttable__cell:last-child{border-right:none}
+.esttable__row--head .esttable__cell{
+  font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--fg-dim);font-weight:600;
+}
+.esttable__cell .plan-name{font-weight:700;font-size:15px}
+.esttable__cell .big{font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+.esttable__cell .small{font-size:12px;color:var(--fg-dim);margin-top:2px}
+.estimate__note{font-size:13px;color:var(--fg-dim);margin-top:14px;max-width:60ch}
+
+/* ---------- testimonials ---------- */
+.quotes{display:grid;gap:18px}
+@media(min-width:680px){.quotes{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.quotes{grid-template-columns:repeat(3,1fr)}}
+.quote{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:26px 24px;
+  display:flex;flex-direction:column;gap:16px;
+  transition:transform var(--t) var(--ease),border-color var(--t) var(--ease);
+}
+.quote:hover{transform:translateY(-4px);border-color:var(--border-strong)}
+.quote__stars{display:flex;gap:3px}
+.quote__stars svg{width:16px;height:16px;color:var(--accent)}
+.quote p{font-size:14.5px;color:var(--fg);line-height:1.65;flex:1}
+.quote__who{display:flex;align-items:center;gap:12px}
+.quote__avatar{
+  width:42px;height:42px;border-radius:50%;flex:none;
+  display:grid;place-items:center;font-weight:700;font-size:15px;
+  background:linear-gradient(135deg,var(--accent-deep),var(--bg-elev));
+  border:1px solid var(--border-strong);color:var(--fg);
+}
+.quote__name{font-size:14px;font-weight:600}
+.quote__role{font-size:12.5px;color:var(--fg-dim)}
+
+/* ---------- faq ---------- */
+.faq{display:grid;gap:12px;max-width:820px;margin:0 auto}
+.faq__item{
+  border:1px solid var(--border);border-radius:var(--r);
+  background:var(--surface);overflow:hidden;
+  transition:border-color var(--t) var(--ease),background var(--t) var(--ease);
+}
+.faq__item[open]{border-color:var(--border-strong);background:var(--surface-2)}
+.faq__q{
+  list-style:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:20px 22px;font-size:15.5px;font-weight:600;
+}
+.faq__q::-webkit-details-marker{display:none}
+.faq__q:hover{color:var(--accent)}
+.faq__ic{
+  width:26px;height:26px;flex:none;border-radius:7px;
+  border:1px solid var(--border-strong);
+  display:grid;place-items:center;
+  transition:transform var(--t) var(--ease),background var(--t) var(--ease);
+}
+.faq__ic svg{width:14px;height:14px;color:var(--accent)}
+.faq__item[open] .faq__ic{transform:rotate(45deg);background:var(--accent-glow)}
+.faq__a{
+  padding:0 22px 22px;font-size:14px;color:var(--fg-muted);line-height:1.7;
+}
+
+/* ---------- final cta ---------- */
+.finalcta{position:relative;overflow:hidden}
+.finalcta__box{
+  position:relative;
+  border:1px solid var(--border-strong);border-radius:var(--r-lg);
+  background:
+    radial-gradient(ellipse 70% 120% at 80% 0%,rgba(44,216,230,.14),transparent 60%),
+    linear-gradient(160deg,var(--bg-elev),var(--bg-base));
+  padding:54px 38px;text-align:center;
+  box-shadow:0 40px 90px -36px rgba(0,0,0,.7);
+}
+.finalcta__box h2{font-size:var(--fs-h2);font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
+.finalcta__box p{color:var(--fg-muted);max-width:54ch;margin:0 auto 28px;font-size:var(--fs-lg)}
+.finalcta__actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+
+/* ---------- footer ---------- */
+.footer{background:var(--bg-base);border-top:1px solid var(--border);padding:64px 0 30px}
+.footer__grid{display:grid;gap:36px;margin-bottom:44px}
+@media(min-width:760px){.footer__grid{grid-template-columns:1.4fr 1fr 1fr}}
+.footer__brand p{font-size:14px;color:var(--fg-muted);margin-top:14px;max-width:38ch}
+.footer h4{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg);margin-bottom:16px}
+.footer__list{display:flex;flex-direction:column;gap:11px}
+.footer__list li{display:flex;gap:10px;font-size:14px;color:var(--fg-muted);line-height:1.55}
+.footer__list li svg{width:17px;height:17px;color:var(--accent);flex:none;margin-top:2px}
+.footer__list a{transition:color var(--t-fast) var(--ease)}
+.footer__list a:hover{color:var(--accent)}
+.footer__bottom{
+  border-top:1px solid var(--border);padding-top:24px;
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+  font-size:13px;color:var(--fg-dim);
+}
+.footer__social{display:flex;gap:10px}
+.footer__social a{
+  width:38px;height:38px;border-radius:10px;
+  border:1px solid var(--border);display:grid;place-items:center;
+  color:var(--fg-muted);
+  transition:border-color var(--t-fast) var(--ease),color var(--t-fast) var(--ease),transform var(--t-fast) var(--ease);
+}
+.footer__social a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.footer__social svg{width:18px;height:18px}
+
+/* ---------- scroll reveal ---------- */
+.reveal{opacity:0;transform:translateY(26px);
+  transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-d="1"]{transition-delay:80ms}
+.reveal[data-d="2"]{transition-delay:160ms}
+.reveal[data-d="3"]{transition-delay:240ms}
+.reveal[data-d="4"]{transition-delay:320ms}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido principal</a>
+
+<!-- ===================== HEADER ===================== -->
+<header class="header" id="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="#top" class="brand" aria-label="VoltSwap, inicio">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#04161a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+        </span>
+        VoltSwap
+      </a>
+      <div class="nav__links">
+        <a href="#valor">Por qué</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#paquetes">Paquetes</a>
+        <a href="#casos">Casos</a>
+        <a href="#costos">Costos</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <a href="#cotiza" class="btn btn--primary nav__cta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+        Cotiza tu conversión
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__glow" aria-hidden="true"></div>
+    <div class="hero__grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero__layout">
+        <div class="reveal in">
+          <span class="hero__badge"><span class="dot" aria-hidden="true"></span> Taller de electrificación · Ingeniería certificada</span>
+          <h1 id="hero-title">Conserva el auto que amas.<br><span class="grad">Hazlo 100% eléctrico.</span></h1>
+          <p class="hero__sub">VoltSwap convierte autos de combustión interna —clásicos o de uso diario— a propulsión eléctrica total. Misma carrocería, misma historia; cero emisiones, autonomía real y la tranquilidad de un proceso de ingeniería serio.</p>
+          <div class="hero__actions">
+            <a href="#cotiza" class="btn btn--primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+              Cotiza tu conversión
+            </a>
+            <a href="#proceso" class="btn btn--ghost">
+              Ver el proceso
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+          <dl class="hero__stats">
+            <div class="hero__stat">
+              <dd class="num">+140</dd>
+              <dt class="lbl">Conversiones entregadas</dt>
+            </div>
+            <div class="hero__stat">
+              <dd class="num">8<span class="u"> años</span></dd>
+              <dt class="lbl">De experiencia en EV</dt>
+            </div>
+            <div class="hero__stat">
+              <dd class="num">2<span class="u"> años</span></dd>
+              <dt class="lbl">Garantía de tren motriz</dt>
+            </div>
+          </dl>
+        </div>
+
+        <div class="hero__visual reveal in" data-d="2">
+          <div class="carcard">
+            <div class="carcard__img">
+              <span class="carcard__tag"><span class="pulse" aria-hidden="true"></span> Conversión activa</span>
+              <!-- SVG car illustration -->
+              <svg viewBox="0 0 320 150" role="img" aria-label="Ilustración de un auto clásico convertido a eléctrico">
+                <defs>
+                  <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#3a4a63"/><stop offset="1" stop-color="#1b2334"/>
+                  </linearGradient>
+                  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#2CD8E6" stop-opacity=".5"/><stop offset="1" stop-color="#0E7E8C" stop-opacity=".3"/>
+                  </linearGradient>
+                </defs>
+                <ellipse cx="160" cy="132" rx="120" ry="9" fill="#000" opacity=".45"/>
+                <path d="M30 104 Q34 78 60 74 Q82 50 120 48 L210 48 Q250 50 268 76 L292 84 Q302 88 302 100 L302 110 Q302 116 294 116 L40 116 Q30 116 30 108 Z" fill="url(#body)" stroke="#46566f" stroke-width="1.5"/>
+                <path d="M70 74 Q88 56 120 55 L196 55 Q224 57 240 76 Z" fill="url(#glass)"/>
+                <line x1="155" y1="55" x2="155" y2="76" stroke="#46566f" stroke-width="2"/>
+                <circle cx="92" cy="116" r="22" fill="#0c111b" stroke="#46566f" stroke-width="3"/>
+                <circle cx="92" cy="116" r="9" fill="#1b2334" stroke="#2CD8E6" stroke-width="2"/>
+                <circle cx="238" cy="116" r="22" fill="#0c111b" stroke="#46566f" stroke-width="3"/>
+                <circle cx="238" cy="116" r="9" fill="#1b2334" stroke="#2CD8E6" stroke-width="2"/>
+                <rect x="276" y="92" width="16" height="9" rx="2" fill="#2CD8E6"/>
+                <path d="M150 78 l-10 16 h9 l-3 14 14 -18 h-9 z" fill="#2CD8E6" stroke="#7FF0F8" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="carcard__meta">
+              <div><div class="k">Batería</div><div class="v">62 kWh</div></div>
+              <div><div class="k">Autonomía</div><div class="v">340 km</div></div>
+              <div><div class="k">Estado</div><div class="v">Fase 4 / 5</div></div>
+            </div>
+          </div>
+          <div class="hero__float">
+            <span class="ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+            </span>
+            <div>
+              <div class="t">Homologación incluida</div>
+              <div class="d">Trámite y dictamen vehicular</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TRUST STRIP ===================== -->
+  <section class="trust" aria-label="Garantías del taller">
+    <div class="wrap">
+      <ul class="trust__row">
+        <li class="trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Garantía 2 años de tren motriz</li>
+        <li class="trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-6 0v4"/><rect x="2" y="9" width="20" height="11" rx="2"/></svg> Componentes certificados</li>
+        <li class="trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Homologación y trámite vehicular</li>
+        <li class="trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M2 12h20"/></svg> Diagnóstico técnico transparente</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== VALUE PROPS ===================== -->
+  <section class="section" id="valor" aria-labelledby="valor-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Por qué convertir</span>
+        <h2 class="h2" id="valor-title">Tu auto, mejorado. No reemplazado.</h2>
+        <p class="lead">Cuatro razones concretas por las que cada vez más dueños eligen electrificar en lugar de vender.</p>
+      </div>
+      <div class="values">
+        <article class="vcard reveal" data-d="1">
+          <div class="vcard__ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>
+          </div>
+          <h3>Conserva tu auto</h3>
+          <p>Mantienes la carrocería, el carácter y el valor sentimental de tu vehículo. Solo cambia lo que lo mueve.</p>
+        </article>
+        <article class="vcard reveal" data-d="2">
+          <div class="vcard__ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22a8 8 0 0 1 8-8 8 8 0 0 1 8 8"/><path d="M14 4a4 4 0 0 1 6 6"/><circle cx="10" cy="6" r="4"/></svg>
+          </div>
+          <h3>Cero emisiones</h3>
+          <p>Sin escape, sin humo, sin verificaciones de contaminación. Conduces limpio en cualquier ciudad y zona restringida.</p>
+        </article>
+        <article class="vcard reveal" data-d="3">
+          <div class="vcard__ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3>Ahorro real</h3>
+          <p>Hasta 70% menos costo por kilómetro y un mantenimiento mínimo: sin aceite, sin afinaciones, sin transmisión.</p>
+        </article>
+        <article class="vcard reveal" data-d="4">
+          <div class="vcard__ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h3>Autonomía honesta</h3>
+          <p>Calculamos el rango real según tu uso diario y te lo entregamos por escrito. Sin cifras de laboratorio infladas.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROCESS ===================== -->
+  <section class="section process" id="proceso" aria-labelledby="proceso-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">El proceso</span>
+        <h2 class="h2" id="proceso-title">Cinco pasos. Cero sorpresas.</h2>
+        <p class="lead">Un método de ingeniería documentado de principio a fin. En cada fase sabes qué se hace, cuánto cuesta y cuándo continúa.</p>
+      </div>
+      <ol class="steps">
+        <li class="step reveal" data-d="1">
+          <div class="step__n" aria-hidden="true">1</div>
+          <h3>Diagnóstico</h3>
+          <p>Inspeccionamos chasis, suspensión y carrocería para confirmar que tu auto es buen candidato y definir el alcance.</p>
+        </li>
+        <li class="step reveal" data-d="2">
+          <div class="step__n" aria-hidden="true">2</div>
+          <h3>Diseño del kit</h3>
+          <p>Ingeniería del paquete: motor, capacidad de batería, distribución de peso y autonomía objetivo según tu uso.</p>
+        </li>
+        <li class="step reveal" data-d="3">
+          <div class="step__n" aria-hidden="true">3</div>
+          <h3>Desmontaje</h3>
+          <p>Retiramos el tren motriz de combustión —motor, escape, tanque— y preparamos los puntos de anclaje.</p>
+        </li>
+        <li class="step reveal" data-d="4">
+          <div class="step__n" aria-hidden="true">4</div>
+          <h3>Instalación eléctrica</h3>
+          <p>Montaje de motor eléctrico, paquete de baterías, sistema de carga y electrónica de control con cableado certificado.</p>
+        </li>
+        <li class="step reveal" data-d="4">
+          <div class="step__n" aria-hidden="true">5</div>
+          <h3>Pruebas y entrega</h3>
+          <p>Banco de pruebas, validación en carretera, homologación y entrega con manual y bitácora de tu conversión.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== PRICING / PACKAGES ===================== -->
+  <section class="section" id="paquetes" aria-labelledby="paquetes-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Paquetes</span>
+        <h2 class="h2" id="paquetes-title">Tres niveles de electrificación</h2>
+        <p class="lead">Diferenciados por capacidad de batería y autonomía estimada. Elige según cómo y cuánto manejas — y crece después si lo necesitas.</p>
+      </div>
+      <div class="plans">
+        <!-- CITY -->
+        <article class="plan reveal" data-d="1" aria-labelledby="plan-city">
+          <div class="plan__top">
+            <span class="plan__name" id="plan-city">City</span>
+          </div>
+          <p class="plan__for">Para uso urbano y trayectos diarios cortos.</p>
+          <div class="plan__spec">
+            <div class="box">
+              <div class="num">30<span class="u"> kWh</span></div>
+              <div class="lbl">Batería</div>
+            </div>
+            <div class="box">
+              <div class="num">160<span class="u"> km</span></div>
+              <div class="lbl">Autonomía</div>
+            </div>
+          </div>
+          <div class="plan__price">Inversión estimada<b>$185k – $240k MXN</b></div>
+          <p class="plan__time">Tiempo de taller: <b>5 – 7 semanas</b></p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Motor eléctrico de ciudad</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Carga en toma doméstica</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Homologación incluida</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Garantía 2 años de tren motriz</li>
+          </ul>
+          <a href="#cotiza" class="btn btn--ghost btn--block">Cotizar paquete City</a>
+        </article>
+
+        <!-- RANGE (featured) -->
+        <article class="plan plan--featured reveal" data-d="2" aria-labelledby="plan-range">
+          <div class="plan__top">
+            <span class="plan__name" id="plan-range">Range</span>
+            <span class="plan__badge">Más elegido</span>
+          </div>
+          <p class="plan__for">Para quien usa el auto a diario y sale de la ciudad.</p>
+          <div class="plan__spec">
+            <div class="box">
+              <div class="num">62<span class="u"> kWh</span></div>
+              <div class="lbl">Batería</div>
+            </div>
+            <div class="box">
+              <div class="num">340<span class="u"> km</span></div>
+              <div class="lbl">Autonomía</div>
+            </div>
+          </div>
+          <div class="plan__price">Inversión estimada<b>$295k – $380k MXN</b></div>
+          <p class="plan__time">Tiempo de taller: <b>7 – 10 semanas</b></p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Motor de mayor par y eficiencia</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Carga rápida AC + DC</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Frenado regenerativo ajustable</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Climatización eléctrica</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Garantía 2 años de tren motriz</li>
+          </ul>
+          <a href="#cotiza" class="btn btn--primary btn--block">Cotizar paquete Range</a>
+        </article>
+
+        <!-- PERFORMANCE -->
+        <article class="plan reveal" data-d="3" aria-labelledby="plan-perf">
+          <div class="plan__top">
+            <span class="plan__name" id="plan-perf">Performance</span>
+          </div>
+          <p class="plan__for">Para entusiastas que buscan potencia y rango largo.</p>
+          <div class="plan__spec">
+            <div class="box">
+              <div class="num">90<span class="u"> kWh</span></div>
+              <div class="lbl">Batería</div>
+            </div>
+            <div class="box">
+              <div class="num">480<span class="u"> km</span></div>
+              <div class="lbl">Autonomía</div>
+            </div>
+          </div>
+          <div class="plan__price">Inversión estimada<b>$430k – $560k MXN</b></div>
+          <p class="plan__time">Tiempo de taller: <b>10 – 14 semanas</b></p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Motor de alto desempeño</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Carga rápida DC de alta potencia</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Suspensión y frenos reforzados</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Telemetría y modos de manejo</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Garantía 2 años de tren motriz</li>
+          </ul>
+          <a href="#cotiza" class="btn btn--ghost btn--block">Cotizar paquete Performance</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GALLERY ===================== -->
+  <section class="section" id="casos" aria-labelledby="casos-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Galería antes / después</span>
+        <h2 class="h2" id="casos-title">Casos reales que ya ruedan en eléctrico</h2>
+        <p class="lead">Cada conversión documentada: el auto que entró, el auto que entregamos y las cifras que lo respaldan.</p>
+      </div>
+      <div class="gallery">
+        <!-- CASE 1 -->
+        <article class="case reveal" data-d="1">
+          <div class="case__imgs">
+            <div class="case__half case__half--before">
+              <span class="case__lbl">Antes</span>
+              <svg viewBox="0 0 200 130" role="img" aria-label="Auto sedán clásico antes de la conversión, motor de combustión">
+                <ellipse cx="100" cy="112" rx="78" ry="7" fill="#000" opacity=".4"/>
+                <path d="M22 86 Q26 64 48 60 L70 44 L140 44 L162 62 L178 70 Q186 74 186 84 L186 94 Q186 98 180 98 L28 98 Q22 98 22 90 Z" fill="#5a4a30" stroke="#7a6840" stroke-width="1.4"/>
+                <path d="M56 60 L74 48 L136 48 L154 62 Z" fill="#8a7850" opacity=".55"/>
+                <circle cx="60" cy="98" r="15" fill="#0c0a06" stroke="#7a6840" stroke-width="2.5"/>
+                <circle cx="148" cy="98" r="15" fill="#0c0a06" stroke="#7a6840" stroke-width="2.5"/>
+                <path d="M150 88 q12 -2 16 4" stroke="#9a8a60" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="case__half case__half--after">
+              <span class="case__lbl case__lbl--after">Después</span>
+              <svg viewBox="0 0 200 130" role="img" aria-label="Mismo sedán convertido a eléctrico">
+                <ellipse cx="100" cy="112" rx="78" ry="7" fill="#000" opacity=".4"/>
+                <path d="M22 86 Q26 64 48 60 L70 44 L140 44 L162 62 L178 70 Q186 74 186 84 L186 94 Q186 98 180 98 L28 98 Q22 98 22 90 Z" fill="#1f2e38" stroke="#2CD8E6" stroke-width="1.4"/>
+                <path d="M56 60 L74 48 L136 48 L154 62 Z" fill="#2CD8E6" opacity=".4"/>
+                <circle cx="60" cy="98" r="15" fill="#0c1418" stroke="#2CD8E6" stroke-width="2.5"/>
+                <circle cx="148" cy="98" r="15" fill="#0c1418" stroke="#2CD8E6" stroke-width="2.5"/>
+                <path d="M96 56 l-7 11 h6 l-2 9 9 -12 h-6 z" fill="#2CD8E6"/>
+              </svg>
+            </div>
+            <span class="case__divider" aria-hidden="true"></span>
+          </div>
+          <div class="case__body">
+            <h3>Sedán clásico '78</h3>
+            <p class="sub">Paquete Range · Entregado en 9 semanas</p>
+            <div class="case__chips">
+              <span class="chip">Batería <b>62 kWh</b></span>
+              <span class="chip">Autonomía <b>335 km</b></span>
+              <span class="chip">0 emisiones</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CASE 2 -->
+        <article class="case reveal" data-d="2">
+          <div class="case__imgs">
+            <div class="case__half case__half--before">
+              <span class="case__lbl">Antes</span>
+              <svg viewBox="0 0 200 130" role="img" aria-label="Camioneta pickup vintage antes de la conversión">
+                <ellipse cx="100" cy="112" rx="80" ry="7" fill="#000" opacity=".4"/>
+                <path d="M20 90 L20 70 L60 70 L74 50 L112 50 L120 70 L184 70 L184 96 Q184 100 178 100 L26 100 Q20 100 20 92 Z" fill="#5a4a30" stroke="#7a6840" stroke-width="1.4"/>
+                <path d="M78 54 L108 54 L114 70 L78 70 Z" fill="#8a7850" opacity=".55"/>
+                <circle cx="56" cy="100" r="15" fill="#0c0a06" stroke="#7a6840" stroke-width="2.5"/>
+                <circle cx="150" cy="100" r="15" fill="#0c0a06" stroke="#7a6840" stroke-width="2.5"/>
+                <path d="M150 90 q12 -2 16 4" stroke="#9a8a60" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="case__half case__half--after">
+              <span class="case__lbl case__lbl--after">Después</span>
+              <svg viewBox="0 0 200 130" role="img" aria-label="Misma pickup convertida a eléctrica">
+                <ellipse cx="100" cy="112" rx="80" ry="7" fill="#000" opacity=".4"/>
+                <path d="M20 90 L20 70 L60 70 L74 50 L112 50 L120 70 L184 70 L184 96 Q184 100 178 100 L26 100 Q20 100 20 92 Z" fill="#1f2e38" stroke="#2CD8E6" stroke-width="1.4"/>
+                <path d="M78 54 L108 54 L114 70 L78 70 Z" fill="#2CD8E6" opacity=".4"/>
+                <circle cx="56" cy="100" r="15" fill="#0c1418" stroke="#2CD8E6" stroke-width="2.5"/>
+                <circle cx="150" cy="100" r="15" fill="#0c1418" stroke="#2CD8E6" stroke-width="2.5"/>
+                <path d="M96 58 l-7 11 h6 l-2 9 9 -12 h-6 z" fill="#2CD8E6"/>
+              </svg>
+            </div>
+            <span class="case__divider" aria-hidden="true"></span>
+          </div>
+          <div class="case__body">
+            <h3>Pickup vintage '84</h3>
+            <p class="sub">Paquete Performance · Entregada en 12 semanas</p>
+            <div class="case__chips">
+              <span class="chip">Batería <b>90 kWh</b></span>
+              <span class="chip">Autonomía <b>465 km</b></span>
+              <span class="chip">Carga rápida DC</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ESTIMATE / COSTS ===================== -->
+  <section class="section estimate" id="costos" aria-labelledby="costos-title">
+    <div class="wrap">
+      <div class="estimate__grid">
+        <div class="reveal">
+          <span class="eyebrow">Costos y tiempos</span>
+          <h2 class="h2" id="costos-title">Transparencia desde la primera cotización</h2>
+          <p class="lead">El precio final depende del modelo, su estado y el paquete elegido. Estos son los rangos de referencia que confirmamos por escrito tras el diagnóstico.</p>
+          <p class="estimate__note">La inversión incluye kit eléctrico, mano de obra de ingeniería, pruebas y homologación. No incluye reparaciones de carrocería o suspensión detectadas en el diagnóstico, que se cotizan aparte y se aprueban antes de continuar.</p>
+        </div>
+        <div class="esttable reveal" data-d="2" role="table" aria-label="Rango de precio y tiempo por paquete">
+          <div class="esttable__row esttable__row--head" role="row">
+            <div class="esttable__cell" role="columnheader">Paquete</div>
+            <div class="esttable__cell" role="columnheader">Inversión estimada</div>
+            <div class="esttable__cell" role="columnheader">Tiempo de taller</div>
+          </div>
+          <div class="esttable__row" role="row">
+            <div class="esttable__cell" role="cell"><span class="plan-name">City</span><span class="small">30 kWh · 160 km</span></div>
+            <div class="esttable__cell" role="cell"><span class="big">$185k – $240k</span><span class="small">MXN</span></div>
+            <div class="esttable__cell" role="cell"><span class="big">5 – 7</span><span class="small">semanas</span></div>
+          </div>
+          <div class="esttable__row" role="row">
+            <div class="esttable__cell" role="cell"><span class="plan-name">Range</span><span class="small">62 kWh · 340 km</span></div>
+            <div class="esttable__cell" role="cell"><span class="big">$295k – $380k</span><span class="small">MXN</span></div>
+            <div class="esttable__cell" role="cell"><span class="big">7 – 10</span><span class="small">semanas</span></div>
+          </div>
+          <div class="esttable__row" role="row">
+            <div class="esttable__cell" role="cell"><span class="plan-name">Performance</span><span class="small">90 kWh · 480 km</span></div>
+            <div class="esttable__cell" role="cell"><span class="big">$430k – $560k</span><span class="small">MXN</span></div>
+            <div class="esttable__cell" role="cell"><span class="big">10 – 14</span><span class="small">semanas</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TESTIMONIALS ===================== -->
+  <section class="section" id="testimonios" aria-labelledby="testi-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Testimonios</span>
+        <h2 class="h2" id="testi-title">Lo que dicen quienes ya conducen eléctrico</h2>
+        <p class="lead">Clientes reales que confiaron su auto al taller y hoy manejan la misma máquina, sin gasolina.</p>
+      </div>
+      <div class="quotes">
+        <figure class="quote reveal" data-d="1">
+          <div class="quote__stars" aria-label="Calificación 5 de 5">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+          </div>
+          <blockquote><p>“Tenía el auto de mi papá guardado por los costos de mantenimiento. VoltSwap me explicó cada fase con números claros. Hoy lo manejo a diario y nunca sonó tan bien el silencio.”</p></blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar" aria-hidden="true">MR</span>
+            <span>
+              <span class="quote__name">Mauricio Rivera</span><br>
+              <span class="quote__role">Sedán '78 · Paquete Range</span>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="quote reveal" data-d="2">
+          <div class="quote__stars" aria-label="Calificación 5 de 5">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+          </div>
+          <blockquote><p>“Me preocupaba la legalidad. El equipo se encargó de la homologación y el dictamen completo. Recibí el auto con placas y papeles en regla, sin que yo moviera un dedo.”</p></blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar" aria-hidden="true">CP</span>
+            <span>
+              <span class="quote__name">Carla Peña</span><br>
+              <span class="quote__role">Hatchback '92 · Paquete City</span>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="quote reveal" data-d="3">
+          <div class="quote__stars" aria-label="Calificación 5 de 5">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .5-5.5 4.5L18 21l-6-4-6 4 1.5-7L2 9.5 9 9z"/></svg>
+          </div>
+          <blockquote><p>“Soy entusiasta y exigente. El paquete Performance superó la autonomía prometida y el par es brutal. Ingeniería seria, trato cercano: justo lo que buscaba.”</p></blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar" aria-hidden="true">DG</span>
+            <span>
+              <span class="quote__name">Diego Guerra</span><br>
+              <span class="quote__role">Pickup '84 · Paquete Performance</span>
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="section process" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="section__head reveal" style="margin-left:auto;margin-right:auto;text-align:center">
+        <span class="eyebrow" style="margin-left:auto;margin-right:auto">Preguntas frecuentes</span>
+        <h2 class="h2" id="faq-title">Lo que necesitas saber antes de convertir</h2>
+      </div>
+      <div class="faq">
+        <details class="faq__item reveal" data-d="1">
+          <summary class="faq__q">
+            ¿Qué garantía tiene la conversión?
+            <span class="faq__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </summary>
+          <div class="faq__a">El tren motriz eléctrico —motor, batería y electrónica de control— tiene garantía de 2 años o 40,000 km. La instalación y el cableado se garantizan por 1 año. Entregamos una bitácora completa de la conversión y damos servicio de seguimiento en el taller.</div>
+        </details>
+        <details class="faq__item reveal" data-d="1">
+          <summary class="faq__q">
+            ¿Es legal circular con un auto convertido? ¿Necesita homologación?
+            <span class="faq__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </summary>
+          <div class="faq__a">Sí, es legal cuando el vehículo se homologa correctamente. Nosotros gestionamos el dictamen técnico y el trámite de actualización del tipo de motor ante las autoridades correspondientes. La conversión se entrega lista para circular y con la documentación en regla incluida en el paquete.</div>
+        </details>
+        <details class="faq__item reveal" data-d="2">
+          <summary class="faq__q">
+            ¿Cómo cambia el mantenimiento de un auto eléctrico?
+            <span class="faq__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </summary>
+          <div class="faq__a">Se simplifica de forma notable. Desaparecen el aceite, las afinaciones, las bujías, el sistema de escape y la transmisión convencional. El mantenimiento se concentra en frenos, llantas, suspensión y una revisión periódica del paquete de baterías y el sistema de refrigeración. El costo anual de mantenimiento suele bajar entre 50% y 70%.</div>
+        </details>
+        <details class="faq__item reveal" data-d="2">
+          <summary class="faq__q">
+            ¿Qué pasa con los repuestos y la disponibilidad a futuro?
+            <span class="faq__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </summary>
+          <div class="faq__a">Trabajamos con componentes de estándar industrial y proveedores con presencia consolidada, no con piezas a la medida imposibles de reemplazar. Mantenemos inventario de los repuestos críticos y registramos cada conversión, así que años después podemos identificar exactamente qué lleva tu auto y conseguir la pieza correcta.</div>
+        </details>
+        <details class="faq__item reveal" data-d="3">
+          <summary class="faq__q">
+            ¿Cualquier auto se puede convertir?
+            <span class="faq__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </summary>
+          <div class="faq__a">La mayoría de los autos de combustión en buen estado estructural son candidatos viables. El diagnóstico inicial confirma si el chasis, la suspensión y la carrocería están en condiciones de recibir la conversión. Si detectamos algo que deba repararse antes, te lo informamos con costo y tiempo por separado, y tú decides.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FINAL CTA ===================== -->
+  <section class="section finalcta" id="cotiza" aria-labelledby="cta-title">
+    <div class="wrap">
+      <div class="finalcta__box reveal">
+        <span class="eyebrow" style="margin-left:auto;margin-right:auto">Empieza hoy</span>
+        <h2 id="cta-title">Cotiza tu conversión sin compromiso</h2>
+        <p>Cuéntanos qué auto tienes y cómo lo usas. Te devolvemos un rango de inversión, autonomía estimada y tiempo de taller — claro y por escrito.</p>
+        <div class="finalcta__actions">
+          <a href="mailto:hola@voltswap.mx?subject=Cotización%20de%20conversión" class="btn btn--primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+            Cotiza tu conversión
+          </a>
+          <a href="tel:+528112345678" class="btn btn--ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13 1.05.36 2.07.7 3.06a2 2 0 0 1-.45 2.11L8.09 10.5a16 16 0 0 0 6 6l1.61-1.27a2 2 0 0 1 2.11-.45c.99.34 2.01.57 3.06.7A2 2 0 0 1 22 16.92z"/></svg>
+            Llama al taller
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer" aria-labelledby="footer-title">
+  <div class="wrap">
+    <h2 id="footer-title" class="skip">Información de contacto</h2>
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="#top" class="brand" aria-label="VoltSwap, inicio">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#04161a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+          </span>
+          VoltSwap
+        </a>
+        <p>Taller premium de electrificación. Convertimos autos de combustión a 100% eléctricos con ingeniería seria y trato cercano.</p>
+      </div>
+      <div>
+        <h4>Ubicación y horarios</h4>
+        <ul class="footer__list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Av. Industria 480, Nave 12<br>Parque Tecnológico, Monterrey, N.L.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Lun – Vie: 9:00 – 18:00 h<br>Sábados: 9:00 – 14:00 h</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul class="footer__list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13 1.05.36 2.07.7 3.06a2 2 0 0 1-.45 2.11L8.09 10.5a16 16 0 0 0 6 6l1.61-1.27a2 2 0 0 1 2.11-.45c.99.34 2.01.57 3.06.7A2 2 0 0 1 22 16.92z"/></svg> <a href="tel:+528112345678">+52 81 1234 5678</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg> <a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 0a14.5 14.5 0 0 0 0 20m0-20a14.5 14.5 0 0 1 0 20M2 12h20"/></svg> <a href="#top">voltswap.mx</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 VoltSwap. Todos los derechos reservados.</span>
+      <div class="footer__social">
+        <a href="#top" aria-label="VoltSwap en Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        </a>
+        <a href="#top" aria-label="VoltSwap en YouTube">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12c0-2.4-.2-3.7-.5-4.4a3 3 0 0 0-2.1-2.1C18 5 12 5 12 5s-6 0-7.4.5A3 3 0 0 0 2.5 7.6C2.2 8.3 2 9.6 2 12s.2 3.7.5 4.4a3 3 0 0 0 2.1 2.1C6 19 12 19 12 19s6 0 7.4-.5a3 3 0 0 0 2.1-2.1c.3-.7.5-2 .5-4.4z"/><path d="m10 15 5-3-5-3z"/></svg>
+        </a>
+        <a href="#top" aria-label="VoltSwap en LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // ---- header scroll state ----
+  var header=document.querySelector('.header');
+  var onScroll=function(){
+    if(window.scrollY>12)header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  };
+  var ticking=false;
+  window.addEventListener('scroll',function(){
+    if(!ticking){window.requestAnimationFrame(function(){onScroll();ticking=false;});ticking=true;}
+  },{passive:true});
+  onScroll();
+
+  // ---- scroll reveal (IntersectionObserver) ----
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var items=document.querySelectorAll('.reveal');
+  if(reduce || !('IntersectionObserver' in window)){
+    items.forEach(function(el){el.classList.add('in');});
+  }else{
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+      });
+    },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+    items.forEach(function(el){io.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

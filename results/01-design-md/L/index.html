@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VoltSwap — Convierte tu auto a 100% eléctrico</title>
+<meta name="description" content="VoltSwap: taller premium de electrificación. Convertimos tu auto de combustión interna a 100% eléctrico. Conserva tu auto, cero emisiones, autonomía real." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+/* =========================================================
+   VoltSwap — index.html
+   Construido ESTRICTAMENTE a partir de DESIGN.md tokens.
+   ========================================================= */
+:root{
+  /* colors */
+  --primary:#16E0C8;
+  --primary-strong:#0FB8A6;
+  --primary-soft:#7DEEE0;
+  --on-primary:#04201C;
+  --surface:#13161B;
+  --surface-dim:#0D0F13;
+  --surface-bright:#1E232B;
+  --surface-container-lowest:#0A0C0F;
+  --surface-container-low:#15191F;
+  --surface-container:#1A1F27;
+  --surface-container-high:#222831;
+  --surface-container-highest:#2C333E;
+  --on-surface:#ECEFF3;
+  --on-surface-variant:#A6AEBB;
+  --outline:#3A434F;
+  --outline-variant:#262C35;
+  --secondary:#5AA9FF;
+  --on-secondary:#04243F;
+  --tertiary:#FFC857;
+  --on-tertiary:#2E2200;
+  --success:#3FD17A;
+  --on-success:#04210F;
+  --error:#FF6B6B;
+  --on-error:#2A0606;
+  --background:#0D0F13;
+  --on-background:#ECEFF3;
+  /* rounded */
+  --r-none:0px; --r-sm:6px; --r-md:12px; --r-lg:18px; --r-xl:28px; --r-full:9999px;
+  /* spacing */
+  --s-unit:8px; --s-xs:4px; --s-sm:8px; --s-md:16px; --s-lg:24px;
+  --s-xl:40px; --s-2xl:64px; --s-3xl:96px;
+  --container-padding:24px; --section-margin:96px; --card-gap:24px; --max-width:1200px;
+  /* type families */
+  --f-sora:'Sora',system-ui,sans-serif;
+  --f-inter:'Inter',system-ui,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--background);
+  color:var(--on-background);
+  font-family:var(--f-inter);
+  font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  /* subtle radial depth — Elevation: nivel base */
+  background-image:radial-gradient(1100px 600px at 78% -8%, rgba(22,224,200,0.10), transparent 60%),
+                   radial-gradient(900px 500px at 8% 12%, rgba(90,169,255,0.06), transparent 60%);
+  background-attachment:fixed;
+}
+img{max-width:100%;display:block;}
+a{color:var(--secondary);text-decoration:none;}
+
+/* ---- Typography tokens ---- */
+.t-display-lg{font-family:var(--f-sora);font-size:clamp(38px,7vw,60px);font-weight:700;line-height:1.05;letter-spacing:-0.03em;}
+.t-headline-lg{font-family:var(--f-sora);font-size:clamp(28px,4.4vw,38px);font-weight:700;line-height:1.15;letter-spacing:-0.02em;}
+.t-headline-md{font-family:var(--f-sora);font-size:clamp(22px,3vw,26px);font-weight:600;line-height:1.25;letter-spacing:-0.01em;}
+.t-title-md{font-family:var(--f-sora);font-size:20px;font-weight:600;line-height:1.3;}
+.t-body-lg{font-family:var(--f-inter);font-size:18px;font-weight:400;line-height:1.6;}
+.t-body-md{font-family:var(--f-inter);font-size:16px;font-weight:400;line-height:1.65;}
+.t-body-sm{font-family:var(--f-inter);font-size:14px;font-weight:400;line-height:1.55;}
+.t-label-md{font-family:var(--f-inter);font-size:14px;font-weight:600;line-height:1.2;}
+.t-label-caps{font-family:var(--f-mono);font-size:12px;font-weight:600;line-height:1;letter-spacing:0.14em;text-transform:uppercase;}
+.t-data-lg{font-family:var(--f-mono);font-size:30px;font-weight:700;line-height:1.1;letter-spacing:-0.01em;}
+
+/* long-form content justified per content rules */
+.prose p{text-align:justify;text-justify:inter-word;hyphens:manual;-webkit-hyphens:manual;}
+
+/* ---- Layout helpers ---- */
+.container{max-width:var(--max-width);margin:0 auto;padding-left:var(--container-padding);padding-right:var(--container-padding);}
+section{padding-top:var(--s-2xl);padding-bottom:var(--s-2xl);}
+@media(min-width:768px){section{padding-top:var(--section-margin);padding-bottom:var(--section-margin);}}
+.section-head{max-width:680px;margin-bottom:var(--s-xl);}
+.section-head .chip{margin-bottom:var(--s-md);}
+.section-head p{color:var(--on-surface-variant);margin-top:var(--s-md);}
+.grid{display:grid;gap:var(--card-gap);}
+@media(min-width:640px){.g-2{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:900px){.g-3{grid-template-columns:repeat(3,1fr);} .g-4{grid-template-columns:repeat(4,1fr);}}
+
+/* ---- Components: chip ---- */
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface-container-high);color:var(--primary);
+  font-family:var(--f-mono);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+  border-radius:var(--r-full);padding:8px 14px;border:1px solid var(--outline-variant);
+}
+.chip .dot{width:7px;height:7px;border-radius:var(--r-full);background:var(--primary);box-shadow:0 0 10px var(--primary);}
+
+/* ---- Components: buttons ---- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  height:52px;border-radius:var(--r-full);cursor:pointer;
+  font-family:var(--f-inter);font-size:14px;font-weight:600;line-height:1.2;
+  border:1px solid transparent;transition:background-color .2s ease,transform .2s ease,box-shadow .2s ease;
+  text-decoration:none;
+}
+.btn-primary{background:var(--primary);color:var(--on-primary);padding:0 28px;}
+.btn-primary:hover{background:var(--primary-soft);transform:translateY(-2px);box-shadow:0 12px 28px rgba(22,224,200,0.28);}
+.btn-primary:active{background:var(--primary-strong);transform:translateY(0);}
+.btn-ghost{background:transparent;color:var(--on-surface);padding:0 24px;border-color:var(--outline);}
+.btn-ghost:hover{background:var(--surface-container-high);transform:translateY(-2px);}
+.btn-ghost:active{background:var(--surface-container-highest);transform:translateY(0);}
+
+/* ---- Focus ring — accessibility AA ---- */
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,
+summary:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--primary);outline-offset:2px;border-radius:var(--r-sm);
+}
+.skip-link{
+  position:absolute;left:-999px;top:8px;z-index:200;
+  background:var(--primary);color:var(--on-primary);padding:10px 16px;border-radius:var(--r-md);
+  font-family:var(--f-inter);font-weight:600;
+}
+.skip-link:focus{left:8px;}
+
+/* ---- Components: cards ---- */
+.card{
+  background:var(--surface-container);color:var(--on-surface);
+  border:1px solid var(--outline);border-radius:var(--r-lg);padding:var(--s-lg);
+  transition:background-color .25s ease,transform .25s ease,border-color .25s ease;
+}
+.card:hover{background:var(--surface-container-high);transform:translateY(-4px);border-color:var(--outline);}
+.card-feature{
+  background:var(--surface-container-low);color:var(--on-surface);
+  border:1px solid var(--outline-variant);border-radius:var(--r-xl);padding:var(--s-xl);
+}
+
+/* ---- Nav ---- */
+.nav-bar{
+  position:sticky;top:0;z-index:100;height:72px;
+  background:color-mix(in srgb,var(--surface-container-low) 86%,transparent);
+  border-bottom:1px solid var(--outline-variant);
+  transition:backdrop-filter .3s ease,background-color .3s ease,box-shadow .3s ease;
+}
+.nav-bar.scrolled{backdrop-filter:blur(14px);box-shadow:0 12px 32px rgba(0,0,0,0.35);}
+.nav-inner{height:72px;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-sora);font-weight:700;font-size:20px;color:var(--on-surface);letter-spacing:-0.01em;}
+.brand .mark{width:30px;height:30px;}
+.nav-links{display:none;gap:var(--s-lg);align-items:center;}
+.nav-links a{color:var(--on-surface-variant);font-family:var(--f-inter);font-size:14px;font-weight:600;transition:color .2s ease;}
+.nav-links a:hover{color:var(--primary);}
+@media(min-width:920px){.nav-links{display:flex;}}
+.nav-cta{display:none;}
+@media(min-width:920px){.nav-cta{display:inline-flex;}}
+
+/* ---- Hero ---- */
+.hero{padding-top:var(--s-2xl);padding-bottom:var(--s-2xl);}
+@media(min-width:768px){.hero{padding-top:var(--s-3xl);padding-bottom:var(--s-3xl);}}
+.hero-grid{display:grid;gap:var(--s-2xl);align-items:center;}
+@media(min-width:980px){.hero-grid{grid-template-columns:1.05fr 0.95fr;}}
+.hero h1{margin:var(--s-lg) 0;}
+.hero h1 .accent{color:var(--primary);}
+.hero p.lead{color:var(--on-surface-variant);max-width:48ch;}
+.hero-actions{display:flex;flex-wrap:wrap;gap:var(--s-md);margin-top:var(--s-xl);}
+.hero-stats{display:flex;flex-wrap:wrap;gap:var(--s-xl);margin-top:var(--s-xl);padding-top:var(--s-lg);border-top:1px solid var(--outline-variant);}
+.hero-stats .stat .num{font-family:var(--f-mono);font-weight:700;font-size:26px;color:var(--primary);}
+.hero-stats .stat .lab{color:var(--on-surface-variant);font-size:13px;}
+/* hero visual — CSS gradient + inline SVG car */
+.hero-visual{
+  position:relative;border-radius:var(--r-xl);border:1px solid var(--outline);
+  background:
+    radial-gradient(420px 320px at 70% 20%, rgba(22,224,200,0.22), transparent 70%),
+    linear-gradient(160deg,var(--surface-container-high),var(--surface-container-lowest));
+  padding:var(--s-xl);overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.45);
+}
+.hero-visual .grid-lines{position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(var(--outline-variant) 1px,transparent 1px),linear-gradient(90deg,var(--outline-variant) 1px,transparent 1px);
+  background-size:40px 40px;mask-image:radial-gradient(420px 320px at 70% 35%,#000,transparent 80%);}
+.hero-visual .badge-float{
+  position:absolute;background:var(--surface-container-lowest);border:1px solid var(--outline);
+  border-radius:var(--r-md);padding:10px 14px;display:flex;align-items:center;gap:8px;
+}
+.hero-visual .badge-float .t-data-lg{font-size:20px;color:var(--primary);}
+.hero-visual .bf-1{top:18px;right:18px;}
+.hero-visual .bf-2{bottom:18px;left:18px;}
+.car-svg{position:relative;width:100%;height:auto;}
+
+/* ---- Value props ---- */
+.value-card{display:flex;flex-direction:column;gap:var(--s-md);}
+.value-card .ico{
+  width:48px;height:48px;border-radius:var(--r-md);
+  background:var(--surface-container-highest);border:1px solid var(--outline);
+  display:flex;align-items:center;justify-content:center;color:var(--primary);
+}
+.value-card h3{color:var(--on-surface);}
+.value-card p{color:var(--on-surface-variant);}
+
+/* ---- Process steps ---- */
+.steps{display:grid;gap:var(--s-md);}
+.step{
+  display:grid;grid-template-columns:56px 1fr;gap:var(--s-lg);align-items:start;
+  background:var(--surface-container);border:1px solid var(--outline);
+  border-radius:var(--r-lg);padding:var(--s-lg);
+  transition:background-color .25s ease,transform .25s ease;
+}
+.step:hover{background:var(--surface-container-high);transform:translateX(6px);}
+.step-index{
+  width:56px;height:56px;border-radius:var(--r-full);
+  background:var(--primary);color:var(--on-primary);
+  font-family:var(--f-mono);font-weight:700;font-size:24px;
+  display:flex;align-items:center;justify-content:center;
+}
+.step h3{color:var(--on-surface);margin-bottom:6px;}
+.step p{color:var(--on-surface-variant);}
+.step .meta{font-family:var(--f-mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--primary);margin-top:8px;}
+
+/* ---- Pricing ---- */
+.pricing-card{
+  background:var(--surface-container-low);border:1px solid var(--outline-variant);
+  border-radius:var(--r-xl);padding:var(--s-xl);display:flex;flex-direction:column;gap:var(--s-md);
+  transition:transform .25s ease,border-color .25s ease;
+}
+.pricing-card:hover{transform:translateY(-6px);}
+.pricing-card.highlight{
+  background:var(--surface-container-high);border:1px solid var(--primary);
+  box-shadow:0 24px 60px rgba(22,224,200,0.14);
+}
+.pricing-card .tier{display:flex;align-items:center;justify-content:space-between;}
+.pricing-card .badge-rec{
+  background:var(--tertiary);color:var(--on-tertiary);
+  font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  padding:5px 10px;border-radius:var(--r-full);
+}
+.pricing-card .kwh{font-family:var(--f-mono);font-weight:700;font-size:30px;color:var(--primary);}
+.pricing-card .kwh span{font-size:14px;color:var(--on-surface-variant);}
+.pricing-card ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin:var(--s-sm) 0 var(--s-md);}
+.pricing-card li{display:flex;gap:10px;color:var(--on-surface-variant);font-size:15px;}
+.pricing-card li svg{flex:none;color:var(--primary);margin-top:3px;}
+.pricing-card .price{font-family:var(--f-mono);font-weight:700;font-size:20px;color:var(--on-surface);}
+.pricing-card .weeks{color:var(--on-surface-variant);font-size:13px;}
+
+/* ---- Gallery before/after ---- */
+.ba-card{
+  background:var(--surface-container);border:1px solid var(--outline);
+  border-radius:var(--r-lg);overflow:hidden;transition:transform .25s ease;
+}
+.ba-card:hover{transform:translateY(-4px);}
+.ba-imgs{display:grid;grid-template-columns:1fr 1fr;}
+.ba-imgs figure{position:relative;margin:0;}
+.ba-imgs img{aspect-ratio:4/3;object-fit:cover;width:100%;}
+.ba-imgs figcaption{
+  position:absolute;top:8px;left:8px;
+  background:var(--surface-container-lowest);color:var(--on-surface);
+  font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  padding:4px 8px;border-radius:var(--r-sm);border:1px solid var(--outline);
+}
+.ba-imgs figcaption.after{color:var(--primary);}
+.ba-body{padding:var(--s-lg);}
+.ba-body h3{color:var(--on-surface);}
+.ba-body p{color:var(--on-surface-variant);font-size:14px;margin-top:6px;}
+.ba-body .specs{display:flex;gap:var(--s-lg);margin-top:var(--s-md);padding-top:var(--s-md);border-top:1px solid var(--outline-variant);}
+.ba-body .specs .v{font-family:var(--f-mono);font-weight:700;color:var(--primary);}
+.ba-body .specs .k{font-size:11px;color:var(--on-surface-variant);text-transform:uppercase;letter-spacing:0.08em;}
+
+/* ---- Cost summary ---- */
+.cost-table{
+  background:var(--surface-container-low);border:1px solid var(--outline-variant);
+  border-radius:var(--r-xl);overflow:hidden;
+}
+.cost-row{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:var(--s-md);
+  padding:var(--s-lg);border-bottom:1px solid var(--outline-variant);align-items:center;
+}
+.cost-row:last-child{border-bottom:none;}
+.cost-row.head{background:var(--surface-container);}
+.cost-row.head span{font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--on-surface-variant);}
+.cost-row .pkg{font-family:var(--f-sora);font-weight:600;color:var(--on-surface);}
+.cost-row .val{font-family:var(--f-mono);font-weight:700;color:var(--primary);}
+.cost-row .sub{font-family:var(--f-mono);font-weight:700;color:var(--on-surface);}
+.cost-note{color:var(--on-surface-variant);font-size:13px;margin-top:var(--s-md);}
+@media(max-width:560px){
+  .cost-row{grid-template-columns:1fr;gap:6px;}
+  .cost-row.head{display:none;}
+  .cost-row .val::before{content:"Inversión estimada — ";color:var(--on-surface-variant);font-family:var(--f-inter);font-weight:400;font-size:12px;}
+  .cost-row .sub::before{content:"Tiempo — ";color:var(--on-surface-variant);font-family:var(--f-inter);font-weight:400;font-size:12px;}
+}
+
+/* ---- Testimonials ---- */
+.quote{display:flex;flex-direction:column;gap:var(--s-md);height:100%;}
+.quote .stars{color:var(--tertiary);letter-spacing:2px;font-size:14px;}
+.quote blockquote{color:var(--on-surface);font-size:16px;line-height:1.6;}
+.quote .who{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:var(--s-sm);}
+.quote .who img{width:44px;height:44px;border-radius:var(--r-full);border:1px solid var(--outline);}
+.quote .who .n{color:var(--on-surface);font-weight:600;font-size:14px;}
+.quote .who .c{color:var(--on-surface-variant);font-size:12px;}
+
+/* ---- FAQ ---- */
+.faq-item{
+  background:var(--surface-container);border:1px solid var(--outline);
+  border-radius:var(--r-md);margin-bottom:var(--s-md);overflow:hidden;
+  transition:background-color .2s ease;
+}
+.faq-item[open]{background:var(--surface-container-high);}
+.faq-item summary{
+  list-style:none;cursor:pointer;padding:var(--s-lg);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--s-md);
+  font-family:var(--f-sora);font-weight:600;font-size:17px;color:var(--on-surface);
+}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary .plus{
+  flex:none;width:28px;height:28px;border-radius:var(--r-full);
+  background:var(--surface-container-highest);border:1px solid var(--outline);
+  display:flex;align-items:center;justify-content:center;color:var(--primary);
+  transition:transform .25s ease,background-color .2s ease;
+}
+.faq-item[open] summary .plus{transform:rotate(45deg);background:var(--primary);color:var(--on-primary);}
+.faq-item .answer{padding:0 var(--s-lg) var(--s-lg);color:var(--on-surface-variant);}
+
+/* ---- Quote form ---- */
+.cta-band{
+  background:
+    radial-gradient(600px 300px at 80% 0%, rgba(22,224,200,0.16), transparent 70%),
+    var(--surface-container-low);
+  border:1px solid var(--outline);border-radius:var(--r-xl);
+  padding:var(--s-xl);
+}
+@media(min-width:880px){.cta-band{padding:var(--s-2xl);}}
+.cta-grid{display:grid;gap:var(--s-2xl);}
+@media(min-width:880px){.cta-grid{grid-template-columns:1fr 1fr;align-items:start;}}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:var(--s-md);}
+.field label{font-family:var(--f-inter);font-size:14px;font-weight:600;color:var(--on-surface);}
+.field .req{color:var(--primary);}
+.input-field,select.input-field,textarea.input-field{
+  background:var(--surface-container-lowest);color:var(--on-surface);
+  font-family:var(--f-inter);font-size:16px;
+  border:1px solid var(--outline);border-radius:var(--r-md);
+  height:52px;padding:0 16px;width:100%;transition:background-color .2s ease,border-color .2s ease;
+}
+textarea.input-field{height:auto;min-height:104px;padding:14px 16px;line-height:1.5;resize:vertical;}
+.input-field:focus{background:var(--surface-container-low);border-color:var(--primary);}
+.input-field::placeholder{color:var(--on-surface-variant);}
+.helper{font-family:var(--f-inter);font-size:14px;color:var(--on-surface-variant);}
+.form-ok{
+  display:none;margin-top:var(--s-md);padding:14px 16px;border-radius:var(--r-md);
+  background:color-mix(in srgb,var(--success) 16%,transparent);
+  border:1px solid var(--success);color:var(--success);font-size:14px;font-weight:600;
+}
+.form-ok.show{display:block;}
+
+/* ---- Footer ---- */
+.site-footer{
+  background:var(--surface-container-lowest);color:var(--on-surface-variant);
+  border-top:1px solid var(--outline-variant);padding:var(--s-2xl) 0 var(--s-xl);
+}
+.footer-grid{display:grid;gap:var(--s-xl);}
+@media(min-width:760px){.footer-grid{grid-template-columns:1.4fr 1fr 1fr;}}
+.site-footer h4{font-family:var(--f-sora);font-weight:600;color:var(--on-surface);margin-bottom:var(--s-md);font-size:16px;}
+.site-footer p,.site-footer li{font-size:14px;line-height:1.7;}
+.site-footer ul{list-style:none;}
+.site-footer a{color:var(--on-surface-variant);transition:color .2s ease;}
+.site-footer a:hover{color:var(--primary);}
+.footer-bottom{
+  margin-top:var(--s-2xl);padding-top:var(--s-lg);border-top:1px solid var(--outline-variant);
+  display:flex;flex-wrap:wrap;gap:var(--s-md);justify-content:space-between;font-size:13px;
+}
+
+/* ---- Scroll reveal microinteraction ---- */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+  .reveal{opacity:1;transform:none;}
+}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Saltar al contenido</a>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav-bar" id="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="#main" aria-label="VoltSwap — inicio">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#1A1F27" stroke="#3A434F"/>
+        <path d="M17.5 6 L9 18 h6 l-1.5 8 L23 14 h-6 z" fill="#16E0C8"/>
+      </svg>
+      VoltSwap
+    </a>
+    <nav class="nav-links" aria-label="Navegación principal">
+      <a href="#valor">Por qué</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#paquetes">Paquetes</a>
+      <a href="#galeria">Casos</a>
+      <a href="#costos">Costos</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#cotiza" class="btn btn-primary nav-cta">Cotiza tu conversión</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-grid">
+      <div class="reveal">
+        <span class="chip"><span class="dot" aria-hidden="true"></span>Taller premium de electrificación</span>
+        <h1 class="t-display-lg" id="hero-title">
+          Conserva tu auto. <span class="accent">Cámbiale el corazón.</span>
+        </h1>
+        <p class="lead t-body-lg">
+          Convertimos autos de combustión interna a 100% eléctricos con ingeniería
+          seria y trato cercano. El mismo auto que amas, ahora sin emisiones y con
+          autonomía real para tu día a día.
+        </p>
+        <div class="hero-actions">
+          <a href="#cotiza" class="btn btn-primary">Cotiza tu conversión</a>
+          <a href="#proceso" class="btn btn-ghost">Ver el proceso</a>
+        </div>
+        <div class="hero-stats" role="list">
+          <div class="stat" role="listitem">
+            <div class="num">+120</div><div class="lab">conversiones entregadas</div>
+          </div>
+          <div class="stat" role="listitem">
+            <div class="num">320 km</div><div class="lab">autonomía promedio</div>
+          </div>
+          <div class="stat" role="listitem">
+            <div class="num">2 años</div><div class="lab">de garantía integral</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual reveal" aria-hidden="true">
+        <div class="grid-lines"></div>
+        <svg class="car-svg" viewBox="0 0 420 220" fill="none" role="img">
+          <ellipse cx="210" cy="186" rx="160" ry="16" fill="#0A0C0F"/>
+          <path d="M40 150 Q55 96 120 92 L165 70 Q200 56 250 60 L300 92 Q360 96 380 122 L382 150 Z"
+                fill="#222831" stroke="#3A434F" stroke-width="2"/>
+          <path d="M150 90 L172 72 Q200 60 240 64 L280 90 Z" fill="#15191F" stroke="#3A434F" stroke-width="2"/>
+          <path d="M205 64 L205 90" stroke="#3A434F" stroke-width="2"/>
+          <circle cx="128" cy="152" r="30" fill="#0D0F13" stroke="#3A434F" stroke-width="3"/>
+          <circle cx="128" cy="152" r="12" fill="#1A1F27" stroke="#16E0C8" stroke-width="2"/>
+          <circle cx="300" cy="152" r="30" fill="#0D0F13" stroke="#3A434F" stroke-width="3"/>
+          <circle cx="300" cy="152" r="12" fill="#1A1F27" stroke="#16E0C8" stroke-width="2"/>
+          <rect x="178" y="118" width="64" height="26" rx="5" fill="#04201C" stroke="#16E0C8" stroke-width="2"/>
+          <path d="M196 124 L188 134 h7 l-1.5 8 L210 130 h-7 z" fill="#16E0C8"/>
+          <path d="M218 124 L210 134 h7 l-1.5 8 L232 130 h-7 z" fill="#16E0C8"/>
+          <path d="M372 120 q22 0 22 22" stroke="#16E0C8" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div class="badge-float bf-1">
+          <span class="t-data-lg">0 g</span>
+          <span style="color:var(--on-surface-variant);font-size:12px;">CO₂ / km</span>
+        </div>
+        <div class="badge-float bf-2">
+          <span class="t-data-lg">100%</span>
+          <span style="color:var(--on-surface-variant);font-size:12px;">eléctrico</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VALUE PROPS ===================== -->
+  <section id="valor" aria-labelledby="valor-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip"><span class="dot" aria-hidden="true"></span>Propuesta de valor</span>
+        <h2 class="t-headline-lg" id="valor-title">Cuatro razones para electrificar, no reemplazar</h2>
+        <p class="t-body-md">
+          No te pedimos que renuncies a tu auto. Te ayudamos a quedártelo —
+          mejorado, limpio y más barato de mantener.
+        </p>
+      </div>
+      <div class="grid g-2 g-4">
+        <article class="card value-card reveal">
+          <div class="ico" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-7h14l2 7"/><path d="M5 12h14v6H5z"/><circle cx="8" cy="18" r="1.5"/><circle cx="16" cy="18" r="1.5"/></svg>
+          </div>
+          <h3 class="t-title-md">Conserva tu auto</h3>
+          <p class="t-body-sm">Mantenemos la carrocería, el interior y el carácter de tu clásico. Cambia el tren motriz, no la historia.</p>
+        </article>
+        <article class="card value-card reveal">
+          <div class="ico" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4 4 6 7 6 11a6 6 0 0 1-12 0c0-4 2-7 6-11z"/></svg>
+          </div>
+          <h3 class="t-title-md">Cero emisiones</h3>
+          <p class="t-body-sm">0 g de CO₂ por kilómetro. Tu auto deja de contaminar y entra sin restricciones a zonas de bajas emisiones.</p>
+        </article>
+        <article class="card value-card reveal">
+          <div class="ico" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3 class="t-title-md">Ahorro real</h3>
+          <p class="t-body-sm">Hasta 70% menos en energía frente a gasolina y mantenimiento mínimo: sin aceite, sin afinaciones, sin escape.</p>
+        </article>
+        <article class="card value-card reveal">
+          <div class="ico" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <h3 class="t-title-md">Autonomía real</h3>
+          <p class="t-body-sm">Dimensionamos la batería a tu uso: de 180 a 420 km verificados en ruta, no en folleto.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROCESS ===================== -->
+  <section id="proceso" aria-labelledby="proceso-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip"><span class="dot" aria-hidden="true"></span>El proceso</span>
+        <h2 class="t-headline-lg" id="proceso-title">Tu conversión en 5 pasos</h2>
+        <p class="t-body-md">
+          Un proceso de ingeniería documentado, con checkpoints claros. Sabes en
+          qué etapa va tu auto en todo momento.
+        </p>
+      </div>
+      <ol class="steps" style="list-style:none;">
+        <li class="step reveal">
+          <span class="step-index" aria-hidden="true">1</span>
+          <div>
+            <h3 class="t-title-md">Diagnóstico</h3>
+            <p class="t-body-sm">Evaluamos chasis, frenos, suspensión y peso. Definimos contigo el uso real del auto y la autonomía que necesitas.</p>
+            <p class="meta">Semana 1</p>
+          </div>
+        </li>
+        <li class="step reveal">
+          <span class="step-index" aria-hidden="true">2</span>
+          <div>
+            <h3 class="t-title-md">Diseño del kit</h3>
+            <p class="t-body-sm">Ingeniería del paquete: motor, capacidad de batería, distribución de peso y soportes a medida. Te entregamos el plano.</p>
+            <p class="meta">Semanas 2–3</p>
+          </div>
+        </li>
+        <li class="step reveal">
+          <span class="step-index" aria-hidden="true">3</span>
+          <div>
+            <h3 class="t-title-md">Desmontaje del tren motriz</h3>
+            <p class="t-body-sm">Retiramos motor de combustión, transmisión, tanque y escape. Conservamos y catalogamos cada pieza original.</p>
+            <p class="meta">Semanas 3–4</p>
+          </div>
+        </li>
+        <li class="step reveal">
+          <span class="step-index" aria-hidden="true">4</span>
+          <div>
+            <h3 class="t-title-md">Instalación eléctrica</h3>
+            <p class="t-body-sm">Montaje de motor eléctrico, packs de batería, inversor, BMS y sistema de carga. Cableado certificado y protegido.</p>
+            <p class="meta">Semanas 4–7</p>
+          </div>
+        </li>
+        <li class="step reveal">
+          <span class="step-index" aria-hidden="true">5</span>
+          <div>
+            <h3 class="t-title-md">Pruebas y entrega</h3>
+            <p class="t-body-sm">Banco de pruebas, validación en ruta, calibración y trámite de homologación. Te entregamos el auto listo y documentado.</p>
+            <p class="meta">Semanas 7–9</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== PRICING ===================== -->
+  <section id="paquetes" aria-labelledby="paquetes-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip"><span class="dot" aria-hidden="true"></span>Paquetes</span>
+        <h2 class="t-headline-lg" id="paquetes-title">Tres niveles, según cuánto quieras rodar</h2>
+        <p class="t-body-md">
+          La diferencia está en la capacidad de batería y la autonomía estimada.
+          Todos incluyen ingeniería, instalación y homologación.
+        </p>
+      </div>
+      <div class="grid g-3">
+        <article class="pricing-card reveal">
+          <div class="tier"><span class="t-headline-md">City</span></div>
+          <div class="kwh">30 kWh <span>de batería</span></div>
+          <p class="t-body-sm" style="color:var(--on-surface-variant);">Ideal para ciudad y trayectos diarios cortos.</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Autonomía estimada 180 km</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Carga doméstica 220 V</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Motor 90 kW</li>
+          </ul>
+          <div class="price">$280k – $360k MXN</div>
+          <div class="weeks">Entrega en 6–7 semanas</div>
+          <a href="#cotiza" class="btn btn-ghost" style="margin-top:8px;">Cotizar City</a>
+        </article>
+        <article class="pricing-card highlight reveal">
+          <div class="tier">
+            <span class="t-headline-md">Range</span>
+            <span class="badge-rec">Recomendado</span>
+          </div>
+          <div class="kwh">55 kWh <span>de batería</span></div>
+          <p class="t-body-sm" style="color:var(--on-surface-variant);">El equilibrio entre autonomía, peso y costo.</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Autonomía estimada 320 km</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Carga rápida DC compatible</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Motor 150 kW</li>
+          </ul>
+          <div class="price">$420k – $540k MXN</div>
+          <div class="weeks">Entrega en 7–9 semanas</div>
+          <a href="#cotiza" class="btn btn-primary" style="margin-top:8px;">Cotizar Range</a>
+        </article>
+        <article class="pricing-card reveal">
+          <div class="tier"><span class="t-headline-md">Performance</span></div>
+          <div class="kwh">80 kWh <span>de batería</span></div>
+          <p class="t-body-sm" style="color:var(--on-surface-variant);">Máxima autonomía y respuesta para entusiastas.</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Autonomía estimada 420 km</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Carga rápida DC + gestión térmica</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Motor 240 kW</li>
+          </ul>
+          <div class="price">$620k – $820k MXN</div>
+          <div class="weeks">Entrega en 9–12 semanas</div>
+          <a href="#cotiza" class="btn btn-ghost" style="margin-top:8px;">Cotizar Performance</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GALLERY ===================== -->
+  <section id="galeria" aria-labelledby="galeria-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip"><span class="dot" aria-hidden="true"></span>Antes / Después</span>
+        <h2 class="t-headline-lg" id="galeria-title">Casos reales que ya ruedan eléctricos</h2>
+        <p class="t-body-md">
+          Cada conversión documentada: el auto que entró y el auto que entregamos.
+        </p>
+      </div>
+      <div class="grid g-3">
+        <article class="ba-card reveal">
+          <div class="ba-imgs">
+            <figure><img src="https://placehold.co/400x300/1A1F27/A6AEBB?text=Antes" alt="VW Sedán 1974 antes de la conversión, con motor de combustión." loading="lazy"/><figcaption>Antes</figcaption></figure>
+            <figure><img src="https://placehold.co/400x300/13161B/16E0C8?text=Despues" alt="VW Sedán 1974 después de la conversión a eléctrico." loading="lazy"/><figcaption class="after">Después</figcaption></figure>
+          </div>
+          <div class="ba-body">
+            <h3 class="t-title-md">VW Sedán 1974</h3>
+            <p>Paquete Range. Uso urbano diario de su dueño en la Ciudad de México.</p>
+            <div class="specs">
+              <div><div class="v">55 kWh</div><div class="k">Batería</div></div>
+              <div><div class="v">315 km</div><div class="k">Autonomía</div></div>
+              <div><div class="v">8 sem</div><div class="k">Entrega</div></div>
+            </div>
+          </div>
+        </article>
+        <article class="ba-card reveal">
+          <div class="ba-imgs">
+            <figure><img src="https://placehold.co/400x300/1A1F27/A6AEBB?text=Antes" alt="Datsun 510 de 1972 antes de la conversión." loading="lazy"/><figcaption>Antes</figcaption></figure>
+            <figure><img src="https://placehold.co/400x300/13161B/16E0C8?text=Despues" alt="Datsun 510 de 1972 después de la conversión a eléctrico." loading="lazy"/><figcaption class="after">Después</figcaption></figure>
+          </div>
+          <div class="ba-body">
+            <h3 class="t-title-md">Datsun 510 1972</h3>
+            <p>Paquete Performance. Su dueño buscaba respuesta y autonomía de carretera.</p>
+            <div class="specs">
+              <div><div class="v">80 kWh</div><div class="k">Batería</div></div>
+              <div><div class="v">410 km</div><div class="k">Autonomía</div></div>
+              <div><div class="v">11 sem</div><div class="k">Entrega</div></div>
+            </div>
+          </div>
+        </article>
+        <article class="ba-card reveal">
+          <div class="ba-imgs">
+            <figure><img src="https://placehold.co/400x300/1A1F27/A6AEBB?text=Antes" alt="Ford Bronco 1979 antes de la conversión." loading="lazy"/><figcaption>Antes</figcaption></figure>
+            <figure><img src="https://placehold.co/400x300/13161B/16E0C8?text=Despues" alt="Ford Bronco 1979 después de la conversión a eléctrico." loading="lazy"/><figcaption class="after">Después</figcaption></figure>
+          </div>
+          <div class="ba-body">
+            <h3 class="t-title-md">Ford Bronco 1979</h3>
+            <p>Paquete Range. Conserva su línea original; ahora entra a zona de bajas emisiones.</p>
+            <div class="specs">
+              <div><div class="v">55 kWh</div><div class="k">Batería</div></div>
+              <div><div class="v">290 km</div><div class="k">Autonomía</div></div>
+              <div><div class="v">9 sem</div><div class="k">Entrega</div></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COST & TIME ===================== -->
+  <section id="costos" aria-labelledby="costos-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip"><span class="dot" aria-hidden="true"></span>Costos y tiempos</span>
+        <h2 class="t-headline-lg" id="costos-title">Rangos claros, sin sorpresas</h2>
+        <p class="t-body-md">
+          La cifra final depende del estado de tu auto y del paquete elegido. Tras
+          el diagnóstico recibes una cotización cerrada por escrito.
+        </p>
+      </div>
+      <div class="cost-table reveal">
+        <div class="cost-row head">
+          <span>Paquete</span><span>Inversión estimada</span><span>Tiempo de entrega</span>
+        </div>
+        <div class="cost-row">
+          <span class="pkg">City — 30 kWh</span>
+          <span class="val">$280k – $360k MXN</span>
+          <span class="sub">6 – 7 semanas</span>
+        </div>
+        <div class="cost-row">
+          <span class="pkg">Range — 55 kWh</span>
+          <span class="val">$420k – $540k MXN</span>
+          <span class="sub">7 – 9 semanas</span>
+        </div>
+        <div class="cost-row">
+          <span class="pkg">Performance — 80 kWh</span>
+          <span class="val">$620k – $820k MXN</span>
+          <span class="sub">9 – 12 semanas</span>
+        </div>
+      </div>
+      <p class="cost-note">
+        Los rangos incluyen ingeniería, kit, mano de obra, pruebas y trámite de
+        homologación. No incluyen reparaciones estructurales previas que el
+        diagnóstico pudiera detectar.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== TESTIMONIALS ===================== -->
+  <section id="testimonios" aria-labelledby="testimonios-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip"><span class="dot" aria-hidden="true"></span>Testimonios</span>
+        <h2 class="t-headline-lg" id="testimonios-title">Lo que dicen quienes ya convirtieron</h2>
+      </div>
+      <div class="grid g-3">
+        <article class="card reveal">
+          <div class="quote">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <blockquote class="prose">"Tenía miedo de perder el alma de mi Sedán. VoltSwap me explicó cada paso con planos y números. Hoy es el mismo auto, pero silencioso y sin gasolina."</blockquote>
+            <div class="who">
+              <img src="https://placehold.co/88x88/222831/16E0C8?text=MR" alt="" />
+              <div><div class="n">Mariana Robles</div><div class="c">VW Sedán 1974 · Paquete Range</div></div>
+            </div>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="quote">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <blockquote class="prose">"Soy ingeniero y soy exigente. La documentación que entregan es de nivel profesional: BMS, cableado, pruebas de banco. Cero improvisación."</blockquote>
+            <div class="who">
+              <img src="https://placehold.co/88x88/222831/16E0C8?text=DF" alt="" />
+              <div><div class="n">Daniel Fuentes</div><div class="c">Datsun 510 1972 · Paquete Performance</div></div>
+            </div>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="quote">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <blockquote class="prose">"El trato fue cercano de principio a fin. Me dieron rangos honestos de costo y tiempo, y cumplieron. Mi Bronco ahora entra a todos lados."</blockquote>
+            <div class="who">
+              <img src="https://placehold.co/88x88/222831/16E0C8?text=AL" alt="" />
+              <div><div class="n">Alejandra Lugo</div><div class="c">Ford Bronco 1979 · Paquete Range</div></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip"><span class="dot" aria-hidden="true"></span>Preguntas frecuentes</span>
+        <h2 class="t-headline-lg" id="faq-title">Lo que necesitas saber antes de decidir</h2>
+      </div>
+      <div class="reveal" style="max-width:840px;">
+        <details class="faq-item">
+          <summary>¿Qué garantía tiene la conversión?<span class="plus" aria-hidden="true">+</span></summary>
+          <div class="answer prose"><p>Toda conversión incluye 2 años de garantía integral sobre el sistema eléctrico —motor, inversor y BMS— y 8 años o 160 000 km sobre los packs de batería. La garantía cubre piezas y mano de obra en nuestro taller.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Es legal circular con un auto convertido?<span class="plus" aria-hidden="true">+</span></summary>
+          <div class="answer prose"><p>Sí. Acompañamos cada proyecto con el trámite de homologación ante las autoridades correspondientes, actualizando la tarjeta de circulación al nuevo tren motriz eléctrico. Entregamos el auto con su documentación en regla.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cómo cambia el mantenimiento?<span class="plus" aria-hidden="true">+</span></summary>
+          <div class="answer prose"><p>Se simplifica drásticamente: ya no hay cambios de aceite, afinaciones, bujías ni sistema de escape. El mantenimiento se reduce a frenos, suspensión, llantas y una revisión anual del sistema eléctrico y la batería.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué pasa con los repuestos a futuro?<span class="plus" aria-hidden="true">+</span></summary>
+          <div class="answer prose"><p>Trabajamos con componentes de proveedores establecidos y estandarizados, no piezas exóticas. Conservamos el expediente técnico de tu auto, así que cualquier repuesto del sistema eléctrico es identificable y reemplazable en nuestro taller o talleres aliados.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cualquier auto se puede convertir?<span class="plus" aria-hidden="true">+</span></summary>
+          <div class="answer prose"><p>La mayoría sí, pero todo empieza con el diagnóstico. Evaluamos el estado del chasis, frenos y suspensión para confirmar que el auto es un buen candidato. Si detectamos algo que deba repararse antes, te lo decimos con claridad y por escrito.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUOTE / CTA ===================== -->
+  <section id="cotiza" aria-labelledby="cotiza-title">
+    <div class="container">
+      <div class="cta-band reveal">
+        <div class="cta-grid">
+          <div>
+            <span class="chip"><span class="dot" aria-hidden="true"></span>Cotiza tu conversión</span>
+            <h2 class="t-headline-lg" id="cotiza-title" style="margin:16px 0;">Empieza con un diagnóstico, no con una promesa</h2>
+            <p class="t-body-md prose" style="color:var(--on-surface-variant);">
+              Cuéntanos sobre tu auto y tu uso diario. Te contactamos para agendar
+              el diagnóstico y, a partir de ahí, recibes una cotización cerrada por
+              escrito con paquete, costo y tiempo de entrega.
+            </p>
+            <ul style="list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:12px;">
+              <li style="display:flex;gap:10px;color:var(--on-surface-variant);font-size:14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16E0C8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Respuesta en menos de 48 horas hábiles</li>
+              <li style="display:flex;gap:10px;color:var(--on-surface-variant);font-size:14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16E0C8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Diagnóstico sin compromiso de conversión</li>
+              <li style="display:flex;gap:10px;color:var(--on-surface-variant);font-size:14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16E0C8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Atención directa con el equipo de ingeniería</li>
+            </ul>
+          </div>
+          <form id="quote-form" novalidate>
+            <div class="field">
+              <label for="f-nombre">Nombre completo <span class="req" aria-hidden="true">*</span></label>
+              <input class="input-field" type="text" id="f-nombre" name="nombre" required autocomplete="name" placeholder="Tu nombre" />
+            </div>
+            <div class="field">
+              <label for="f-email">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
+              <input class="input-field" type="email" id="f-email" name="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com" />
+              <span class="helper">Te escribimos aquí para agendar el diagnóstico.</span>
+            </div>
+            <div class="field">
+              <label for="f-auto">Auto a convertir <span class="req" aria-hidden="true">*</span></label>
+              <input class="input-field" type="text" id="f-auto" name="auto" required placeholder="Marca, modelo y año — ej. VW Sedán 1974" />
+            </div>
+            <div class="field">
+              <label for="f-paquete">Paquete de interés</label>
+              <select class="input-field" id="f-paquete" name="paquete">
+                <option value="">Aún no lo sé / quiero asesoría</option>
+                <option value="city">City — 30 kWh · 180 km</option>
+                <option value="range">Range — 55 kWh · 320 km</option>
+                <option value="performance">Performance — 80 kWh · 420 km</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-uso">¿Cómo usas tu auto?</label>
+              <textarea class="input-field" id="f-uso" name="uso" placeholder="Trayectos diarios, kilómetros aproximados, ciudad o carretera…"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Cotiza tu conversión</button>
+            <p class="form-ok" id="form-ok" role="status">Gracias. Recibimos tu solicitud y te contactaremos en menos de 48 horas hábiles.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer" aria-labelledby="footer-title">
+  <div class="container">
+    <h2 id="footer-title" class="t-label-caps" style="color:var(--on-surface-variant);margin-bottom:32px;">VoltSwap — Taller de electrificación</h2>
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="#main" style="margin-bottom:16px;" aria-label="VoltSwap — inicio">
+          <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="1" y="1" width="30" height="30" rx="9" fill="#1A1F27" stroke="#3A434F"/>
+            <path d="M17.5 6 L9 18 h6 l-1.5 8 L23 14 h-6 z" fill="#16E0C8"/>
+          </svg>
+          VoltSwap
+        </a>
+        <p class="prose" style="max-width:38ch;">Ingeniería seria con trato cercano. Convertimos autos de combustión interna a 100% eléctricos, conservando el auto que ya amas.</p>
+      </div>
+      <div>
+        <h4>Ubicación y horarios</h4>
+        <ul>
+          <li>Av. Industria 482, Nave 7</li>
+          <li>Col. Tecnológico, 64700</li>
+          <li>Monterrey, Nuevo León</li>
+          <li style="margin-top:12px;">Lun–Vie · 9:00 – 18:00</li>
+          <li>Sábado · 10:00 – 14:00</li>
+          <li>Domingo · cerrado</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="tel:+528112345678">+52 81 1234 5678</a></li>
+          <li><a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a></li>
+          <li style="margin-top:12px;"><a href="#cotiza">Cotiza tu conversión</a></li>
+          <li><a href="#faq">Preguntas frecuentes</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 VoltSwap. Todos los derechos reservados.</span>
+      <span>Hecho con ingeniería en Monterrey, México.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---- Nav: blur + sombra al hacer scroll ---- */
+(function(){
+  var nav=document.getElementById('nav');
+  function onScroll(){
+    if(window.scrollY>16){nav.classList.add('scrolled');}
+    else{nav.classList.remove('scrolled');}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+
+/* ---- Scroll reveal microinteraction ---- */
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
+    });
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(e){io.observe(e);});
+})();
+
+/* ---- FAQ: solo uno abierto a la vez (accesible, usa <details>) ---- */
+(function(){
+  var items=document.querySelectorAll('.faq-item');
+  items.forEach(function(item){
+    item.addEventListener('toggle',function(){
+      if(item.open){
+        items.forEach(function(other){if(other!==item)other.open=false;});
+      }
+    });
+  });
+})();
+
+/* ---- Quote form: validación accesible y confirmación ---- */
+(function(){
+  var form=document.getElementById('quote-form');
+  var ok=document.getElementById('form-ok');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var firstInvalid=null;
+    ['f-nombre','f-email','f-auto'].forEach(function(id){
+      var el=document.getElementById(id);
+      var bad=!el.value.trim()||(el.type==='email'&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value));
+      el.setAttribute('aria-invalid',bad?'true':'false');
+      el.style.borderColor=bad?'var(--error)':'var(--outline)';
+      if(bad&&!firstInvalid)firstInvalid=el;
+    });
+    if(firstInvalid){firstInvalid.focus();ok.classList.remove('show');return;}
+    ok.classList.add('show');
+    form.reset();
+    ok.focus&&ok.focus();
+  });
+})();
+</script>
+</body>
+</html>

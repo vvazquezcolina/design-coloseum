@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoltSwap — Convierte tu auto de combustión a 100% eléctrico</title>
+
+<!--
+  ╔══════════════════════════════════════════════════════════════════════╗
+  JUNIOR DESIGNER · PASS 1 — ASSUMPTIONS + REASONING
+  (huashu workflow: escribir supuestos antes de ejecutar; coste de cambio mínimo)
+  ══════════════════════════════════════════════════════════════════════════
+
+  Contexto: no hay design system, ni brand kit, ni codebase. "VoltSwap" es una
+  marca ficticia para este encargo. No corresponde a un producto real verificable,
+  así que NO disparo el protocolo de activos de marca (no hay logo oficial que
+  buscar). Construyo identidad desde cero, declarándola como supuesto.
+
+  SUPUESTOS:
+  - Audiencia: dueños de autos clásicos / entusiastas / flotas que quieren
+    electrificar SIN comprar un auto nuevo. Decisión de alto ticket → la página
+    debe transmitir ingeniería seria y confianza, no "startup juguetona".
+  - Tono: taller de ingeniería de precisión. Profesional, sobrio, técnico.
+    Referencia mental: reporte técnico (Fathom Information Design) + minimalismo
+    de lujo (Build studio). NO SaaS genérico, NO gradiente morado.
+  - Acción de conversión objetivo: agendar diagnóstico (formulario de contacto).
+  - Precios: "estimados" → los marco explícitamente como rangos orientativos,
+    no cifras falsas con falsa precisión.
+
+  SISTEMA DE DISEÑO (declarado, no improvisado sobre la marcha):
+  - Color: tinta near-black #14181C sobre papel cálido #F4F2ED.
+    Acento único = "volt" oklch verde-lima eléctrico, usado con avaricia
+    (solo datos clave, hover, 1 línea). Sin segundo acento.
+  - Tipografía: Fraunces NO (en blacklist). Space Grotesk NO (en blacklist).
+    → Display: "Archivo" (grotesca con carácter, peso variable).
+    → Texto: "IBM Plex Sans" (legible, técnica, no es Inter/Roboto).
+    → Datos/specs: "IBM Plex Mono" (señal de "esto es ingeniería medida").
+  - Ritmo: secciones alternan papel / tinta full-bleed. Máx 2 fondos.
+  - Imágenes: SIN fotos stock decorativas (sería AI slop). El antes/después
+    se resuelve con un comparador interactivo construido con SVG técnico
+    + gradientes CSS — el "antes" (motor de combustión) y el "después"
+    (powertrain eléctrico) son DIAGRAMAS, que es lo honesto para un taller
+    de ingeniería: mostramos el sistema, no una foto bonita.
+  - Sin emoji. Sin tarjetas redondeadas con border-left de color. Sin bento
+    porque sí. Íconos = SVG inline geométricos de trazo, tamaño icono real.
+
+  PREGUNTAS QUE NORMALMENTE HARÍA (resueltas con el supuesto más razonable):
+  - ¿Listado de modelos soportados? → uso categorías, no modelos inventados.
+  - ¿Datos de la empresa (años, conversiones hechas)? → sin stats falsas;
+    los números que aparecen son specs físicas de ingeniería (kWh, km, V),
+    que son rangos técnicos reales del dominio, no "10,000 clientes felices".
+  ╚══════════════════════════════════════════════════════════════════════╝
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* ---- color system ---- */
+    --paper:      #F4F2ED;
+    --paper-2:    #EBE8E0;
+    --ink:        #14181C;
+    --ink-soft:   #3A4047;
+    --ink-mute:   #767D85;
+    --line:       rgba(20,24,28,0.12);
+    --line-soft:  rgba(20,24,28,0.07);
+    /* el único acento — verde "volt", definido en oklch para no derivar el tono */
+    --volt:       oklch(0.82 0.19 130);
+    --volt-deep:  oklch(0.62 0.16 132);
+    --volt-glow:  oklch(0.82 0.19 130 / 0.16);
+    /* dark section */
+    --ink-bg:     #14181C;
+    --ink-bg-2:   #1B2026;
+    --on-dark:    #E7E5DF;
+    --on-dark-mute: #8B9299;
+
+    --maxw: 1240px;
+    --pad: clamp(20px, 5vw, 96px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--volt); color: var(--ink); }
+  * { scrollbar-width: thin; scrollbar-color: var(--ink-mute) transparent; }
+
+  h1, h2, h3, h4 {
+    font-family: 'Archivo', sans-serif;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+
+  /* monospace label — la firma "esto es ingeniería medida" */
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tag::before {
+    content: "";
+    width: 22px; height: 1px;
+    background: var(--volt-deep);
+    display: inline-block;
+  }
+  .tag.on-dark { color: var(--on-dark-mute); }
+
+  /* ============ NAV ============ */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: color-mix(in oklch, var(--paper) 86%, transparent);
+    backdrop-filter: blur(14px) saturate(150%);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-in {
+    max-width: var(--maxw); margin: 0 auto;
+    padding: 0 var(--pad);
+    height: 70px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 11px;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800; font-size: 19px; letter-spacing: -0.03em;
+  }
+  .brand .mark {
+    width: 28px; height: 28px; flex: none;
+  }
+  .nav-links {
+    display: flex; gap: 38px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13.5px; font-weight: 400; color: var(--ink-soft);
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
+    padding: 11px 20px;
+    background: var(--ink); color: var(--paper);
+    transition: background .2s;
+  }
+  .nav-cta:hover { background: var(--volt-deep); }
+  @media (max-width: 860px) { .nav-links { display: none; } }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    padding-top: clamp(56px, 8vw, 104px);
+    padding-bottom: clamp(48px, 7vw, 96px);
+    overflow: hidden;
+  }
+  /* grid técnica de fondo, muy tenue — atmósfera, no decoración chillona */
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 70% 35%, #000 0%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 70% at 70% 35%, #000 0%, transparent 75%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: center;
+  }
+  @media (max-width: 960px) { .hero-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+  .hero h1 {
+    font-size: clamp(44px, 6.6vw, 88px);
+    font-weight: 800;
+    margin: 26px 0 0;
+  }
+  .hero h1 .volt {
+    color: var(--volt-deep);
+    position: relative;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.5vw, 17.5px);
+    color: var(--ink-soft);
+    max-width: 30em;
+    margin-top: 24px;
+    line-height: 1.7;
+  }
+  .hero-cta {
+    display: flex; flex-wrap: wrap; gap: 14px;
+    margin-top: 38px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.03em;
+    padding: 15px 26px;
+    border: 1px solid var(--ink);
+    transition: all .2s;
+    cursor: pointer;
+  }
+  .btn-solid { background: var(--ink); color: var(--paper); }
+  .btn-solid:hover { background: var(--volt-deep); border-color: var(--volt-deep); }
+  .btn-line { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-line:hover { border-color: var(--ink); }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* hero spec strip */
+  .hero-specs {
+    display: flex; flex-wrap: wrap;
+    margin-top: 48px;
+    border-top: 1px solid var(--line);
+  }
+  .hero-specs .spec {
+    padding: 20px 28px 18px 0;
+    margin-right: 28px;
+  }
+  .hero-specs .spec:last-child { margin-right: 0; }
+  .spec .n {
+    font-family: 'Archivo', sans-serif;
+    font-size: 30px; font-weight: 700; letter-spacing: -0.03em;
+  }
+  .spec .n em { font-style: normal; color: var(--volt-deep); }
+  .spec .l {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-mute); margin-top: 4px;
+  }
+
+  /* hero visual — diagrama del powertrain eléctrico (SVG técnico, no foto stock) */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background:
+      radial-gradient(circle at 50% 42%, var(--volt-glow), transparent 62%),
+      var(--paper-2);
+    border: 1px solid var(--line);
+  }
+  .hero-visual .corner {
+    position: absolute; width: 14px; height: 14px;
+    border: 1px solid var(--ink-mute);
+  }
+  .hero-visual .corner.tl { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+  .hero-visual .corner.tr { top: -1px; right: -1px; border-left: 0; border-bottom: 0; }
+  .hero-visual .corner.bl { bottom: -1px; left: -1px; border-right: 0; border-top: 0; }
+  .hero-visual .corner.br { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+  .hero-visual .vlabel {
+    position: absolute; bottom: 16px; left: 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px; letter-spacing: 0.08em;
+    color: var(--ink-mute);
+  }
+  .hero-visual svg { width: 100%; height: 100%; }
+
+  /* ============ generic section ============ */
+  section { position: relative; }
+  .pad-y { padding-top: clamp(72px, 9vw, 132px); padding-bottom: clamp(72px, 9vw, 132px); }
+  .sec-head { max-width: 640px; }
+  .sec-head h2 {
+    font-size: clamp(30px, 3.6vw, 50px);
+    font-weight: 700;
+    margin-top: 18px;
+  }
+  .sec-head p {
+    color: var(--ink-soft);
+    margin-top: 16px; font-size: 16px; line-height: 1.7;
+  }
+
+  /* ============ PROCESO ============ */
+  .proceso { background: var(--paper); }
+  .steps {
+    margin-top: 58px;
+    border-top: 1px solid var(--line);
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 88px 1fr 1.1fr;
+    gap: clamp(20px, 4vw, 56px);
+    padding: 34px 0;
+    border-bottom: 1px solid var(--line);
+    transition: background .25s;
+  }
+  .step:hover { background: var(--paper-2); }
+  .step .idx {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px; font-weight: 600;
+    color: var(--volt-deep);
+    padding-top: 4px;
+  }
+  .step h3 {
+    font-size: clamp(20px, 2.2vw, 27px);
+    font-weight: 600;
+  }
+  .step .meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 10px;
+  }
+  .step p {
+    color: var(--ink-soft); font-size: 15px; line-height: 1.7;
+    align-self: center;
+  }
+  @media (max-width: 760px) {
+    .step { grid-template-columns: 1fr; gap: 10px; padding: 26px 0; }
+    .step p { margin-top: 4px; }
+  }
+
+  /* ============ SERVICIOS / PAQUETES ============ */
+  .servicios { background: var(--ink-bg); color: var(--on-dark); }
+  .servicios .tag { color: var(--on-dark-mute); }
+  .servicios .tag::before { background: var(--volt); }
+  .servicios .sec-head h2 { color: var(--on-dark); }
+  .servicios .sec-head p { color: var(--on-dark-mute); }
+
+  .pkg-grid {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(231,229,223,0.12);
+    border: 1px solid rgba(231,229,223,0.12);
+  }
+  @media (max-width: 880px) { .pkg-grid { grid-template-columns: 1fr; } }
+  .pkg {
+    background: var(--ink-bg);
+    padding: 38px 32px 34px;
+    display: flex; flex-direction: column;
+    transition: background .25s;
+  }
+  .pkg:hover { background: var(--ink-bg-2); }
+  .pkg.feature {
+    background: var(--ink-bg-2);
+  }
+  .pkg .pkg-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .pkg h3 {
+    font-size: 23px; font-weight: 700;
+    color: var(--on-dark);
+  }
+  .pkg .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink);
+    background: var(--volt);
+    padding: 4px 8px;
+  }
+  .pkg .pkg-for {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.04em;
+    color: var(--on-dark-mute);
+    margin-top: 10px;
+  }
+  .pkg .pkg-desc {
+    font-size: 14.5px; color: var(--on-dark-mute);
+    line-height: 1.65; margin-top: 18px;
+  }
+  .pkg ul {
+    list-style: none;
+    margin-top: 22px;
+    border-top: 1px solid rgba(231,229,223,0.12);
+    padding-top: 18px;
+    flex: 1;
+  }
+  .pkg ul li {
+    display: flex; gap: 11px;
+    font-size: 13.5px; color: var(--on-dark);
+    padding: 7px 0;
+    line-height: 1.5;
+  }
+  .pkg ul li svg { width: 15px; height: 15px; flex: none; margin-top: 3px; color: var(--volt); }
+  .pkg .pkg-foot {
+    margin-top: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--on-dark-mute);
+  }
+  .pkg .pkg-foot strong {
+    display: block;
+    font-family: 'Archivo', sans-serif;
+    font-size: 21px; font-weight: 700; color: var(--on-dark);
+    letter-spacing: -0.02em;
+    margin-top: 3px;
+  }
+
+  /* ============ ANTES / DESPUÉS ============ */
+  .galeria { background: var(--paper); }
+  .compare {
+    margin-top: 56px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+  }
+  .compare-stage {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    user-select: none;
+  }
+  .compare-side {
+    position: absolute; inset: 0;
+  }
+  /* "después" — eléctrico — abajo, se revela */
+  .side-after {
+    background:
+      radial-gradient(circle at 30% 70%, var(--volt-glow), transparent 55%),
+      var(--ink-bg);
+  }
+  /* "antes" — combustión — encima, recortado por el slider */
+  .side-before {
+    background: var(--paper-2);
+    clip-path: inset(0 50% 0 0);
+  }
+  .compare-side svg { width: 100%; height: 100%; }
+  .compare-side .cap {
+    position: absolute; top: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 7px 12px;
+  }
+  .side-before .cap { left: 20px; background: var(--ink); color: var(--paper); }
+  .side-after .cap { right: 20px; background: var(--volt); color: var(--ink); }
+  .compare-handle {
+    position: absolute; top: 0; bottom: 0;
+    left: 50%; width: 2px;
+    background: var(--volt);
+    transform: translateX(-1px);
+    pointer-events: none;
+  }
+  .compare-handle .knob {
+    position: absolute; top: 50%; left: 50%;
+    width: 46px; height: 46px;
+    transform: translate(-50%, -50%);
+    background: var(--paper);
+    border: 2px solid var(--volt);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; color: var(--ink);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  }
+  .compare input[type=range] {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0; cursor: ew-resize; margin: 0;
+  }
+  .compare-foot {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    padding: 16px 22px;
+    border-top: 1px solid var(--line);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px; color: var(--ink-mute);
+    letter-spacing: 0.03em;
+  }
+  /* small before/after spec rows */
+  .ba-rows {
+    margin-top: 28px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 720px) { .ba-rows { grid-template-columns: 1fr; } }
+  .ba-cell {
+    background: var(--paper);
+    padding: 22px 22px 20px;
+  }
+  .ba-cell .k {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .ba-cell .pair {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-top: 12px;
+  }
+  .ba-cell .was {
+    font-family: 'Archivo', sans-serif; font-size: 19px; font-weight: 600;
+    color: var(--ink-mute); text-decoration: line-through;
+    text-decoration-color: var(--line);
+  }
+  .ba-cell .now {
+    font-family: 'Archivo', sans-serif; font-size: 26px; font-weight: 800;
+    color: var(--ink); letter-spacing: -0.03em;
+  }
+  .ba-cell .arrow { color: var(--volt-deep); }
+
+  /* ============ PRECIOS ============ */
+  .precios { background: var(--paper-2); }
+  .price-grid {
+    margin-top: 54px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 880px) { .price-grid { grid-template-columns: 1fr; } }
+  .price-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 32px 30px 30px;
+    display: flex; flex-direction: column;
+  }
+  .price-card .pc-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .price-card .pc-range {
+    font-family: 'Archivo', sans-serif;
+    font-size: clamp(32px, 4vw, 44px); font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-top: 14px;
+  }
+  .price-card .pc-range small {
+    font-size: 15px; font-weight: 500; color: var(--ink-mute);
+    letter-spacing: 0;
+  }
+  .price-card .pc-note {
+    font-size: 13.5px; color: var(--ink-soft);
+    line-height: 1.6; margin-top: 12px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+  .price-card .pc-inc {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--ink-mute);
+    margin-top: 16px; letter-spacing: 0.03em;
+  }
+  .price-card.lead {
+    background: var(--ink-bg); color: var(--on-dark);
+    border-color: var(--ink-bg);
+  }
+  .price-card.lead .pc-name { color: var(--volt); }
+  .price-card.lead .pc-note { color: var(--on-dark-mute); border-color: rgba(231,229,223,0.14); }
+  .price-card.lead .pc-inc { color: var(--on-dark-mute); }
+  .price-disclaimer {
+    margin-top: 26px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px; line-height: 1.7;
+    color: var(--ink-mute);
+    max-width: 60em;
+    border-left: 2px solid var(--volt-deep);
+    padding-left: 16px;
+  }
+
+  /* ============ CONTACTO ============ */
+  .contacto { background: var(--ink-bg); color: var(--on-dark); }
+  .contacto .tag { color: var(--on-dark-mute); }
+  .contacto .tag::before { background: var(--volt); }
+  .contact-grid {
+    margin-top: 52px;
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(36px, 6vw, 88px);
+  }
+  @media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; gap: 44px; } }
+  .contact-grid h2 {
+    font-size: clamp(30px, 3.6vw, 48px); font-weight: 700;
+    color: var(--on-dark); margin-top: 16px;
+  }
+  .contact-info { margin-top: 30px; }
+  .contact-info .row {
+    display: flex; gap: 16px;
+    padding: 18px 0;
+    border-top: 1px solid rgba(231,229,223,0.12);
+  }
+  .contact-info .row:last-child { border-bottom: 1px solid rgba(231,229,223,0.12); }
+  .contact-info .row svg { width: 18px; height: 18px; flex: none; color: var(--volt); margin-top: 2px; }
+  .contact-info .row .ci-k {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--on-dark-mute);
+  }
+  .contact-info .row .ci-v { font-size: 15px; color: var(--on-dark); margin-top: 3px; }
+
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .field { display: flex; flex-direction: column; }
+  .field.full { grid-column: 1 / -1; }
+  .field label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--on-dark-mute);
+    margin-bottom: 9px;
+  }
+  .field input, .field select, .field textarea {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14.5px;
+    color: var(--on-dark);
+    background: var(--ink-bg-2);
+    border: 1px solid rgba(231,229,223,0.16);
+    padding: 13px 14px;
+    transition: border-color .2s;
+  }
+  .field textarea { resize: vertical; min-height: 96px; }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none; border-color: var(--volt);
+  }
+  .field select { appearance: none; cursor: pointer; }
+  form .btn-solid {
+    grid-column: 1 / -1;
+    background: var(--volt); color: var(--ink);
+    border-color: var(--volt);
+    justify-content: center;
+  }
+  form .btn-solid:hover { background: var(--volt-deep); border-color: var(--volt-deep); color: var(--paper); }
+  .form-note {
+    grid-column: 1 / -1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--on-dark-mute);
+    line-height: 1.6;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--ink-bg);
+    border-top: 1px solid rgba(231,229,223,0.1);
+    color: var(--on-dark-mute);
+  }
+  .foot-in {
+    max-width: var(--maxw); margin: 0 auto;
+    padding: 32px var(--pad);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px; letter-spacing: 0.03em;
+  }
+  .foot-in .brand { color: var(--on-dark); font-size: 16px; }
+
+  /* reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="nav-in">
+    <a href="#top" class="brand">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" stroke="#14181C" stroke-width="1.5"/>
+        <path d="M17.5 5 L9 18 H15 L13.5 27 L23 13 H17 Z" fill="#14181C"/>
+      </svg>
+      VoltSwap
+    </a>
+    <ul class="nav-links">
+      <li><a href="#proceso">Proceso</a></li>
+      <li><a href="#servicios">Paquetes</a></li>
+      <li><a href="#galeria">Antes / Después</a></li>
+      <li><a href="#precios">Precios</a></li>
+    </ul>
+    <a href="#contacto" class="nav-cta">Agendar diagnóstico</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="tag">Taller de electrificación · Conversión EV certificada</span>
+      <h1>Tu auto de siempre,<br>ahora <span class="volt">100% eléctrico</span>.</h1>
+      <p class="hero-sub">
+        VoltSwap convierte vehículos de combustión interna a propulsión eléctrica
+        completa. Conservas el auto que ya conoces y manejas; nosotros reemplazamos
+        el motor, la transmisión y el tanque por un tren motriz eléctrico,
+        instalado y validado por ingenieros.
+      </p>
+      <div class="hero-cta">
+        <a href="#contacto" class="btn btn-solid">
+          Agendar diagnóstico
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="#proceso" class="btn btn-line">Ver el proceso</a>
+      </div>
+
+      <div class="hero-specs">
+        <div class="spec">
+          <div class="n">200&ndash;<em>400</em></div>
+          <div class="l">km de autonomía*</div>
+        </div>
+        <div class="spec">
+          <div class="n"><em>0</em> g/km</div>
+          <div class="l">Emisiones de escape</div>
+        </div>
+        <div class="spec">
+          <div class="n">6&ndash;<em>12</em></div>
+          <div class="l">Semanas en taller*</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- diagrama del powertrain — no foto stock; honesto para un taller de ingeniería -->
+    <div class="hero-visual" aria-label="Esquema del tren motriz eléctrico">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <svg viewBox="0 0 400 400" fill="none">
+        <!-- chasis -->
+        <path d="M58 250 Q58 210 110 205 L150 200 Q175 168 230 168 L290 170 Q330 173 342 205 L348 248 Q348 268 330 268 L78 268 Q58 268 58 250 Z"
+              stroke="#3A4047" stroke-width="1.6"/>
+        <!-- ruedas -->
+        <circle cx="120" cy="268" r="30" stroke="#3A4047" stroke-width="1.6"/>
+        <circle cx="120" cy="268" r="13" stroke="#767D85" stroke-width="1.4"/>
+        <circle cx="300" cy="268" r="30" stroke="#3A4047" stroke-width="1.6"/>
+        <circle cx="300" cy="268" r="13" stroke="#767D85" stroke-width="1.4"/>
+        <!-- pack de baterías (piso) -->
+        <rect x="120" y="232" width="180" height="22" stroke="oklch(0.62 0.16 132)" stroke-width="1.8"/>
+        <line x1="150" y1="232" x2="150" y2="254" stroke="oklch(0.62 0.16 132)" stroke-width="1"/>
+        <line x1="180" y1="232" x2="180" y2="254" stroke="oklch(0.62 0.16 132)" stroke-width="1"/>
+        <line x1="210" y1="232" x2="210" y2="254" stroke="oklch(0.62 0.16 132)" stroke-width="1"/>
+        <line x1="240" y1="232" x2="240" y2="254" stroke="oklch(0.62 0.16 132)" stroke-width="1"/>
+        <line x1="270" y1="232" x2="270" y2="254" stroke="oklch(0.62 0.16 132)" stroke-width="1"/>
+        <!-- motor eléctrico (eje delantero) -->
+        <circle cx="120" cy="210" r="22" fill="oklch(0.82 0.19 130 / 0.18)" stroke="oklch(0.62 0.16 132)" stroke-width="1.8"/>
+        <path d="M110 210 L118 210 L114 202 L122 202 L118 210 L126 210 L120 220 Z" fill="oklch(0.62 0.16 132)"/>
+        <!-- inversor / controlador -->
+        <rect x="244" y="186" width="46" height="30" stroke="#3A4047" stroke-width="1.6"/>
+        <line x1="244" y1="196" x2="290" y2="196" stroke="#767D85" stroke-width="1"/>
+        <line x1="244" y1="206" x2="290" y2="206" stroke="#767D85" stroke-width="1"/>
+        <!-- cableado de alto voltaje -->
+        <path d="M142 210 Q190 200 200 232" stroke="oklch(0.62 0.16 132)" stroke-width="1.4" stroke-dasharray="4 4"/>
+        <path d="M267 216 L267 232" stroke="oklch(0.62 0.16 132)" stroke-width="1.4" stroke-dasharray="4 4"/>
+        <!-- etiquetas técnicas -->
+        <g font-family="'IBM Plex Mono', monospace" font-size="9" fill="#767D85">
+          <text x="120" y="158" text-anchor="middle">MOTOR PMSM</text>
+          <text x="267" y="178" text-anchor="middle">INVERSOR</text>
+          <text x="210" y="290" text-anchor="middle">PACK DE BATERÍAS · LFP</text>
+        </g>
+        <line x1="120" y1="162" x2="120" y2="186" stroke="#767D85" stroke-width="0.8"/>
+        <line x1="210" y1="276" x2="210" y2="282" stroke="#767D85" stroke-width="0.8"/>
+      </svg>
+      <span class="vlabel">FIG. 01 — ARQUITECTURA DE CONVERSIÓN</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PROCESO ============ -->
+<section class="proceso pad-y" id="proceso">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">Cómo funciona</span>
+      <h2>Cuatro fases de ingeniería, una sola entrega.</h2>
+      <p>
+        La conversión no es un kit que se atornilla. Es un proceso medido:
+        evaluamos, diseñamos, instalamos y certificamos. En cada fase recibes
+        documentación de lo que se hizo y por qué.
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="idx">01</div>
+        <div>
+          <h3>Diagnóstico y evaluación</h3>
+          <div class="meta">Duración · 1 a 3 días</div>
+        </div>
+        <p>
+          Inspeccionamos chasis, frenos, suspensión y carrocería para confirmar
+          que el vehículo es apto. Calculamos peso, espacio disponible y
+          autonomía objetivo. Si el auto no califica, te lo decimos antes de cobrar.
+        </p>
+      </div>
+      <div class="step reveal">
+        <div class="idx">02</div>
+        <div>
+          <h3>Diseño del tren motriz</h3>
+          <div class="meta">Duración · 1 a 2 semanas</div>
+        </div>
+        <p>
+          Definimos motor, capacidad de batería e integración con la dirección y
+          el frenado. Entregamos un plano de la instalación y la estimación final
+          de autonomía, potencia y costo, sin sorpresas posteriores.
+        </p>
+      </div>
+      <div class="step reveal">
+        <div class="idx">03</div>
+        <div>
+          <h3>Desmontaje e instalación</h3>
+          <div class="meta">Duración · 3 a 7 semanas</div>
+        </div>
+        <p>
+          Retiramos motor, transmisión, escape y tanque. Montamos el motor
+          eléctrico, el pack de baterías, el inversor y el sistema de carga.
+          Adaptamos los soportes y el cableado de alto voltaje con piezas a medida.
+        </p>
+      </div>
+      <div class="step reveal">
+        <div class="idx">04</div>
+        <div>
+          <h3>Pruebas y certificación</h3>
+          <div class="meta">Duración · 1 semana</div>
+        </div>
+        <p>
+          Calibración del software, pruebas de carga, frenado regenerativo y
+          rodaje en ruta. Entregamos el vehículo con la documentación técnica
+          y el respaldo de garantía del sistema instalado.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICIOS / PAQUETES ============ -->
+<section class="servicios pad-y" id="servicios">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">Servicios</span>
+      <h2>Tres paquetes de conversión.</h2>
+      <p>
+        Cada paquete es un punto de partida: el alcance final se ajusta tras el
+        diagnóstico según el modelo, el uso previsto y la autonomía que necesitas.
+      </p>
+    </div>
+
+    <div class="pkg-grid">
+      <div class="pkg reveal">
+        <div class="pkg-top">
+          <h3>City</h3>
+        </div>
+        <div class="pkg-for">Para uso urbano diario</div>
+        <p class="pkg-desc">
+          La conversión esencial. Pensada para autos compactos que se mueven
+          en ciudad y cargan en casa cada noche.
+        </p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Motor eléctrico de 80&ndash;110 kW</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pack de batería 30&ndash;40 kWh</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Autonomía estimada 180&ndash;240 km</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Cargador AC doméstico incluido</li>
+        </ul>
+        <div class="pkg-foot">
+          Desde
+          <strong>$285,000 MXN</strong>
+        </div>
+      </div>
+
+      <div class="pkg feature reveal">
+        <div class="pkg-top">
+          <h3>Range</h3>
+          <span class="badge">Más solicitado</span>
+        </div>
+        <div class="pkg-for">Para carretera y uso mixto</div>
+        <p class="pkg-desc">
+          El equilibrio entre autonomía y potencia. Para quienes hacen viajes
+          largos y no quieren depender de la red de carga rápida.
+        </p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Motor eléctrico de 110&ndash;160 kW</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pack de batería 50&ndash;65 kWh</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Autonomía estimada 300&ndash;400 km</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Carga rápida DC + frenado regenerativo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Climatización eléctrica integrada</li>
+        </ul>
+        <div class="pkg-foot">
+          Desde
+          <strong>$420,000 MXN</strong>
+        </div>
+      </div>
+
+      <div class="pkg reveal">
+        <div class="pkg-top">
+          <h3>Classic</h3>
+        </div>
+        <div class="pkg-for">Para autos de colección</div>
+        <p class="pkg-desc">
+          Restauración eléctrica para vehículos clásicos. Conservamos la estética
+          original e integramos el tren motriz de forma reversible.
+        </p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Tren motriz a la medida del chasis</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Soportes y cableado ocultos</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Instalación reversible documentada</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Tablero original conservado o replicado</li>
+        </ul>
+        <div class="pkg-foot">
+          Cotización
+          <strong>Bajo proyecto</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANTES / DESPUÉS ============ -->
+<section class="galeria pad-y" id="galeria">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">Antes / Después</span>
+      <h2>Mismo auto. Otro tren motriz.</h2>
+      <p>
+        Arrastra el control para comparar la arquitectura. A la izquierda, el
+        sistema de combustión que retiramos; a la derecha, el tren motriz
+        eléctrico que instalamos en su lugar.
+      </p>
+    </div>
+
+    <div class="compare reveal">
+      <div class="compare-stage" id="compareStage">
+        <!-- DESPUÉS — eléctrico -->
+        <div class="compare-side side-after">
+          <span class="cap">Después · Eléctrico</span>
+          <svg viewBox="0 0 800 450" fill="none">
+            <path d="M120 300 Q120 250 220 242 L300 235 Q345 188 470 188 L600 192 Q690 196 712 250 L720 295 Q720 320 690 320 L150 320 Q120 320 120 300 Z"
+                  stroke="#8B9299" stroke-width="2"/>
+            <circle cx="245" cy="320" r="48" stroke="#8B9299" stroke-width="2"/>
+            <circle cx="245" cy="320" r="20" stroke="#5A6066" stroke-width="1.6"/>
+            <circle cx="605" cy="320" r="48" stroke="#8B9299" stroke-width="2"/>
+            <circle cx="605" cy="320" r="20" stroke="#5A6066" stroke-width="1.6"/>
+            <!-- battery pack -->
+            <rect x="250" y="276" width="320" height="30" stroke="oklch(0.82 0.19 130)" stroke-width="2.4"/>
+            <g stroke="oklch(0.82 0.19 130)" stroke-width="1.2">
+              <line x1="300" y1="276" x2="300" y2="306"/>
+              <line x1="350" y1="276" x2="350" y2="306"/>
+              <line x1="400" y1="276" x2="400" y2="306"/>
+              <line x1="450" y1="276" x2="450" y2="306"/>
+              <line x1="500" y1="276" x2="500" y2="306"/>
+              <line x1="550" y1="276" x2="550" y2="306"/>
+            </g>
+            <!-- motor -->
+            <circle cx="250" cy="250" r="32" fill="oklch(0.82 0.19 130 / 0.2)" stroke="oklch(0.82 0.19 130)" stroke-width="2.4"/>
+            <path d="M236 250 L248 250 L242 238 L254 238 L248 250 L260 250 L250 266 Z" fill="oklch(0.82 0.19 130)"/>
+            <!-- inverter -->
+            <rect x="500" y="216" width="70" height="44" stroke="#8B9299" stroke-width="2"/>
+            <line x1="500" y1="232" x2="570" y2="232" stroke="#5A6066" stroke-width="1.2"/>
+            <line x1="500" y1="246" x2="570" y2="246" stroke="#5A6066" stroke-width="1.2"/>
+            <path d="M282 250 Q360 236 380 276" stroke="oklch(0.82 0.19 130)" stroke-width="1.8" stroke-dasharray="6 5"/>
+            <path d="M535 260 L535 276" stroke="oklch(0.82 0.19 130)" stroke-width="1.8" stroke-dasharray="6 5"/>
+            <g font-family="'IBM Plex Mono', monospace" font-size="13" fill="#8B9299">
+              <text x="250" y="200" text-anchor="middle">MOTOR ELÉCTRICO</text>
+              <text x="535" y="206" text-anchor="middle">INVERSOR</text>
+              <text x="410" y="340" text-anchor="middle">PACK DE BATERÍAS · LFP</text>
+            </g>
+          </svg>
+        </div>
+        <!-- ANTES — combustión -->
+        <div class="compare-side side-before" id="compareBefore">
+          <span class="cap">Antes · Combustión</span>
+          <svg viewBox="0 0 800 450" fill="none">
+            <path d="M120 300 Q120 250 220 242 L300 235 Q345 188 470 188 L600 192 Q690 196 712 250 L720 295 Q720 320 690 320 L150 320 Q120 320 120 300 Z"
+                  stroke="#767D85" stroke-width="2"/>
+            <circle cx="245" cy="320" r="48" stroke="#767D85" stroke-width="2"/>
+            <circle cx="245" cy="320" r="20" stroke="#A8AEB4" stroke-width="1.6"/>
+            <circle cx="605" cy="320" r="48" stroke="#767D85" stroke-width="2"/>
+            <circle cx="605" cy="320" r="20" stroke="#A8AEB4" stroke-width="1.6"/>
+            <!-- engine block -->
+            <rect x="200" y="220" width="92" height="70" stroke="#3A4047" stroke-width="2"/>
+            <rect x="214" y="206" width="20" height="14" stroke="#3A4047" stroke-width="1.6"/>
+            <rect x="244" y="206" width="20" height="14" stroke="#3A4047" stroke-width="1.6"/>
+            <line x1="200" y1="244" x2="292" y2="244" stroke="#767D85" stroke-width="1.2"/>
+            <line x1="200" y1="266" x2="292" y2="266" stroke="#767D85" stroke-width="1.2"/>
+            <!-- transmission -->
+            <path d="M292 250 L360 250 L376 270 L376 286 L292 286 Z" stroke="#3A4047" stroke-width="2"/>
+            <!-- fuel tank -->
+            <rect x="500" y="270" width="120" height="36" rx="6" stroke="#3A4047" stroke-width="2"/>
+            <!-- exhaust -->
+            <path d="M376 280 Q470 300 660 306" stroke="#767D85" stroke-width="2" stroke-dasharray="2 5"/>
+            <g font-family="'IBM Plex Mono', monospace" font-size="13" fill="#767D85">
+              <text x="246" y="188" text-anchor="middle">MOTOR DE COMBUSTIÓN</text>
+              <text x="334" y="316" text-anchor="middle">TRANSMISIÓN</text>
+              <text x="560" y="262" text-anchor="middle">TANQUE DE COMBUSTIBLE</text>
+            </g>
+          </svg>
+        </div>
+        <div class="compare-handle" id="compareHandle">
+          <div class="knob">&#8596;</div>
+        </div>
+        <input type="range" min="0" max="100" value="50" id="compareRange" aria-label="Comparar antes y después">
+      </div>
+      <div class="compare-foot">
+        <span>FIG. 02 — Comparativa de arquitectura</span>
+        <span>Arrastra &#8596; para revelar</span>
+      </div>
+    </div>
+
+    <!-- before/after spec deltas -->
+    <div class="ba-rows reveal">
+      <div class="ba-cell">
+        <div class="k">Emisiones de escape</div>
+        <div class="pair">
+          <span class="was">~180 g/km</span>
+          <span class="arrow">&rarr;</span>
+          <span class="now">0 g/km</span>
+        </div>
+      </div>
+      <div class="ba-cell">
+        <div class="k">Costo por 100 km</div>
+        <div class="pair">
+          <span class="was">~$210 MXN</span>
+          <span class="arrow">&rarr;</span>
+          <span class="now">~$45 MXN</span>
+        </div>
+      </div>
+      <div class="ba-cell">
+        <div class="k">Piezas móviles del tren motriz</div>
+        <div class="pair">
+          <span class="was">Cientos</span>
+          <span class="arrow">&rarr;</span>
+          <span class="now">Decenas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRECIOS ============ -->
+<section class="precios pad-y" id="precios">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">Precios estimados</span>
+      <h2>Rangos orientativos, no precios cerrados.</h2>
+      <p>
+        El costo real depende del vehículo, la autonomía objetivo y el estado
+        del chasis. Estos rangos te dan una referencia antes del diagnóstico.
+      </p>
+    </div>
+
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <div class="pc-name">Paquete City</div>
+        <div class="pc-range">$285k &ndash; $360k <small>MXN</small></div>
+        <p class="pc-note">
+          Conversión urbana con cargador doméstico. Ideal para compactos de
+          uso diario en ciudad.
+        </p>
+        <div class="pc-inc">Incluye · motor + batería 30&ndash;40 kWh + instalación</div>
+      </div>
+
+      <div class="price-card lead reveal">
+        <div class="pc-name">Paquete Range</div>
+        <div class="pc-range">$420k &ndash; $560k <small>MXN</small></div>
+        <p class="pc-note">
+          Conversión de autonomía extendida con carga rápida DC. El punto medio
+          recomendado para uso mixto ciudad–carretera.
+        </p>
+        <div class="pc-inc">Incluye · motor + batería 50&ndash;65 kWh + carga DC + climatización</div>
+      </div>
+
+      <div class="price-card reveal">
+        <div class="pc-name">Paquete Classic</div>
+        <div class="pc-range">Bajo <small>proyecto</small></div>
+        <p class="pc-note">
+          Restauración eléctrica de vehículos de colección. Se cotiza por
+          proyecto tras evaluar el chasis y los objetivos de conservación.
+        </p>
+        <div class="pc-inc">Incluye · diseño a medida + instalación reversible documentada</div>
+      </div>
+    </div>
+
+    <p class="price-disclaimer">
+      Los montos son estimaciones de referencia y no constituyen una cotización.
+      El precio final se confirma por escrito después del diagnóstico de la fase 01,
+      una vez evaluados el modelo, el estado del vehículo y la autonomía requerida.
+    </p>
+  </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section class="contacto pad-y" id="contacto">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="tag">Contacto</span>
+      <h2>Empieza por el diagnóstico.</h2>
+      <p style="color:var(--on-dark-mute); margin-top:16px; font-size:15px; line-height:1.7;">
+        Cuéntanos qué auto quieres convertir. Te respondemos con los siguientes
+        pasos y agendamos la evaluación en taller.
+      </p>
+
+      <div class="contact-info">
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div>
+            <div class="ci-k">Taller</div>
+            <div class="ci-v">Av. de la Industria 142, Nave 7 · Querétaro, México</div>
+          </div>
+        </div>
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          <div>
+            <div class="ci-k">Teléfono</div>
+            <div class="ci-v">+52 442 000 0000</div>
+          </div>
+        </div>
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <div>
+            <div class="ci-k">Correo</div>
+            <div class="ci-v">hola@voltswap.mx</div>
+          </div>
+        </div>
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <div>
+            <div class="ci-k">Horario</div>
+            <div class="ci-v">Lunes a viernes, 9:00&ndash;18:00 · Sábado con cita</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="reveal" onsubmit="handleSubmit(event)">
+      <div class="field">
+        <label for="f-nombre">Nombre</label>
+        <input type="text" id="f-nombre" name="nombre" placeholder="Tu nombre completo" required>
+      </div>
+      <div class="field">
+        <label for="f-tel">Teléfono</label>
+        <input type="tel" id="f-tel" name="telefono" placeholder="10 dígitos" required>
+      </div>
+      <div class="field">
+        <label for="f-correo">Correo</label>
+        <input type="email" id="f-correo" name="correo" placeholder="tucorreo@ejemplo.com" required>
+      </div>
+      <div class="field">
+        <label for="f-paquete">Paquete de interés</label>
+        <select id="f-paquete" name="paquete">
+          <option>City — uso urbano</option>
+          <option selected>Range — uso mixto</option>
+          <option>Classic — auto de colección</option>
+          <option>Aún no estoy seguro</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="f-auto">Vehículo a convertir</label>
+        <input type="text" id="f-auto" name="auto" placeholder="Marca, modelo y año — ej. Volkswagen Sedán 1994">
+      </div>
+      <div class="field full">
+        <label for="f-msg">¿Qué uso le darás?</label>
+        <textarea id="f-msg" name="mensaje" placeholder="Cuéntanos cómo y cuánto manejas, y qué autonomía buscas."></textarea>
+      </div>
+      <button type="submit" class="btn btn-solid">
+        Solicitar diagnóstico
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+      <p class="form-note" id="formNote">
+        Sin compromiso. El diagnóstico se cotiza por separado y se descuenta
+        del proyecto si decides avanzar.
+      </p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot-in">
+    <span class="brand">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" stroke="#E7E5DF" stroke-width="1.5"/>
+        <path d="M17.5 5 L9 18 H15 L13.5 27 L23 13 H17 Z" fill="#E7E5DF"/>
+      </svg>
+      VoltSwap
+    </span>
+    <span>Conversión de vehículos a propulsión eléctrica · Querétaro, México</span>
+    <span>&copy; 2026 VoltSwap</span>
+  </div>
+</footer>
+
+<script>
+  /* ---- comparador antes/después: slider sincroniza clip-path y handle ---- */
+  (function () {
+    var range  = document.getElementById('compareRange');
+    var before = document.getElementById('compareBefore');
+    var handle = document.getElementById('compareHandle');
+    if (!range) return;
+    function update() {
+      var v = range.value;
+      before.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)';
+      handle.style.left = v + '%';
+    }
+    range.addEventListener('input', update);
+    update();
+  })();
+
+  /* ---- reveal on scroll ---- */
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+
+  /* ---- formulario: feedback honesto, no envía a ningún backend ---- */
+  function handleSubmit(e) {
+    e.preventDefault();
+    var note = document.getElementById('formNote');
+    note.textContent = 'Solicitud registrada. Te contactaremos en menos de 48 h hábiles. (Demo: este formulario no envía datos a un servidor.)';
+    note.style.color = 'var(--volt)';
+    e.target.querySelector('button').textContent = 'Enviado ✓';
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contacto — VoltSwap</title>
+<meta name="description" content="Agenda tu diagnóstico de conversión EV con VoltSwap. Cuéntanos qué auto tienes; te respondemos en menos de 24 horas hábiles, sin compromiso.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="watermark">
+  VISTA PREVIA NO OFICIAL — Sitio construido por Sesh ACID como rediseño cortesía para VoltSwap. No afiliado a VoltSwap.
+  <button aria-label="Cerrar aviso">&times;</button>
+</div>
+
+<header class="header">
+  <div class="wrap header__inner">
+    <a class="logo" href="index.html" aria-label="VoltSwap — inicio">
+      <span class="logo__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+      </span>
+      <span class="logo__text">Volt<b>Swap</b></span>
+    </a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="proceso.html">Proceso</a>
+      <a href="paquetes.html">Paquetes</a>
+      <a href="galeria.html">Galería</a>
+      <a href="contacto.html" aria-current="page">Contacto</a>
+      <a class="btn btn--cta" href="contacto.html">Agenda tu diagnóstico</a>
+    </nav>
+    <button class="burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+<section class="page-hero">
+  <div class="wrap reveal">
+    <div class="breadcrumb"><a href="index.html">Inicio</a> / Contacto</div>
+    <h1>Agenda tu diagnóstico</h1>
+    <p>Cuéntanos qué auto tienes y qué esperas de él. Te respondemos en menos de 24 horas hábiles con los próximos pasos — sin compromiso y sin presión de venta.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="contact-grid">
+      <form class="reveal" id="contact-form" novalidate>
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" required autocomplete="name" placeholder="Tu nombre">
+        </div>
+        <div class="field">
+          <label for="email">Correo</label>
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+        </div>
+        <div class="field">
+          <label for="tel">Teléfono</label>
+          <input id="tel" name="tel" type="tel" autocomplete="tel" placeholder="55 0000 0000">
+        </div>
+        <div class="field">
+          <label for="auto">Auto a convertir</label>
+          <input id="auto" name="auto" type="text" placeholder="Marca, modelo y año — ej. Volkswagen Caribe 1989">
+        </div>
+        <div class="field">
+          <label for="paquete">Paquete de interés</label>
+          <select id="paquete" name="paquete">
+            <option value="">Aún no lo sé / quiero asesoría</option>
+            <option>Urbano</option>
+            <option>Carretera</option>
+            <option>Performance</option>
+            <option>Upgrade de batería</option>
+            <option>Mantenimiento EV</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="msg">Mensaje</label>
+          <textarea id="msg" name="msg" placeholder="¿Para qué usas el auto? ¿Cuánto rango necesitas al día?"></textarea>
+        </div>
+        <button class="btn btn--primary btn--lg" type="submit">Enviar y agendar diagnóstico</button>
+        <div class="form-success">¡Gracias! Recibimos tu solicitud. Te contactamos en menos de 24 horas hábiles. (Demo — sin envío real.)</div>
+      </form>
+
+      <aside class="contact-info reveal">
+        <h3>Visítanos en el taller</h3>
+        <div class="ci-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div><span class="lbl">Dirección</span><br>Av. Industria 245, Col. Talleres<br>Ciudad de México</div>
+        </div>
+        <div class="ci-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <div><span class="lbl">Teléfono</span><br><a href="tel:+525500001234">55 5000 1234</a></div>
+        </div>
+        <div class="ci-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+          <div><span class="lbl">Correo</span><br><a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a></div>
+        </div>
+        <div class="ci-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <div><span class="lbl">Horario</span><br>Lun–Vie 9:00–18:00 · Sáb 9:00–14:00</div>
+        </div>
+        <div class="ci-map" role="img" aria-label="Mapa esquemático de la ubicación del taller"></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="overline">Antes de escribir</span>
+      <h2>Lo que conviene tener a la mano</h2>
+      <p>No es obligatorio, pero acelera tu diagnóstico si llegas con esta información.</p>
+    </div>
+    <div class="prose">
+      <div class="faq-item reveal">
+        <h3>Datos del auto</h3>
+        <p>Marca, modelo, año y kilometraje aproximado. Si conoces el estado de la carrocería, los frenos y la suspensión, mejor — son los puntos que más influyen en la viabilidad de la conversión.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Tu uso diario</h3>
+        <p>¿Cuántos kilómetros recorres al día? ¿Es ciudad, carretera o mixto? Con eso te recomendamos el pack de baterías que de verdad necesitas, sin venderte de más.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Tus prioridades</h3>
+        <p>¿Buscas el menor costo, el mayor rango o el mejor desempeño? Cada paquete está pensado para un objetivo distinto y te ayudamos a elegir el correcto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__about">
+        <a class="logo" href="index.html" aria-label="VoltSwap — inicio">
+          <span class="logo__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          </span>
+          <span class="logo__text">Volt<b>Swap</b></span>
+        </a>
+        <p>Taller de ingeniería que convierte autos de combustión interna a 100% eléctricos. Conserva el auto que ya amas — cámbiale el corazón, no la historia.</p>
+        <div class="socials">
+          <a href="#" aria-label="VoltSwap en Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23a3.7 3.7 0 0 1-.9 1.38c-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2zm0 4.86A4.94 4.94 0 1 1 12 17a4.94 4.94 0 0 1 0-9.94zm0 1.8a3.14 3.14 0 1 0 0 6.28 3.14 3.14 0 0 0 0-6.28zm5.2-.36a1.16 1.16 0 1 1-2.32 0 1.16 1.16 0 0 1 2.32 0z"/></svg></a>
+          <a href="#" aria-label="VoltSwap en Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a>
+          <a href="#" aria-label="VoltSwap en YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.5 3.9 12 3.9 12 3.9s-7.5 0-9.4.5A3 3 0 0 0 .5 6.5C0 8.4 0 12 0 12s0 3.6.5 5.5a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.5.5-5.5s0-3.6-.5-5.5zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg></a>
+          <a href="#" aria-label="VoltSwap en Maps"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></a>
+        </div>
+      </div>
+      <div><h4>Sitio</h4><ul>
+        <li><a href="proceso.html">Proceso de conversión</a></li>
+        <li><a href="paquetes.html">Servicios y paquetes</a></li>
+        <li><a href="galeria.html">Galería antes/después</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul></div>
+      <div><h4>Paquetes</h4><ul>
+        <li><a href="paquetes.html">Urbano</a></li>
+        <li><a href="paquetes.html">Carretera</a></li>
+        <li><a href="paquetes.html">Performance</a></li>
+        <li><a href="paquetes.html">Upgrade de batería</a></li>
+      </ul></div>
+      <div><h4>Contacto</h4><ul>
+        <li><a href="tel:+525500001234">55 5000 1234</a></li>
+        <li><a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a></li>
+        <li>Av. Industria 245, Col. Talleres</li>
+        <li>Lun–Vie 9–18 · Sáb 9–14</li>
+      </ul></div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span class="js-year">2026</span> VoltSwap · Taller de conversión EV</span>
+      <span>Hecho con ingeniería, no con humo.</span>
+    </div>
+  </div>
+</footer>
+
+<button class="chat-fab" aria-label="Abrir asistente VoltSwap">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>
+</button>
+<div class="chat-win" role="dialog" aria-label="Asistente VoltSwap">
+  <div class="chat-head"><b>Asistente IA — VoltSwap</b><button aria-label="Cerrar chat">&times;</button></div>
+  <div class="chat-body">
+    <div class="msg msg--bot">¡Hola! Soy el asistente de VoltSwap. Puedo ayudarte con cotizaciones de conversión, agendar tu diagnóstico y resolver dudas técnicas sobre rango, baterías y garantía. ¿En qué te ayudo? ⚡</div>
+  </div>
+  <form class="chat-foot">
+    <input type="text" placeholder="Escribe tu mensaje…" aria-label="Mensaje para el asistente">
+    <button type="submit" aria-label="Enviar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg></button>
+  </form>
+  <div class="chat-badge">Powered by AI · Sesh</div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

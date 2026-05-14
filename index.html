@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Colosseum — Visor de resultados</title>
+<style>
+  :root {
+    --bg: #0e1014;
+    --surface: #171a21;
+    --surface-2: #1e222b;
+    --border: #2a2f3a;
+    --text: #e6e8ec;
+    --text-dim: #9aa0ac;
+    --accent: #3ad8c4;
+    --accent-dim: #1f8d7f;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  header.site {
+    display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 36px;
+  }
+  header.site h1 { font-size: 20px; letter-spacing: -0.01em; }
+  header.site .tag {
+    font-size: 12px; color: var(--accent); border: 1px solid var(--accent-dim);
+    padding: 2px 8px; border-radius: 999px;
+  }
+  header.site .crumbs { margin-left: auto; font-size: 13px; color: var(--text-dim); }
+  header.site .crumbs button {
+    background: none; border: none; color: var(--accent); cursor: pointer;
+    font: inherit; padding: 0;
+  }
+  header.site .crumbs button:hover { text-decoration: underline; }
+
+  h2.screen-title { font-size: 15px; font-weight: 600; color: var(--text-dim); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* Screen 1 — prompt picker */
+  .prompts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .prompt-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 26px 24px; cursor: pointer; transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    display: flex; flex-direction: column; gap: 14px; text-align: left;
+  }
+  .prompt-card:hover { transform: translateY(-3px); border-color: var(--accent-dim); background: var(--surface-2); }
+  .prompt-card .lvl { font-size: 12px; color: var(--accent); font-weight: 700; letter-spacing: 0.08em; }
+  .prompt-card h3 { font-size: 19px; letter-spacing: -0.01em; }
+  .prompt-card p { font-size: 13px; color: var(--text-dim); }
+  .prompt-card .meta { margin-top: auto; font-size: 12px; color: var(--text-dim); padding-top: 10px; }
+
+  /* Screen 2 — design grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
+  .cell-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; cursor: pointer; transition: transform .15s ease, border-color .15s ease;
+    display: flex; flex-direction: column;
+  }
+  .cell-card:hover { transform: translateY(-3px); border-color: var(--accent-dim); }
+  .cell-card .thumb {
+    aspect-ratio: 16 / 10; background: var(--surface-2) center top / cover no-repeat;
+    border-bottom: 1px solid var(--border);
+  }
+  .cell-card .thumb.empty { display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 13px; }
+  .cell-card .body { padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
+  .cell-card .body .name { font-size: 15px; font-weight: 600; }
+  .cell-card .body .sub { font-size: 12px; color: var(--text-dim); }
+  .cell-card .body .score {
+    margin-top: 6px; font-size: 13px; display: flex; align-items: baseline; gap: 6px;
+  }
+  .cell-card .body .score b { font-size: 20px; color: var(--accent); }
+  .cell-card .body .score.unscored b { color: var(--text-dim); }
+
+  /* Detail */
+  .detail-bar {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .detail-bar .btn {
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
+    padding: 8px 14px; border-radius: 8px; cursor: pointer; font: inherit; font-size: 13px;
+  }
+  .detail-bar .btn:hover { border-color: var(--accent-dim); }
+  .detail-bar .btn.primary { border-color: var(--accent-dim); color: var(--accent); }
+  .detail-bar .title { font-size: 15px; font-weight: 600; }
+  .detail-bar .title span { color: var(--text-dim); font-weight: 400; }
+  .frame {
+    width: 100%; height: 78vh; border: 1px solid var(--border); border-radius: var(--radius);
+    background: #fff;
+  }
+
+  .hidden { display: none !important; }
+  footer.site { margin-top: 56px; font-size: 12px; color: var(--text-dim); text-align: center; }
+
+  @media (max-width: 760px) {
+    .prompts { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <h1>Design Colosseum</h1>
+    <span class="tag">visor de resultados</span>
+    <nav class="crumbs" id="crumbs"></nav>
+  </header>
+
+  <main id="app">
+    <section id="screen-prompts">
+      <h2 class="screen-title">Elige un prompt</h2>
+      <div class="prompts" id="prompts"></div>
+    </section>
+
+    <section id="screen-grid" class="hidden">
+      <h2 class="screen-title" id="grid-title">Diseños</h2>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section id="screen-detail" class="hidden">
+      <div class="detail-bar" id="detail-bar"></div>
+      <iframe class="frame" id="detail-frame" title="Sitio generado"></iframe>
+    </section>
+  </main>
+
+  <footer class="site">21 celdas · 7 modelos × 3 niveles de prompt · scoring a ciegas</footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

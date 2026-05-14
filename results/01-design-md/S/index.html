@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VoltSwap — Convierte tu auto de combustión a 100% eléctrico</title>
+<meta name="description" content="VoltSwap es un taller de ingeniería que convierte autos de combustión interna a 100% eléctricos. Conserva tu auto, elimina las emisiones." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  /* =====================================================================
+     VoltSwap — index.html
+     Construido ESTRICTAMENTE a partir de los tokens de DESIGN.md
+     (formato design.md spec). Cada custom property abajo es un token.
+     ===================================================================== */
+
+  :root {
+    /* --- colors --- */
+    --color-surface: #13161B;
+    --color-surface-dim: #0E1014;
+    --color-surface-bright: #1C2027;
+    --color-surface-container-low: #171A20;
+    --color-surface-container: #1C2027;
+    --color-surface-container-high: #242931;
+    --color-surface-container-highest: #2E343D;
+    --color-on-surface: #EEF1F4;
+    --color-on-surface-variant: #A7B0BB;
+    --color-outline: #3A4250;
+    --color-primary: #2CE6C8;
+    --color-on-primary: #062B25;
+    --color-primary-container: #0F4F45;
+    --color-on-primary-container: #9DF4E6;
+    --color-primary-dim: #1FB7A0;
+    --color-secondary: #5A6675;
+    --color-on-secondary: #EEF1F4;
+    --color-secondary-container: #262C35;
+    --color-on-secondary-container: #C3CCD7;
+    --color-tertiary: #F2B53C;
+    --color-on-tertiary: #3A2A05;
+    --color-outline-line: #333A44;
+    --color-outline-variant: #272D36;
+    --color-inverse-surface: #EEF1F4;
+    --color-inverse-on-surface: #13161B;
+    --color-success: #3FD07A;
+    --color-error: #FF6B6B;
+
+    /* --- typography families --- */
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+
+    /* --- rounded --- */
+    --rounded-none: 0px;
+    --rounded-sm: 4px;
+    --rounded-md: 8px;
+    --rounded-lg: 14px;
+    --rounded-xl: 24px;
+    --rounded-full: 9999px;
+
+    /* --- spacing --- */
+    --space-unit: 8px;
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 32px;
+    --space-xl: 64px;
+    --space-xxl: 96px;
+    --space-gutter: 24px;
+    --space-margin-mobile: 20px;
+    --space-margin-desktop: 64px;
+    --container-max: 1200px;
+  }
+
+  /* ---------------------------------------------------------------------
+     Reset / base
+     --------------------------------------------------------------------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    font-family: var(--font-body);
+    /* typography token: body-md */
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: 0em;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { max-width: 100%; display: block; }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* Visible focus — Do's: foco visible (anillo primary) */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  .tab:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--rounded-sm);
+  }
+
+  ::selection { background: var(--color-primary); color: var(--color-on-primary); }
+
+  /* ---------------------------------------------------------------------
+     Layout primitives
+     --------------------------------------------------------------------- */
+  .container {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--space-margin-mobile);
+  }
+
+  section { padding-block: var(--space-xl); }
+
+  .section-head { max-width: 640px; margin-bottom: var(--space-lg); }
+
+  /* ---------------------------------------------------------------------
+     Typography tokens as utility classes
+     --------------------------------------------------------------------- */
+  .t-display {
+    font-family: var(--font-display);
+    font-size: 40px;            /* mobile scale of display token */
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  .t-headline-lg {
+    font-family: var(--font-display);
+    font-size: 32px;            /* mobile scale of headline-lg */
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+  .t-headline-md {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .t-title-lg {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .t-body-lg {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  .t-body-sm {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .t-label-caps {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .t-data {
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Long-form prose: justified per house style (es-MX) */
+  .prose p {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+    color: var(--color-on-surface-variant);
+  }
+
+  .accent { color: var(--color-primary); }
+  .muted  { color: var(--color-on-surface-variant); }
+
+  /* ---------------------------------------------------------------------
+     Component: chip
+     --------------------------------------------------------------------- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background-color: var(--color-surface-container-high);
+    color: var(--color-on-surface-variant);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: var(--rounded-full);
+    padding: 8px 14px;
+  }
+  .chip--accent {
+    background-color: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+  }
+
+  /* ---------------------------------------------------------------------
+     Component: buttons
+     --------------------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    height: 52px;
+    padding-inline: 28px;
+    border-radius: var(--rounded-full);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color .18s ease, transform .18s ease, border-color .18s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+
+  .btn--primary {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+  .btn--primary:hover { background-color: var(--color-primary-dim); }
+
+  .btn--secondary {
+    background-color: transparent;
+    color: var(--color-on-surface);
+    border-color: var(--color-outline-line);
+  }
+  .btn--secondary:hover { background-color: var(--color-surface-container-high); }
+
+  /* ---------------------------------------------------------------------
+     Component: card
+     --------------------------------------------------------------------- */
+  .card {
+    background-color: var(--color-surface-container);
+    color: var(--color-on-surface);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--rounded-lg);
+    padding: var(--space-gutter);
+    transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .card:hover {
+    background-color: var(--color-surface-container-high);
+    border-color: var(--color-primary-dim);
+    transform: translateY(-4px);
+  }
+  .card--feature {
+    background-color: var(--color-surface-container-low);
+    border-radius: var(--rounded-xl);
+    padding: var(--space-lg);
+  }
+
+  /* ---------------------------------------------------------------------
+     Header / nav
+     --------------------------------------------------------------------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: color-mix(in srgb, var(--color-surface) 86%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+  }
+  .brand-mark {
+    width: 32px; height: 32px;
+    display: grid; place-items: center;
+    background-color: var(--color-primary-container);
+    border-radius: var(--rounded-md);
+  }
+  .nav-links { display: none; gap: var(--space-lg); align-items: center; }
+  .nav-link {
+    color: var(--color-on-surface-variant);
+    font-size: 15px;
+    font-weight: 600;
+    transition: color .15s ease;
+  }
+  .nav-link:hover { color: var(--color-on-surface); }
+  .nav-cta { display: none; }
+
+  /* ---------------------------------------------------------------------
+     Hero
+     --------------------------------------------------------------------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--space-xl) var(--space-xxl);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 70%;
+    background:
+      radial-gradient(60% 80% at 75% 10%, color-mix(in srgb, var(--color-primary) 22%, transparent), transparent 70%),
+      radial-gradient(50% 60% at 10% 0%, color-mix(in srgb, var(--color-primary-container) 55%, transparent), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero .container { position: relative; z-index: 1; }
+  .hero h1 { margin-block: var(--space-md) var(--space-md); max-width: 14ch; }
+  .hero .lead { max-width: 52ch; margin-bottom: var(--space-lg); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-md); }
+
+  .hero-visual {
+    margin-top: var(--space-xl);
+    border-radius: var(--rounded-xl);
+    border: 1px solid var(--color-outline-variant);
+    background:
+      linear-gradient(135deg, var(--color-surface-container-low), var(--color-surface-dim));
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  /* inline SVG illustration sits inside .hero-visual */
+  .hero-visual svg { width: 78%; height: auto; }
+
+  /* stat strip */
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background-color: var(--color-outline-variant);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--rounded-lg);
+    overflow: hidden;
+    margin-top: var(--space-xl);
+  }
+  .stat {
+    background-color: var(--color-surface-container);
+    padding: var(--space-gutter);
+  }
+  .stat-value {
+    color: var(--color-primary);
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat-label { margin-top: var(--space-sm); }
+
+  /* ---------------------------------------------------------------------
+     Process steps
+     --------------------------------------------------------------------- */
+  .steps { display: grid; gap: var(--space-md); grid-template-columns: 1fr; }
+  .step { position: relative; }
+  .step-num {
+    display: inline-grid;
+    place-items: center;
+    width: 40px; height: 40px;
+    border-radius: var(--rounded-full);
+    background-color: var(--color-surface-container-high);
+    color: var(--color-tertiary);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: var(--space-md);
+  }
+  .step h3 { margin-bottom: var(--space-xs); }
+
+  /* ---------------------------------------------------------------------
+     Packages
+     --------------------------------------------------------------------- */
+  .packages { display: grid; gap: var(--space-md); grid-template-columns: 1fr; }
+  .package { display: flex; flex-direction: column; }
+  .package--highlight { border-color: var(--color-primary-dim); }
+  .package-price {
+    margin-block: var(--space-md) var(--space-xs);
+  }
+  .package ul { list-style: none; margin-block: var(--space-md); display: grid; gap: 10px; }
+  .package li {
+    display: flex; gap: 10px; align-items: flex-start;
+    color: var(--color-on-surface-variant);
+    font-size: 15px;
+  }
+  .package li svg { flex: none; margin-top: 3px; }
+  .package .btn { margin-top: auto; }
+
+  /* ---------------------------------------------------------------------
+     Before / After gallery
+     --------------------------------------------------------------------- */
+  .ba-tabs { display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg); flex-wrap: wrap; }
+  .tab {
+    background-color: var(--color-surface-container);
+    color: var(--color-on-surface-variant);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--rounded-full);
+    padding: 10px 18px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .tab[aria-selected="true"] {
+    background-color: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+    border-color: var(--color-primary-dim);
+  }
+  .ba-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
+  .ba-figure { margin: 0; }
+  .ba-img {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--rounded-lg);
+    border: 1px solid var(--color-outline-variant);
+    position: relative;
+    display: grid;
+    place-items: end start;
+    padding: var(--space-md);
+    overflow: hidden;
+  }
+  .ba-img.before {
+    background:
+      linear-gradient(160deg, #2a2722, #16140f);
+  }
+  .ba-img.after {
+    background:
+      linear-gradient(160deg, var(--color-primary-container), var(--color-surface-dim));
+  }
+  .ba-tag {
+    position: relative;
+    z-index: 1;
+  }
+  .ba-figure figcaption { margin-top: var(--space-sm); }
+  .ba-panel { display: none; }
+  .ba-panel.is-active { display: block; }
+
+  /* ---------------------------------------------------------------------
+     FAQ
+     --------------------------------------------------------------------- */
+  .faq { display: grid; gap: var(--space-sm); max-width: 820px; }
+  details.qa {
+    background-color: var(--color-surface-container);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--rounded-lg);
+    padding: var(--space-md) var(--space-gutter);
+  }
+  details.qa[open] { border-color: var(--color-primary-dim); }
+  details.qa summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17px;
+  }
+  details.qa summary::-webkit-details-marker { display: none; }
+  details.qa summary .plus {
+    flex: none;
+    width: 24px; height: 24px;
+    display: grid; place-items: center;
+    color: var(--color-primary);
+    transition: transform .2s ease;
+  }
+  details.qa[open] summary .plus { transform: rotate(45deg); }
+  details.qa p { margin-top: var(--space-md); }
+
+  /* ---------------------------------------------------------------------
+     Contact
+     --------------------------------------------------------------------- */
+  .contact-grid { display: grid; gap: var(--space-lg); grid-template-columns: 1fr; }
+  form { display: grid; gap: var(--space-md); }
+  .field { display: grid; gap: var(--space-xs); }
+  label {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-on-surface-variant);
+  }
+  input, textarea, select {
+    background-color: var(--color-surface-dim);
+    color: var(--color-on-surface);
+    font-family: var(--font-body);
+    font-size: 16px;
+    border: 1px solid var(--color-outline-line);
+    border-radius: var(--rounded-md);
+    padding: 14px;
+  }
+  input::placeholder, textarea::placeholder { color: var(--color-secondary); }
+  input:focus, textarea:focus, select:focus {
+    background-color: var(--color-surface-container-low);
+    border-color: var(--color-primary);
+  }
+  textarea { resize: vertical; min-height: 120px; }
+
+  .contact-info { display: grid; gap: var(--space-md); align-content: start; }
+  .info-row { display: flex; gap: var(--space-md); align-items: flex-start; }
+  .info-row svg { flex: none; color: var(--color-primary); margin-top: 2px; }
+
+  /* ---------------------------------------------------------------------
+     Footer
+     --------------------------------------------------------------------- */
+  footer {
+    border-top: 1px solid var(--color-outline-variant);
+    background-color: var(--color-surface-dim);
+    padding-block: var(--space-xl) var(--space-lg);
+  }
+  .footer-grid {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+    margin-bottom: var(--space-lg);
+  }
+  .footer-col h4 {
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+    margin-bottom: var(--space-md);
+  }
+  .footer-col a, .footer-col p {
+    color: var(--color-on-surface-variant);
+    font-size: 15px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .footer-col a:hover { color: var(--color-on-surface); }
+  .footer-bottom {
+    border-top: 1px solid var(--color-outline-variant);
+    padding-top: var(--space-lg);
+    color: var(--color-secondary);
+    font-size: 14px;
+  }
+
+  /* badge for highlighted package */
+  .ribbon {
+    align-self: flex-start;
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: var(--rounded-full);
+    padding: 6px 12px;
+    margin-bottom: var(--space-md);
+  }
+
+  .grid-2-feature { display: grid; gap: var(--space-md); grid-template-columns: 1fr; }
+
+  /* ---------------------------------------------------------------------
+     Reveal-on-scroll micro-interaction
+     --------------------------------------------------------------------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.is-visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ---------------------------------------------------------------------
+     Responsive — mobile-first breakpoints
+     --------------------------------------------------------------------- */
+  @media (min-width: 720px) {
+    .container { padding-inline: var(--space-lg); }
+    .t-display { font-size: 56px; }
+    .t-headline-lg { font-size: 40px; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .packages { grid-template-columns: repeat(3, 1fr); }
+    .ba-grid { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: 1.2fr 1fr; }
+    .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+    .grid-2-feature { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .container { padding-inline: var(--space-margin-desktop); }
+    .t-display { font-size: 64px; }
+    .nav-links { display: flex; }
+    .nav-cta { display: inline-flex; }
+    section { padding-block: var(--space-xxl); }
+    .steps { grid-template-columns: repeat(4, 1fr); }
+    .hero-visual { aspect-ratio: 21 / 9; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====================== HEADER ====================== -->
+<header>
+  <div class="container">
+    <nav class="nav" aria-label="Navegación principal">
+      <a class="brand" href="#inicio" aria-label="VoltSwap — inicio">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#2CE6C8"/>
+          </svg>
+        </span>
+        VoltSwap
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="#proceso">Proceso</a>
+        <a class="nav-link" href="#paquetes">Paquetes</a>
+        <a class="nav-link" href="#galeria">Antes / Después</a>
+        <a class="nav-link" href="#faq">Preguntas</a>
+        <a class="nav-link" href="#contacto">Contacto</a>
+      </div>
+      <a class="btn btn--primary nav-cta" href="#contacto">Cotiza tu conversión</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <!-- ====================== HERO ====================== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <span class="chip chip--accent">Taller de electrificación</span>
+      <h1 id="hero-title" class="t-display">
+        Conserva tu auto. <span class="accent">Cámbiale el corazón.</span>
+      </h1>
+      <p class="lead t-body-lg muted">
+        En VoltSwap convertimos autos de combustión interna a 100% eléctricos.
+        Mantenemos la carrocería, el carácter y la historia de tu auto —
+        reemplazamos el motor por un tren motriz eléctrico de ingeniería seria.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn--primary" href="#contacto">Cotiza tu conversión</a>
+        <a class="btn btn--secondary" href="#proceso">Ver cómo funciona</a>
+      </div>
+
+      <!-- Hero visual: ilustración SVG inline (sin imágenes locales) -->
+      <div class="hero-visual" role="img" aria-label="Ilustración de un auto clásico con tren motriz eléctrico">
+        <svg viewBox="0 0 640 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- carrocería -->
+          <path d="M70 190 Q90 120 180 110 L300 104 Q360 100 410 130 L520 150 Q580 158 580 190 L580 210 L70 210 Z"
+                fill="#242931" stroke="#3A4250" stroke-width="2"/>
+          <!-- ventanas -->
+          <path d="M190 116 L290 110 L300 150 L185 152 Z" fill="#171A20"/>
+          <path d="M308 110 L390 128 L410 152 L312 150 Z" fill="#171A20"/>
+          <!-- ruedas -->
+          <circle cx="180" cy="212" r="38" fill="#0E1014" stroke="#3A4250" stroke-width="3"/>
+          <circle cx="180" cy="212" r="14" fill="#1C2027" stroke="#5A6675" stroke-width="2"/>
+          <circle cx="470" cy="212" r="38" fill="#0E1014" stroke="#3A4250" stroke-width="3"/>
+          <circle cx="470" cy="212" r="14" fill="#1C2027" stroke="#5A6675" stroke-width="2"/>
+          <!-- batería / tren motriz eléctrico (acento) -->
+          <rect x="250" y="170" width="150" height="28" rx="6" fill="#0F4F45" stroke="#2CE6C8" stroke-width="2"/>
+          <path d="M312 158 L300 182 h12 l-4 22 18 -28 h-12 l8 -16 Z" fill="#2CE6C8"/>
+          <!-- líneas de energía -->
+          <path d="M120 150 q40 -30 90 -34" stroke="#2CE6C8" stroke-width="2" stroke-dasharray="4 6" opacity="0.7"/>
+          <path d="M420 150 q60 -8 110 6" stroke="#2CE6C8" stroke-width="2" stroke-dasharray="4 6" opacity="0.7"/>
+        </svg>
+      </div>
+
+      <!-- Stat strip -->
+      <div class="stats" aria-label="Cifras de VoltSwap">
+        <div class="stat">
+          <div class="stat-value">120+</div>
+          <p class="stat-label muted t-body-sm">Conversiones entregadas</p>
+        </div>
+        <div class="stat">
+          <div class="stat-value">0 g</div>
+          <p class="stat-label muted t-body-sm">Emisiones de CO₂ tras la conversión</p>
+        </div>
+        <div class="stat">
+          <div class="stat-value">~80%</div>
+          <p class="stat-label muted t-body-sm">Menos costo de mantenimiento anual</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== VALOR ====================== -->
+  <section aria-labelledby="valor-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip">Por qué convertir</span>
+        <h2 id="valor-title" class="t-headline-lg" style="margin-top:16px">
+          La ingeniería de un auto nuevo, en el auto que ya amas
+        </h2>
+      </div>
+      <div class="grid-2-feature">
+        <article class="card card--feature reveal">
+          <h3 class="t-headline-md">Conservas tu auto</h3>
+          <p class="muted t-body-sm" style="margin-top:8px">
+            No reemplazas tu auto: lo evolucionas. Mantienes la carrocería, el
+            interior y el carácter; solo cambia lo que lo mueve.
+          </p>
+        </article>
+        <article class="card card--feature reveal">
+          <h3 class="t-headline-md">Cero emisiones locales</h3>
+          <p class="muted t-body-sm" style="margin-top:8px">
+            Sin escape, sin humo, sin ruido de motor. Un auto clásico que ya
+            puede circular sin restricciones ambientales.
+          </p>
+        </article>
+        <article class="card card--feature reveal">
+          <h3 class="t-headline-md">Ahorro real</h3>
+          <p class="muted t-body-sm" style="margin-top:8px">
+            Recargar cuesta una fracción de un tanque de gasolina, y sin aceite,
+            bujías ni afinaciones el mantenimiento se desploma.
+          </p>
+        </article>
+        <article class="card card--feature reveal">
+          <h3 class="t-headline-md">Autonomía pensada para ti</h3>
+          <p class="muted t-body-sm" style="margin-top:8px">
+            Dimensionamos la batería según tu uso real, de la ciudad al viaje
+            largo, con cifras honestas y verificadas en pista.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== PROCESO ====================== -->
+  <section id="proceso" aria-labelledby="proceso-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip">El proceso</span>
+        <h2 id="proceso-title" class="t-headline-lg" style="margin-top:16px">
+          Cómo funciona la conversión, paso a paso
+        </h2>
+        <p class="prose" style="margin-top:12px">
+          <span>Cada conversión es un proyecto de ingeniería documentado. Estos
+          son los cinco pasos que sigue tu auto desde que entra al taller hasta
+          que lo manejas eléctrico.</span>
+        </p>
+      </div>
+      <div class="steps">
+        <article class="card step reveal">
+          <span class="step-num">01</span>
+          <h3 class="t-title-lg">Diagnóstico</h3>
+          <p class="muted t-body-sm" style="margin-top:6px">
+            Revisamos chasis, frenos y suspensión, y definimos contigo el uso y
+            la autonomía objetivo.
+          </p>
+        </article>
+        <article class="card step reveal">
+          <span class="step-num">02</span>
+          <h3 class="t-title-lg">Diseño del kit</h3>
+          <p class="muted t-body-sm" style="margin-top:6px">
+            Especificamos motor, batería y controladores, y entregamos un plano
+            técnico con cifras de peso y autonomía.
+          </p>
+        </article>
+        <article class="card step reveal">
+          <span class="step-num">03</span>
+          <h3 class="t-title-lg">Desmontaje</h3>
+          <p class="muted t-body-sm" style="margin-top:6px">
+            Retiramos motor, transmisión, tanque y escape. El tren motriz de
+            combustión sale completo.
+          </p>
+        </article>
+        <article class="card step reveal">
+          <span class="step-num">04</span>
+          <h3 class="t-title-lg">Instalación eléctrica</h3>
+          <p class="muted t-body-sm" style="margin-top:6px">
+            Montamos motor eléctrico, paquete de baterías, sistema de carga y
+            arnés, con protecciones a norma.
+          </p>
+        </article>
+        <article class="card step reveal">
+          <span class="step-num">05</span>
+          <h3 class="t-title-lg">Pruebas y entrega</h3>
+          <p class="muted t-body-sm" style="margin-top:6px">
+            Validamos en banco y en ruta, calibramos y te entregamos el auto con
+            documentación y garantía.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== PAQUETES ====================== -->
+  <section id="paquetes" aria-labelledby="paquetes-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip">Paquetes</span>
+        <h2 id="paquetes-title" class="t-headline-lg" style="margin-top:16px">
+          Tres niveles de conversión
+        </h2>
+        <p class="prose" style="margin-top:12px">
+          <span>Cada paquete se diferencia por capacidad de batería y autonomía
+          estimada. Los precios son rangos de referencia; la cotización final
+          depende del modelo y estado de tu auto.</span>
+        </p>
+      </div>
+      <div class="packages">
+        <article class="card package reveal">
+          <span class="chip chip--accent">City · 40 kWh</span>
+          <div class="package-price t-headline-md">$18,500 – $24,000</div>
+          <p class="muted t-body-sm">Autonomía estimada ~180 km · 8–10 semanas</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4 10-10" stroke="#2CE6C8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Ideal para uso urbano diario</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4 10-10" stroke="#2CE6C8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Carga en toma doméstica reforzada</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4 10-10" stroke="#2CE6C8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Garantía de 2 años en componentes</li>
+          </ul>
+          <a class="btn btn--secondary" href="#contacto">Cotizar City</a>
+        </article>
+
+        <article class="card package package--highlight reveal">
+          <span class="ribbon">Más elegido</span>
+          <span class="chip chip--accent">Range · 65 kWh</span>
+          <div class="package-price t-headline-md">$28,000 – $36,000</div>
+          <p class="muted t-body-sm">Autonomía estimada ~320 km · 10–12 semanas</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4 10-10" stroke="#2CE6C8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Equilibrio entre ciudad y carretera</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4 10-10" stroke="#2CE6C8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Carga rápida en corriente continua</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4 10-10" stroke="#2CE6C8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Frenado regenerativo ajustable</li>
+          </ul>
+          <a class="btn btn--primary" href="#contacto">Cotizar Range</a>
+        </article>
+
+        <article class="card package reveal">
+          <span class="chip chip--accent">Performance · 90 kWh</span>
+          <div class="package-price t-headline-md">$42,000 – $58,000</div>
+          <p class="muted t-body-sm">Autonomía estimada ~450 km · 12–16 semanas</p>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4 10-10" stroke="#2CE6C8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Motor de alto par y respuesta</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4 10-10" stroke="#2CE6C8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Suspensión y frenos reforzados</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4 10-10" stroke="#2CE6C8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Garantía extendida de 4 años</li>
+          </ul>
+          <a class="btn btn--secondary" href="#contacto">Cotizar Performance</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== GALERÍA ANTES/DESPUÉS ====================== -->
+  <section id="galeria" aria-labelledby="galeria-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip">Casos reales</span>
+        <h2 id="galeria-title" class="t-headline-lg" style="margin-top:16px">
+          Antes y después
+        </h2>
+      </div>
+
+      <div class="ba-tabs" role="tablist" aria-label="Casos de conversión">
+        <button class="tab" role="tab" id="tab-0" aria-controls="panel-0" aria-selected="true">Sedán '78</button>
+        <button class="tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="false">Pickup '85</button>
+        <button class="tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false">Coupé '92</button>
+      </div>
+
+      <div class="ba-panel is-active" id="panel-0" role="tabpanel" aria-labelledby="tab-0">
+        <div class="ba-grid">
+          <figure class="ba-figure">
+            <div class="ba-img before"><span class="chip ba-tag">Antes · Motor 1.8 a gasolina</span></div>
+            <figcaption class="muted t-body-sm">Sedán clásico 1978, llegó con consumo alto y afinaciones constantes.</figcaption>
+          </figure>
+          <figure class="ba-figure">
+            <div class="ba-img after"><span class="chip chip--accent ba-tag">Después · 40 kWh · ~180 km</span></div>
+            <figcaption class="muted t-body-sm">Convertido con paquete City. Carga en casa, cero visitas a la gasolinera.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="ba-panel" id="panel-1" role="tabpanel" aria-labelledby="tab-1" hidden>
+        <div class="ba-grid">
+          <figure class="ba-figure">
+            <div class="ba-img before"><span class="chip ba-tag">Antes · V6 a gasolina</span></div>
+            <figcaption class="muted t-body-sm">Pickup de trabajo 1985, par limitado y mantenimiento caro.</figcaption>
+          </figure>
+          <figure class="ba-figure">
+            <div class="ba-img after"><span class="chip chip--accent ba-tag">Después · 65 kWh · ~320 km</span></div>
+            <figcaption class="muted t-body-sm">Convertida con paquete Range. Más par desde cero y autonomía para faenas largas.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="ba-panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+        <div class="ba-grid">
+          <figure class="ba-figure">
+            <div class="ba-img before"><span class="chip ba-tag">Antes · 2.0 turbo a gasolina</span></div>
+            <figcaption class="muted t-body-sm">Coupé deportivo 1992, entregado para máxima respuesta.</figcaption>
+          </figure>
+          <figure class="ba-figure">
+            <div class="ba-img after"><span class="chip chip--accent ba-tag">Después · 90 kWh · ~450 km</span></div>
+            <figcaption class="muted t-body-sm">Convertido con paquete Performance. Aceleración instantánea y silencio total.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== COSTOS Y TIEMPOS ====================== -->
+  <section aria-labelledby="costos-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip">Costos y tiempos</span>
+        <h2 id="costos-title" class="t-headline-lg" style="margin-top:16px">
+          Qué esperar en presupuesto y plazos
+        </h2>
+        <p class="prose" style="margin-top:12px">
+          <span>Trabajamos con rangos transparentes. La conversión va de 8 a 16
+          semanas según el paquete y la disponibilidad de componentes; la
+          inversión depende del modelo, su estado y la autonomía objetivo. Tras
+          el diagnóstico recibes una cotización cerrada por escrito antes de
+          iniciar cualquier desmontaje.</span>
+        </p>
+      </div>
+      <div class="grid-2-feature">
+        <article class="card reveal">
+          <span class="chip chip--accent">Inversión</span>
+          <p class="t-headline-md" style="margin-top:12px">$18,500 – $58,000</p>
+          <p class="muted t-body-sm" style="margin-top:6px">
+            Rango de referencia entre los paquetes City y Performance, incluyendo
+            mano de obra, componentes y puesta a punto.
+          </p>
+        </article>
+        <article class="card reveal">
+          <span class="chip chip--accent">Tiempo en taller</span>
+          <p class="t-headline-md" style="margin-top:12px">8 – 16 semanas</p>
+          <p class="muted t-body-sm" style="margin-top:6px">
+            Desde el diagnóstico hasta la entrega, con reportes de avance en cada
+            uno de los cinco pasos del proceso.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== FAQ ====================== -->
+  <section id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip">Preguntas frecuentes</span>
+        <h2 id="faq-title" class="t-headline-lg" style="margin-top:16px">
+          Lo que más nos preguntan
+        </h2>
+      </div>
+      <div class="faq">
+        <details class="qa reveal">
+          <summary>¿La conversión tiene garantía?
+            <span class="plus" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          </summary>
+          <p class="muted t-body-sm">
+            Sí. Cada conversión incluye garantía de 2 años en componentes con el
+            paquete City y Range, y hasta 4 años con Performance. La batería
+            tiene su propia cobertura por capacidad.
+          </p>
+        </details>
+        <details class="qa reveal">
+          <summary>¿Es legal circular con un auto convertido?
+            <span class="plus" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          </summary>
+          <p class="muted t-body-sm">
+            Sí. Entregamos el expediente técnico de la conversión y te
+            acompañamos en el trámite de homologación y actualización de la
+            documentación del vehículo según la normativa local.
+          </p>
+        </details>
+        <details class="qa reveal">
+          <summary>¿Cómo cambia el mantenimiento?
+            <span class="plus" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          </summary>
+          <p class="muted t-body-sm">
+            Se simplifica mucho: sin aceite, bujías, filtros ni afinaciones. El
+            mantenimiento se centra en frenos, neumáticos y revisiones
+            periódicas del sistema eléctrico.
+          </p>
+        </details>
+        <details class="qa reveal">
+          <summary>¿Hay repuestos disponibles a futuro?
+            <span class="plus" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          </summary>
+          <p class="muted t-body-sm">
+            Trabajamos con componentes de proveedores establecidos y estándares
+            abiertos. Mantenemos el registro de tu kit, así que cualquier
+            repuesto o actualización es trazable y reemplazable.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== CONTACTO ====================== -->
+  <section id="contacto" aria-labelledby="contacto-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="chip">Contacto</span>
+        <h2 id="contacto-title" class="t-headline-lg" style="margin-top:16px">
+          Cotiza tu conversión
+        </h2>
+        <p class="prose" style="margin-top:12px">
+          <span>Cuéntanos sobre tu auto y cómo lo usas. Te respondemos con una
+          estimación inicial y agendamos el diagnóstico en el taller.</span>
+        </p>
+      </div>
+      <div class="contact-grid">
+        <form class="card card--feature reveal" aria-label="Formulario de cotización" onsubmit="return false;">
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" name="nombre" type="text" placeholder="Tu nombre completo" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input id="email" name="email" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="auto">Auto a convertir</label>
+            <input id="auto" name="auto" type="text" placeholder="Marca, modelo y año" required />
+          </div>
+          <div class="field">
+            <label for="paquete">Paquete de interés</label>
+            <select id="paquete" name="paquete">
+              <option>City · 40 kWh</option>
+              <option selected>Range · 65 kWh</option>
+              <option>Performance · 90 kWh</option>
+              <option>Aún no estoy seguro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mensaje">Cuéntanos cómo usas tu auto</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Trayectos diarios, autonomía que necesitas, expectativas..."></textarea>
+          </div>
+          <button class="btn btn--primary" type="submit">Enviar solicitud</button>
+        </form>
+
+        <aside class="contact-info reveal" aria-label="Datos del taller">
+          <div class="card">
+            <div class="info-row">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-5.2-7-11a7 7 0 1 1 14 0c0 5.8-7 11-7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg>
+              <div>
+                <p class="t-title-lg">Taller VoltSwap</p>
+                <p class="muted t-body-sm">Av. de la Industria 240, Nave 7<br/>Parque Industrial Norte</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="info-row">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <div>
+                <p class="t-title-lg">Horario</p>
+                <p class="muted t-body-sm">Lun a Vie · 9:00 – 18:00<br/>Sáb · 9:00 – 14:00</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="info-row">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6.5C4 5 5 4 6.5 4H8l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v1.5c0 1.5-1 2.5-2.5 2.5C9.6 19 4 13.4 4 6.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+              <div>
+                <p class="t-title-lg">Contacto directo</p>
+                <p class="muted t-body-sm">+52 55 1234 5678<br/>hola@voltswap.mx</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ====================== FOOTER ====================== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a class="brand" href="#inicio" style="margin-bottom:12px" aria-label="VoltSwap — inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#2CE6C8"/></svg>
+          </span>
+          VoltSwap
+        </a>
+        <p class="muted t-body-sm" style="max-width:34ch">
+          Taller de ingeniería que convierte autos de combustión interna a 100%
+          eléctricos. Conserva tu auto, cámbiale el corazón.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <a href="#proceso">Proceso</a>
+        <a href="#paquetes">Paquetes</a>
+        <a href="#galeria">Antes / Después</a>
+        <a href="#faq">Preguntas</a>
+      </div>
+      <div class="footer-col">
+        <h4>Taller</h4>
+        <p>Av. de la Industria 240</p>
+        <p>Nave 7, Parque Industrial Norte</p>
+        <p>Lun–Vie 9:00–18:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <a href="tel:+525512345678">+52 55 1234 5678</a>
+        <a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 VoltSwap. Sitio de demostración. Marca ficticia.
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ----- Reveal on scroll (micro-interacción, respeta reduced-motion) ----- */
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+
+  /* ----- Tabs antes/después (accesibles) ----- */
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+    var panels = {
+      'panel-0': document.getElementById('panel-0'),
+      'panel-1': document.getElementById('panel-1'),
+      'panel-2': document.getElementById('panel-2')
+    };
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        var panel = panels[t.getAttribute('aria-controls')];
+        if (panel) {
+          panel.classList.toggle('is-active', on);
+          if (on) { panel.removeAttribute('hidden'); }
+          else { panel.setAttribute('hidden', ''); }
+        }
+      });
+    }
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () { select(tab); });
+      tab.addEventListener('keydown', function (e) {
+        var idx = null;
+        if (e.key === 'ArrowRight') idx = (i + 1) % tabs.length;
+        if (e.key === 'ArrowLeft') idx = (i - 1 + tabs.length) % tabs.length;
+        if (idx !== null) { e.preventDefault(); tabs[idx].focus(); select(tabs[idx]); }
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

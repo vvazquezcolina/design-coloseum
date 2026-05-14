@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VoltSwap — Conversión de autos de combustión a 100% eléctricos</title>
+<meta name="description" content="VoltSwap es un taller de ingeniería que convierte tu auto de gasolina a tracción 100% eléctrica. Proceso documentado, garantía real y precio estimado a la vista." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600&family=Martian+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   VoltSwap — taller de conversión a eléctrico
+   Lane: manual de servicio técnico industrial, reimpreso en buen papel
+   Color: Committed — naranja seguridad/señalización templado
+   ============================================================ */
+
+:root{
+  /* superficie */
+  --paper:      oklch(0.972 0.008 70);
+  --paper-2:    oklch(0.948 0.010 68);
+  --ink:        oklch(0.205 0.012 60);
+  --ink-soft:   oklch(0.34 0.012 58);
+  --ash:        oklch(0.56 0.012 58);
+  --line:       oklch(0.205 0.012 60 / 0.16);
+  --line-soft:  oklch(0.205 0.012 60 / 0.085);
+  /* marca */
+  --volt:       oklch(0.745 0.158 62);
+  --volt-deep:  oklch(0.64 0.16 52);
+  --volt-ink:   oklch(0.30 0.07 58);
+  /* superficie oscura puntual (cómo funciona) */
+  --carbon:     oklch(0.235 0.014 55);
+  --carbon-2:   oklch(0.285 0.015 56);
+  --carbon-line:oklch(0.97 0.01 70 / 0.14);
+  --on-carbon:  oklch(0.93 0.012 72);
+  --on-carbon-soft: oklch(0.74 0.012 66);
+
+  --space-2: 4px;  --space-3: 8px;  --space-4: 12px; --space-5: 16px;
+  --space-6: 24px; --space-7: 32px; --space-8: 48px; --space-9: 64px;
+  --space-10: 96px; --space-11: 128px;
+
+  --maxw: 1240px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --f-display: 'Archivo', system-ui, sans-serif;
+  --f-body: 'Hanken Grotesk', system-ui, sans-serif;
+  --f-mono: 'Martian Mono', ui-monospace, monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:clamp(1rem, 0.97rem + 0.16vw, 1.0625rem);
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  font-kerning:normal;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
+::selection{background:var(--volt);color:var(--ink)}
+
+/* ---- tipografía base ---- */
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:700;line-height:1.04;letter-spacing:-0.02em;text-wrap:balance}
+p{text-wrap:pretty}
+.content-measure{max-width:64ch}
+
+/* etiqueta mono tipo plano */
+.tag{
+  font-family:var(--f-mono);
+  font-size:0.6875rem;
+  font-weight:500;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--ash);
+}
+.tag--volt{color:var(--volt-deep)}
+
+/* ---- layout shells ---- */
+.wrap{
+  max-width:var(--maxw);
+  margin-inline:auto;
+  padding-inline:clamp(20px, 5vw, 64px);
+}
+.section{padding-block:clamp(64px, 9vw, 128px)}
+
+/* rejilla visible — líneas de cota que se asoman en bordes de sección */
+.ruled{position:relative}
+.ruled::before,.ruled::after{
+  content:"";position:absolute;top:0;bottom:0;width:1px;
+  background:var(--line-soft);
+}
+.ruled::before{left:max(20px, 5vw)}
+.ruled::after{right:max(20px, 5vw)}
+@media (max-width:640px){.ruled::before,.ruled::after{display:none}}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:oklch(0.972 0.008 70 / 0.86);
+  backdrop-filter:saturate(140%) blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.nav__in{
+  display:flex;align-items:center;gap:var(--space-7);
+  height:64px;
+}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:1.18rem;letter-spacing:-0.03em}
+.brand svg{flex:none}
+.brand b{color:var(--volt-deep);font-weight:800}
+.nav__links{display:flex;gap:var(--space-6);margin-left:auto}
+.nav__links a{
+  font-size:0.9rem;font-weight:500;color:var(--ink-soft);
+  padding-block:6px;transition:color 0.18s var(--ease);
+}
+.nav__links a:hover{color:var(--ink)}
+.nav__cta{
+  font-family:var(--f-body);font-weight:600;font-size:0.9rem;
+  background:var(--ink);color:var(--paper);
+  padding:10px 18px;border-radius:2px;
+  transition:transform 0.2s var(--ease), background 0.2s var(--ease);
+}
+.nav__cta:hover{background:var(--volt-deep);transform:translateY(-1px)}
+@media (max-width:880px){.nav__links{display:none}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;padding-block:clamp(48px,7vw,96px) clamp(56px,8vw,112px)}
+.hero__grid{
+  display:grid;
+  grid-template-columns:1.35fr 0.95fr;
+  gap:clamp(28px,4vw,64px);
+  align-items:end;
+}
+.hero__lead{align-self:start}
+.hero__kicker{display:flex;align-items:center;gap:10px;margin-bottom:var(--space-6)}
+.hero__kicker .dot{width:7px;height:7px;background:var(--volt);border-radius:50%;flex:none}
+.hero h1{
+  font-size:clamp(2.6rem, 1.5rem + 5.4vw, 5.1rem);
+  font-weight:800;letter-spacing:-0.035em;
+}
+.hero h1 .em{
+  color:var(--volt-deep);
+  display:inline-block;
+}
+.hero__sub{
+  margin-top:var(--space-6);
+  font-size:clamp(1.05rem,1rem + 0.5vw,1.28rem);
+  color:var(--ink-soft);max-width:46ch;line-height:1.56;
+}
+.hero__actions{display:flex;flex-wrap:wrap;gap:var(--space-4);margin-top:var(--space-8)}
+.btn{
+  font-family:var(--f-body);font-weight:600;font-size:0.97rem;
+  padding:14px 24px;border-radius:2px;
+  display:inline-flex;align-items:center;gap:10px;
+  transition:transform 0.2s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.btn--primary{background:var(--volt);color:var(--ink);box-shadow:0 1px 0 var(--volt-deep)}
+.btn--primary:hover{background:var(--volt-deep);color:var(--paper);transform:translateY(-2px);box-shadow:0 6px 18px oklch(0.64 0.16 52 / 0.28)}
+.btn--ghost{border:1px solid var(--line);color:var(--ink)}
+.btn--ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn svg{flex:none}
+
+/* foto del hero */
+.hero__plate{
+  position:relative;
+  border:1px solid var(--line);
+  background:var(--paper-2);
+}
+.hero__photo{
+  aspect-ratio:4/3.4;width:100%;object-fit:cover;
+  filter:saturate(0.95) contrast(1.04);
+}
+.hero__photo-tint{position:absolute;inset:0;background:linear-gradient(160deg, transparent 40%, oklch(0.30 0.07 58 / 0.32));pointer-events:none}
+/* anotación tipo plano sobre la foto */
+.callout{
+  position:absolute;display:flex;align-items:center;gap:8px;
+  font-family:var(--f-mono);font-size:0.625rem;font-weight:500;
+  letter-spacing:0.06em;text-transform:uppercase;
+  background:var(--paper);color:var(--ink);
+  padding:5px 9px;border:1px solid var(--ink);
+}
+.callout::before{content:"";width:5px;height:5px;background:var(--volt);border-radius:50%}
+.callout--a{top:14px;left:14px}
+.callout--b{bottom:14px;right:14px}
+
+/* tira de especificación bajo el hero */
+.specstrip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--line);border-bottom:none;
+  margin-top:clamp(40px,5vw,72px);
+}
+.specstrip__cell{
+  padding:var(--space-6) var(--space-6) var(--space-7);
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.specstrip__cell:nth-child(4n){border-right:none}
+.specstrip__num{
+  font-family:var(--f-display);font-weight:800;
+  font-size:clamp(2rem,1.3rem + 2.6vw,2.85rem);
+  letter-spacing:-0.03em;line-height:1;
+}
+.specstrip__num .u{font-size:0.46em;color:var(--ash);font-weight:600;margin-left:3px;letter-spacing:0}
+.specstrip__lbl{margin-top:10px}
+@media (max-width:880px){
+  .hero__grid{grid-template-columns:1fr}
+  .hero__plate{order:-1}
+  .specstrip{grid-template-columns:repeat(2,1fr)}
+  .specstrip__cell:nth-child(4n){border-right:1px solid var(--line)}
+  .specstrip__cell:nth-child(2n){border-right:none}
+}
+@media (max-width:480px){
+  .specstrip{grid-template-columns:1fr}
+  .specstrip__cell,.specstrip__cell:nth-child(2n){border-right:none}
+}
+
+/* ============================================================
+   SECCIÓN — encabezado compartido
+   ============================================================ */
+.shead{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,56px);align-items:start;margin-bottom:clamp(40px,5vw,72px)}
+.shead__index{
+  font-family:var(--f-mono);font-size:0.75rem;font-weight:600;
+  color:var(--volt-deep);padding-top:8px;letter-spacing:0.08em;
+  white-space:nowrap;
+}
+.shead h2{font-size:clamp(1.85rem,1.2rem + 2.6vw,3rem);font-weight:700}
+.shead__desc{margin-top:var(--space-5);color:var(--ink-soft);max-width:54ch}
+@media (max-width:640px){.shead{grid-template-columns:1fr;gap:var(--space-4)}}
+
+/* ============================================================
+   PROCESO — superficie carbón, secuencia numerada
+   ============================================================ */
+.proceso{background:var(--carbon);color:var(--on-carbon);position:relative}
+.proceso .shead h2{color:var(--on-carbon)}
+.proceso .shead__desc{color:var(--on-carbon-soft)}
+.proceso .shead__index{color:var(--volt)}
+.proceso .ruled::before,.proceso .ruled::after{background:var(--carbon-line)}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  border-top:1px solid var(--carbon-line);
+}
+.step{
+  position:relative;
+  padding:var(--space-7) var(--space-5) var(--space-8) 0;
+  border-right:1px solid var(--carbon-line);
+}
+.step:last-child{border-right:none;padding-right:0}
+.step__rail{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:var(--space-6);
+}
+.step__no{
+  font-family:var(--f-mono);font-weight:600;font-size:0.78rem;
+  color:var(--carbon);background:var(--volt);
+  width:26px;height:26px;display:grid;place-items:center;flex:none;
+}
+.step__line{height:1px;background:var(--carbon-line);flex:1}
+.step:last-child .step__line{background:linear-gradient(90deg,var(--carbon-line),transparent)}
+.step h3{font-size:1.16rem;font-weight:700;color:var(--on-carbon);margin-bottom:10px;letter-spacing:-0.02em}
+.step p{font-size:0.925rem;color:var(--on-carbon-soft);line-height:1.55;padding-right:var(--space-5)}
+.step__meta{
+  margin-top:var(--space-5);
+  font-family:var(--f-mono);font-size:0.66rem;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--volt);
+}
+@media (max-width:980px){
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .step{border-right:1px solid var(--carbon-line);border-bottom:1px solid var(--carbon-line);padding:var(--space-7) var(--space-5) var(--space-7) 0}
+  .step:nth-child(2n){border-right:none}
+  .step:last-child{border-bottom:none}
+  .step:last-child .step__line{background:var(--carbon-line)}
+}
+@media (max-width:560px){
+  .steps{grid-template-columns:1fr}
+  .step,.step:nth-child(2n){border-right:none}
+  .step:nth-child(5){border-bottom:none}
+}
+
+/* ============================================================
+   SERVICIOS / PAQUETES
+   ============================================================ */
+.pkgs{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--line);
+}
+.pkg{
+  padding:clamp(24px,3vw,38px);
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;
+  position:relative;
+}
+.pkg:last-child{border-right:none}
+.pkg--feature{background:var(--ink);color:var(--paper)}
+.pkg--feature .tag{color:var(--volt)}
+.pkg--feature .pkg__price{color:var(--paper)}
+.pkg--feature .pkg__price .from{color:var(--on-carbon-soft)}
+.pkg--feature .pkg__li{border-color:oklch(0.97 0.01 70 / 0.14)}
+.pkg--feature .pkg__li svg{color:var(--volt)}
+.pkg--feature .pkg__note{color:var(--on-carbon-soft)}
+.pkg__flag{
+  position:absolute;top:0;right:0;
+  font-family:var(--f-mono);font-size:0.6rem;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;
+  background:var(--volt);color:var(--ink);padding:5px 10px;
+}
+.pkg__name{font-family:var(--f-display);font-weight:800;font-size:1.5rem;letter-spacing:-0.025em;margin:var(--space-4) 0 var(--space-2)}
+.pkg__for{font-size:0.92rem;color:var(--ash);min-height:2.6em}
+.pkg--feature .pkg__for{color:var(--on-carbon-soft)}
+.pkg__price{
+  font-family:var(--f-display);font-weight:800;
+  font-size:clamp(1.7rem,1.3rem + 1.4vw,2.15rem);
+  letter-spacing:-0.03em;margin-top:var(--space-6);line-height:1.1;
+}
+.pkg__price .from{display:block;font-family:var(--f-mono);font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ash);margin-bottom:6px}
+.pkg__list{list-style:none;margin:var(--space-6) 0 var(--space-7)}
+.pkg__li{
+  display:flex;gap:10px;align-items:flex-start;
+  padding-block:11px;font-size:0.92rem;
+  border-bottom:1px solid var(--line-soft);
+}
+.pkg__li:last-child{border-bottom:none}
+.pkg__li svg{flex:none;margin-top:3px;color:var(--volt-deep)}
+.pkg__note{font-size:0.8rem;color:var(--ash);margin-bottom:var(--space-6);line-height:1.5}
+.pkg__cta{margin-top:auto;width:100%;justify-content:center}
+.pkg--feature .pkg__cta.btn--ghost{border-color:oklch(0.97 0.01 70 / 0.3);color:var(--paper)}
+.pkg--feature .pkg__cta.btn--ghost:hover{border-color:var(--volt);background:var(--volt);color:var(--ink)}
+@media (max-width:880px){
+  .pkgs{grid-template-columns:1fr}
+  .pkg{border-right:none;border-bottom:1px solid var(--line)}
+  .pkg:last-child{border-bottom:none}
+}
+
+/* ============================================================
+   GALERÍA ANTES / DESPUÉS
+   ============================================================ */
+.gallery-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:clamp(20px,2.5vw,32px)}
+@media (max-width:820px){.gallery-grid{grid-template-columns:1fr}}
+
+.compare{
+  position:relative;border:1px solid var(--line);
+  background:var(--paper-2);user-select:none;touch-action:none;
+  overflow:hidden;
+}
+.compare__img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+}
+.compare__after{clip-path:inset(0 0 0 var(--split,50%))}
+.compare__sizer{width:100%;display:block;visibility:hidden}
+.compare__band{
+  position:absolute;top:12px;font-family:var(--f-mono);
+  font-size:0.62rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  background:var(--paper);color:var(--ink);padding:5px 9px;border:1px solid var(--ink);
+  z-index:3;
+}
+.compare__band--before{left:12px}
+.compare__band--after{right:12px}
+.compare__handle{
+  position:absolute;top:0;bottom:0;left:var(--split,50%);
+  width:2px;background:var(--volt);transform:translateX(-1px);
+  z-index:4;
+}
+.compare__knob{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:42px;height:42px;background:var(--volt);
+  border:2px solid var(--ink);border-radius:50%;
+  display:grid;place-items:center;cursor:ew-resize;
+  box-shadow:0 4px 14px oklch(0.20 0.012 60 / 0.3);
+}
+.compare__knob svg{color:var(--ink)}
+.compare__cap{
+  padding:var(--space-5) var(--space-6);border:1px solid var(--line);border-top:none;
+  display:flex;justify-content:space-between;gap:var(--space-5);align-items:baseline;
+}
+.compare__cap p{font-size:0.9rem;color:var(--ink-soft)}
+.compare__cap .tag{white-space:nowrap}
+
+.gallery-side{display:flex;flex-direction:column;gap:clamp(20px,2.5vw,32px)}
+.gframe{border:1px solid var(--line);background:var(--paper-2);position:relative}
+.gframe img{width:100%;aspect-ratio:16/10;object-fit:cover;filter:saturate(0.96)}
+.gframe__cap{padding:var(--space-4) var(--space-5);display:flex;flex-direction:column;gap:4px}
+.gframe__cap b{font-family:var(--f-display);font-weight:700;font-size:0.98rem;letter-spacing:-0.01em}
+.gframe__cap span{font-size:0.85rem;color:var(--ash)}
+
+/* ============================================================
+   PRECIOS — desglose tabular
+   ============================================================ */
+.precios{background:var(--paper-2)}
+.priceboard{
+  display:grid;grid-template-columns:1.05fr 0.95fr;
+  border:1px solid var(--line);background:var(--paper);
+}
+.pb__col{padding:clamp(28px,3.4vw,44px)}
+.pb__col--a{border-right:1px solid var(--line)}
+.pb__title{font-family:var(--f-display);font-weight:700;font-size:1.3rem;letter-spacing:-0.02em;margin:var(--space-4) 0 var(--space-3)}
+.pb__intro{font-size:0.95rem;color:var(--ink-soft);margin-bottom:var(--space-6)}
+.pb__row{
+  display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-5);
+  padding-block:14px;border-bottom:1px solid var(--line-soft);
+}
+.pb__row:last-of-type{border-bottom:none}
+.pb__row .k{font-size:0.93rem}
+.pb__row .k small{display:block;color:var(--ash);font-size:0.78rem;margin-top:2px}
+.pb__row .v{font-family:var(--f-mono);font-size:0.92rem;font-weight:500;white-space:nowrap;color:var(--ink)}
+.pb__total{
+  display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-5);
+  margin-top:var(--space-6);padding-top:var(--space-6);border-top:2px solid var(--ink);
+}
+.pb__total .k{font-family:var(--f-display);font-weight:700;font-size:1.05rem}
+.pb__total .v{font-family:var(--f-display);font-weight:800;font-size:clamp(1.5rem,1.2rem + 1.2vw,2rem);letter-spacing:-0.03em;color:var(--volt-deep)}
+.pb__factors{list-style:none}
+.pb__factor{
+  display:grid;grid-template-columns:auto 1fr;gap:var(--space-5);
+  padding-block:16px;border-bottom:1px solid var(--line-soft);
+}
+.pb__factor:last-child{border-bottom:none}
+.pb__factor .fno{font-family:var(--f-mono);font-size:0.72rem;font-weight:600;color:var(--volt-deep);padding-top:2px}
+.pb__factor b{font-family:var(--f-display);font-weight:700;font-size:1rem;letter-spacing:-0.01em;display:block;margin-bottom:4px}
+.pb__factor p{font-size:0.88rem;color:var(--ink-soft);line-height:1.5}
+.pb__disclaimer{
+  margin-top:var(--space-6);padding:var(--space-5);
+  background:var(--paper-2);border:1px solid var(--line);
+  font-size:0.84rem;color:var(--ink-soft);line-height:1.55;
+}
+@media (max-width:820px){
+  .priceboard{grid-template-columns:1fr}
+  .pb__col--a{border-right:none;border-bottom:1px solid var(--line)}
+}
+
+/* ============================================================
+   CONTACTO
+   ============================================================ */
+.contact{background:var(--carbon);color:var(--on-carbon)}
+.contact .ruled::before,.contact .ruled::after{background:var(--carbon-line)}
+.contact-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:clamp(32px,5vw,80px)}
+.contact h2{font-size:clamp(1.9rem,1.3rem + 2.4vw,3rem);color:var(--on-carbon);font-weight:700}
+.contact__lead{margin-top:var(--space-5);color:var(--on-carbon-soft);max-width:38ch}
+.contact__details{margin-top:var(--space-8);display:flex;flex-direction:column;gap:var(--space-6)}
+.cdetail{display:grid;grid-template-columns:auto 1fr;gap:var(--space-5);align-items:start}
+.cdetail svg{color:var(--volt);margin-top:3px;flex:none}
+.cdetail .clbl{font-family:var(--f-mono);font-size:0.64rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--on-carbon-soft);margin-bottom:4px}
+.cdetail .cval{font-size:0.98rem;color:var(--on-carbon);line-height:1.45}
+.cdetail .cval a:hover{color:var(--volt)}
+
+.form{
+  background:var(--paper);color:var(--ink);
+  border:1px solid var(--carbon-line);
+  padding:clamp(24px,3vw,40px);
+}
+.form__row{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5)}
+.field{margin-bottom:var(--space-5);display:flex;flex-direction:column}
+.field label{
+  font-family:var(--f-mono);font-size:0.66rem;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--ash);
+  margin-bottom:7px;
+}
+.field label .req{color:var(--volt-deep)}
+.field input,.field select,.field textarea{
+  font-family:var(--f-body);font-size:0.97rem;color:var(--ink);
+  background:var(--paper-2);border:1px solid var(--line);
+  padding:11px 13px;border-radius:2px;width:100%;
+  transition:border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.field textarea{resize:vertical;min-height:92px}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--volt-deep);
+  box-shadow:0 0 0 3px oklch(0.745 0.158 62 / 0.22);
+}
+.field input:focus-visible{outline:none}
+.field__hint{font-size:0.78rem;color:var(--ash);margin-top:6px}
+.field--invalid input,.field--invalid select,.field--invalid textarea{border-color:var(--volt-deep)}
+.field__err{font-size:0.78rem;color:var(--volt-deep);margin-top:6px;display:none;font-weight:500}
+.field--invalid .field__err{display:block}
+.form__submit{width:100%;justify-content:center;margin-top:var(--space-3)}
+.form__legal{font-size:0.76rem;color:var(--ash);margin-top:var(--space-5);line-height:1.5;text-align:center}
+.form__ok{
+  display:none;padding:var(--space-6);background:var(--paper-2);
+  border:1px solid var(--volt-deep);
+}
+.form__ok.is-on{display:block}
+.form__ok b{font-family:var(--f-display);font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.form__ok b svg{color:var(--volt-deep)}
+.form__ok p{font-size:0.92rem;color:var(--ink-soft)}
+.form.is-sent .form__fields{display:none}
+@media (max-width:760px){
+  .contact-grid{grid-template-columns:1fr}
+  .form__row{grid-template-columns:1fr}
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{background:var(--ink);color:var(--on-carbon)}
+.footer__in{
+  display:flex;flex-wrap:wrap;gap:var(--space-7);
+  justify-content:space-between;align-items:center;
+  padding-block:var(--space-8);
+}
+.footer .brand{color:var(--paper)}
+.footer .brand b{color:var(--volt)}
+.footer__meta{font-family:var(--f-mono);font-size:0.72rem;letter-spacing:0.06em;color:var(--on-carbon-soft);text-transform:uppercase}
+.footer__links{display:flex;gap:var(--space-6)}
+.footer__links a{font-size:0.86rem;color:var(--on-carbon-soft);transition:color 0.18s var(--ease)}
+.footer__links a:hover{color:var(--volt)}
+
+/* ============================================================
+   MOTION — reveal orquestado
+   ============================================================ */
+[data-reveal]{opacity:0;transform:translateY(22px);transition:opacity 0.7s var(--ease), transform 0.7s var(--ease)}
+[data-reveal].is-in{opacity:1;transform:none}
+[data-reveal][data-d="1"]{transition-delay:0.07s}
+[data-reveal][data-d="2"]{transition-delay:0.14s}
+[data-reveal][data-d="3"]{transition-delay:0.21s}
+[data-reveal][data-d="4"]{transition-delay:0.28s}
+
+.draw-line{
+  height:1px;background:var(--line);transform-origin:left;
+  transform:scaleX(0);transition:transform 0.9s var(--ease);
+}
+.draw-line.is-in{transform:scaleX(1)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:0.01ms!important}
+  [data-reveal]{opacity:1;transform:none}
+  .draw-line{transform:scaleX(1)}
+  html{scroll-behavior:auto}
+}
+html{scroll-behavior:smooth}
+
+/* skip link */
+.skip{
+  position:absolute;left:-999px;top:8px;z-index:100;
+  background:var(--ink);color:var(--paper);padding:10px 16px;
+  font-weight:600;font-size:0.9rem;border-radius:2px;
+}
+.skip:focus{left:12px}
+
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.compare__knob:focus-visible{
+  outline:2px solid var(--volt-deep);outline-offset:2px;
+}
+</style>
+</head>
+<body>
+<a href="#proceso" class="skip">Saltar al contenido</a>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav__in">
+    <a href="#top" class="brand" aria-label="VoltSwap, inicio">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <rect x="1" y="1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M14 4 L8 14 L12.5 14 L11 22 L18 11 L13 11 Z" fill="oklch(0.745 0.158 62)" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+      </svg>
+      Volt<b>Swap</b>
+    </a>
+    <nav class="nav__links" aria-label="Secciones">
+      <a href="#proceso">Proceso</a>
+      <a href="#paquetes">Paquetes</a>
+      <a href="#galeria">Antes / después</a>
+      <a href="#precios">Precios</a>
+    </nav>
+    <a href="#contacto" class="nav__cta">Agendar diagnóstico</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero ruled">
+  <div class="wrap">
+    <div class="hero__grid">
+      <div class="hero__lead">
+        <div class="hero__kicker" data-reveal>
+          <span class="dot" aria-hidden="true"></span>
+          <span class="tag tag--volt">Taller de conversión a eléctrico · CDMX</span>
+        </div>
+        <h1 data-reveal data-d="1">El coche que ya tienes,<br><span class="em">ahora 100% eléctrico.</span></h1>
+        <p class="hero__sub" data-reveal data-d="2">
+          VoltSwap retira el motor de combustión de tu auto y lo reemplaza por un tren motriz eléctrico completo: batería, inversor, frenos regenerativos y tablero actualizado. Conservas la carrocería, el carácter y la historia. Cambias todo lo demás.
+        </p>
+        <div class="hero__actions" data-reveal data-d="3">
+          <a href="#contacto" class="btn btn--primary">
+            Agendar diagnóstico
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#proceso" class="btn btn--ghost">Ver cómo trabajamos</a>
+        </div>
+      </div>
+
+      <figure class="hero__plate" data-reveal data-d="2">
+        <img class="hero__photo"
+          src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1100&q=80"
+          alt="Sedán clásico estacionado, carrocería conservada, candidato a conversión eléctrica" loading="eager" />
+        <span class="hero__photo-tint" aria-hidden="true"></span>
+        <figcaption class="callout callout--a">Carrocería original · conservada</figcaption>
+        <figcaption class="callout callout--b">Tren motriz · reemplazado</figcaption>
+      </figure>
+    </div>
+
+    <!-- tira de especificación -->
+    <div class="specstrip" role="list" aria-label="Datos de la conversión">
+      <div class="specstrip__cell" role="listitem" data-reveal data-d="1">
+        <div class="specstrip__num">240<span class="u">km</span></div>
+        <div class="specstrip__lbl tag">Autonomía típica por carga</div>
+      </div>
+      <div class="specstrip__cell" role="listitem" data-reveal data-d="2">
+        <div class="specstrip__num">6<span class="u">sem</span></div>
+        <div class="specstrip__lbl tag">Tiempo promedio en taller</div>
+      </div>
+      <div class="specstrip__cell" role="listitem" data-reveal data-d="3">
+        <div class="specstrip__num">24<span class="u">meses</span></div>
+        <div class="specstrip__lbl tag">Garantía sobre el sistema</div>
+      </div>
+      <div class="specstrip__cell" role="listitem" data-reveal data-d="4">
+        <div class="specstrip__num">130<span class="u">+</span></div>
+        <div class="specstrip__lbl tag">Conversiones entregadas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESO ============ -->
+<section class="proceso ruled section" id="proceso">
+  <div class="wrap">
+    <div class="shead">
+      <span class="shead__index" data-reveal>[ 01 / Proceso ]</span>
+      <div>
+        <h2 data-reveal data-d="1">Cinco etapas, todo documentado</h2>
+        <p class="shead__desc" data-reveal data-d="2">
+          Convertir un auto es una intervención de ingeniería, no un reemplazo de pieza. Así es como pasa de gasolina a corriente, con un punto de control y tu firma en cada etapa.
+        </p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <article class="step" data-reveal data-d="1">
+        <div class="step__rail"><span class="step__no">01</span><span class="step__line" aria-hidden="true"></span></div>
+        <h3>Diagnóstico y diseño</h3>
+        <p>Revisamos chasis, suspensión y frenos. Definimos la batería y la potencia según tu uso real, y entregamos un plano del sistema antes de tocar nada.</p>
+        <div class="step__meta">Dura 2 a 4 días</div>
+      </article>
+      <article class="step" data-reveal data-d="2">
+        <div class="step__rail"><span class="step__no">02</span><span class="step__line" aria-hidden="true"></span></div>
+        <h3>Retiro del tren de combustión</h3>
+        <p>Extraemos motor, transmisión, tanque, escape y radiador. Los componentes en buen estado se documentan y se te entregan o se venden a tu nombre.</p>
+        <div class="step__meta">Semana 1</div>
+      </article>
+      <article class="step" data-reveal data-d="3">
+        <div class="step__rail"><span class="step__no">03</span><span class="step__line" aria-hidden="true"></span></div>
+        <h3>Montaje del sistema eléctrico</h3>
+        <p>Motor, inversor y soportes a medida. La batería se ubica balanceando el peso. Cableado de alto voltaje con fusibles, contactores y corte de emergencia.</p>
+        <div class="step__meta">Semanas 2 a 4</div>
+      </article>
+      <article class="step" data-reveal data-d="4">
+        <div class="step__rail"><span class="step__no">04</span><span class="step__line" aria-hidden="true"></span></div>
+        <h3>Integración y tablero</h3>
+        <p>Frenos regenerativos, dirección y climatización vuelven a funcionar. Instalamos un tablero con estado de carga, autonomía y temperatura del paquete.</p>
+        <div class="step__meta">Semana 5</div>
+      </article>
+      <article class="step" data-reveal data-d="4">
+        <div class="step__rail"><span class="step__no">05</span><span class="step__line" aria-hidden="true"></span></div>
+        <h3>Pruebas y entrega</h3>
+        <p>Banco de pruebas, ruta de validación y revisión de seguridad punto por punto. Te entregamos el coche con su carpeta técnica y la garantía activa.</p>
+        <div class="step__meta">Semana 6</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAQUETES ============ -->
+<section class="section ruled" id="paquetes">
+  <div class="wrap">
+    <div class="shead">
+      <span class="shead__index" data-reveal>[ 02 / Servicios ]</span>
+      <div>
+        <h2 data-reveal data-d="1">Tres niveles de conversión</h2>
+        <p class="shead__desc" data-reveal data-d="2">
+          El mismo trabajo de ingeniería en los tres. Lo que cambia es la batería, la potencia del motor y el alcance que necesitas. Empieza por tu uso, no por el presupuesto.
+        </p>
+      </div>
+    </div>
+
+    <div class="pkgs">
+      <article class="pkg" data-reveal data-d="1">
+        <span class="tag">Nivel 01</span>
+        <h3 class="pkg__name">Esencial</h3>
+        <p class="pkg__for">Para el coche de ciudad: trayectos cortos, recarga en casa, sin prisa.</p>
+        <div class="pkg__price"><span class="from">Desde</span>$185,000 MXN</div>
+        <ul class="pkg__list">
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Motor de 80 kW y batería de 22 kWh</li>
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Autonomía de 140 a 170 km</li>
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Carga doméstica, 0 a 100% en 6 horas</li>
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Tablero digital y frenos regenerativos</li>
+        </ul>
+        <p class="pkg__note">Ideal para sedanes y compactos de hasta 1,300 kg.</p>
+        <a href="#contacto" class="btn btn--ghost pkg__cta">Cotizar este nivel</a>
+      </article>
+
+      <article class="pkg pkg--feature" data-reveal data-d="2">
+        <span class="pkg__flag">Más elegido</span>
+        <span class="tag">Nivel 02</span>
+        <h3 class="pkg__name">Calle</h3>
+        <p class="pkg__for">Para uso diario completo: ciudad y carretera corta, una sola recarga al día.</p>
+        <div class="pkg__price"><span class="from">Desde</span>$268,000 MXN</div>
+        <ul class="pkg__list">
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Motor de 120 kW y batería de 38 kWh</li>
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Autonomía de 220 a 260 km</li>
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Carga rápida compatible con red pública</li>
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Climatización eléctrica y app de monitoreo</li>
+        </ul>
+        <p class="pkg__note">Cubre la mayoría de los autos que entran al taller.</p>
+        <a href="#contacto" class="btn btn--primary pkg__cta">Cotizar este nivel</a>
+      </article>
+
+      <article class="pkg" data-reveal data-d="3">
+        <span class="tag">Nivel 03</span>
+        <h3 class="pkg__name">Largo alcance</h3>
+        <p class="pkg__for">Para camionetas, flotas y quien hace carretera sin pensar en la recarga.</p>
+        <div class="pkg__price"><span class="from">Desde</span>$395,000 MXN</div>
+        <ul class="pkg__list">
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Motor de 160 kW y batería de 60 kWh</li>
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Autonomía de 340 a 400 km</li>
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Carga rápida en CC, 20 a 80% en 45 min</li>
+          <li class="pkg__li"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Refuerzo de suspensión y plan para flota</li>
+        </ul>
+        <p class="pkg__note">Para vehículos de trabajo de hasta 2,400 kg.</p>
+        <a href="#contacto" class="btn btn--ghost pkg__cta">Cotizar este nivel</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALERÍA ANTES / DESPUÉS ============ -->
+<section class="section ruled" id="galeria" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="shead">
+      <span class="shead__index" data-reveal>[ 03 / Trabajo ]</span>
+      <div>
+        <h2 data-reveal data-d="1">El mismo coche, antes y después</h2>
+        <p class="shead__desc" data-reveal data-d="2">
+          Arrastra el control para ver el cambio bajo el cofre. La carrocería es la que llegó al taller; lo que cambió es todo lo que la movía.
+        </p>
+      </div>
+    </div>
+
+    <div class="gallery-grid">
+      <div data-reveal data-d="1">
+        <div class="compare" id="cmp" tabindex="0" role="slider"
+             aria-label="Comparador antes y después de la conversión"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="compare__sizer"
+            src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1200&q=80" alt="" aria-hidden="true" />
+          <img class="compare__img compare__before"
+            src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1200&q=80"
+            alt="Compartimento del motor con tren de combustión: bloque, escape y radiador originales" />
+          <img class="compare__img compare__after"
+            src="https://images.unsplash.com/photo-1469285994282-454ceb49e63c?auto=format&fit=crop&w=1200&q=80"
+            alt="El mismo compartimento tras la conversión: motor eléctrico, inversor y cableado de alto voltaje ordenado" />
+          <span class="compare__band compare__band--before">Antes · Combustión</span>
+          <span class="compare__band compare__band--after">Después · Eléctrico</span>
+          <div class="compare__handle" aria-hidden="true">
+            <span class="compare__knob">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3L2 8l4 5M10 3l4 5-4 5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="compare__cap">
+          <p>Sedán 1978. El vano del motor quedó más limpio y 90 kg más ligero al frente.</p>
+          <span class="tag">Ficha #118</span>
+        </div>
+      </div>
+
+      <div class="gallery-side">
+        <figure class="gframe" data-reveal data-d="2">
+          <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=900&q=80"
+               alt="Interior del taller VoltSwap con un auto en proceso de conversión sobre elevador" loading="lazy" />
+          <figcaption class="gframe__cap">
+            <b>Hatchback en montaje</b>
+            <span>Semana 3 · ubicando el paquete de batería</span>
+          </figcaption>
+        </figure>
+        <figure class="gframe" data-reveal data-d="3">
+          <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=900&q=80"
+               alt="Coche clásico convertido, en ruta de validación tras la entrega" loading="lazy" />
+          <figcaption class="gframe__cap">
+            <b>Clásico entregado</b>
+            <span>Ficha #126 · 260 km de autonomía medida</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRECIOS ============ -->
+<section class="precios section ruled" id="precios">
+  <div class="wrap">
+    <div class="shead">
+      <span class="shead__index" data-reveal>[ 04 / Precios ]</span>
+      <div>
+        <h2 data-reveal data-d="1">Qué pagas, y por qué</h2>
+        <p class="shead__desc" data-reveal data-d="2">
+          Sin precio escondido detrás de un formulario. Este es el desglose de una conversión nivel Calle sobre un sedán estándar. Tu cifra final se fija después del diagnóstico.
+        </p>
+      </div>
+    </div>
+
+    <div class="priceboard" data-reveal data-d="1">
+      <div class="pb__col pb__col--a">
+        <span class="tag tag--volt">Desglose estimado</span>
+        <h3 class="pb__title">Conversión nivel Calle</h3>
+        <p class="pb__intro">Sedán de 1,250 kg, batería de 38 kWh, sin trabajo de carrocería adicional.</p>
+        <div class="pb__row">
+          <span class="k">Motor, inversor y soportes a medida<small>Componente eléctrico principal</small></span>
+          <span class="v">$92,000</span>
+        </div>
+        <div class="pb__row">
+          <span class="k">Paquete de batería 38 kWh<small>Celdas, gestión térmica y carcasa</small></span>
+          <span class="v">$108,000</span>
+        </div>
+        <div class="pb__row">
+          <span class="k">Cableado, seguridad y cargador<small>Alto voltaje, fusibles y corte de emergencia</small></span>
+          <span class="v">$31,000</span>
+        </div>
+        <div class="pb__row">
+          <span class="k">Mano de obra de ingeniería<small>6 semanas, diagnóstico a entrega</small></span>
+          <span class="v">$37,000</span>
+        </div>
+        <div class="pb__total">
+          <span class="k">Estimado total</span>
+          <span class="v">$268,000 MXN</span>
+        </div>
+        <p class="pb__disclaimer">
+          Cifra de referencia, no cotización en firme. El diagnóstico es gratuito y, si avanzas, su costo se descuenta del total.
+        </p>
+      </div>
+
+      <div class="pb__col">
+        <span class="tag tag--volt">Qué mueve el precio</span>
+        <h3 class="pb__title">Cuatro factores</h3>
+        <p class="pb__intro">Dos conversiones rara vez cuestan lo mismo. Esto es lo que hace la diferencia entre una y otra.</p>
+        <ul class="pb__factors">
+          <li class="pb__factor">
+            <span class="fno">F1</span>
+            <div>
+              <b>El alcance que necesitas</b>
+              <p>La batería es el componente más caro. Pasar de 140 a 400 km de autonomía casi triplica esa partida.</p>
+            </div>
+          </li>
+          <li class="pb__factor">
+            <span class="fno">F2</span>
+            <div>
+              <b>El peso y tamaño del coche</b>
+              <p>Una camioneta pide más potencia, soportes más robustos y a veces refuerzo de suspensión.</p>
+            </div>
+          </li>
+          <li class="pb__factor">
+            <span class="fno">F3</span>
+            <div>
+              <b>El estado de lo que se queda</b>
+              <p>Frenos, dirección y chasis tienen que estar sanos. Si hay que repararlos, se cotiza aparte y lo sabrás antes.</p>
+            </div>
+          </li>
+          <li class="pb__factor">
+            <span class="fno">F4</span>
+            <div>
+              <b>Carga y extras</b>
+              <p>Carga rápida en CC, climatización conservada o un tablero ampliado se suman solo si los pides.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section class="contact section ruled" id="contacto">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <span class="shead__index" data-reveal style="color:var(--volt)">[ 05 / Contacto ]</span>
+        <h2 data-reveal data-d="1" style="margin-top:16px">Trae tu coche a diagnóstico</h2>
+        <p class="contact__lead" data-reveal data-d="2">
+          La primera visita es una revisión sin costo: vemos el auto, hablamos de tu uso y te entregamos un estimado por escrito. Sin compromiso de avanzar.
+        </p>
+        <div class="contact__details" data-reveal data-d="3">
+          <div class="cdetail">
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 18s6-5.3 6-10A6 6 0 1 0 4 8c0 4.7 6 10 6 10z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="10" cy="8" r="2.2" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            <div>
+              <div class="clbl">Taller</div>
+              <div class="cval">Calle Herrería 44, Nave 3<br>Col. Industrial, CDMX</div>
+            </div>
+          </div>
+          <div class="cdetail">
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4h4l2 5-2.5 1.5a10 10 0 0 0 5 5L20 13l2 4v-1" transform="translate(-2 0)" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+            <div>
+              <div class="clbl">Teléfono y WhatsApp</div>
+              <div class="cval"><a href="tel:+525544120098">+52 55 4412 0098</a></div>
+            </div>
+          </div>
+          <div class="cdetail">
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="4" width="16" height="12" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M2 5l8 6 8-6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            <div>
+              <div class="clbl">Correo</div>
+              <div class="cval"><a href="mailto:diagnostico@voltswap.mx">diagnostico@voltswap.mx</a></div>
+            </div>
+          </div>
+          <div class="cdetail">
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M10 5v5l3.5 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+            <div>
+              <div class="clbl">Horario</div>
+              <div class="cval">Lunes a viernes, 9:00 a 18:00<br>Sábados con cita</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal data-d="2">
+        <form class="form" id="contactForm" novalidate>
+          <div class="form__fields">
+            <span class="tag tag--volt">Solicitud de diagnóstico</span>
+            <h3 class="pb__title" style="margin-bottom:20px">Cuéntanos de tu coche</h3>
+            <div class="form__row">
+              <div class="field">
+                <label for="f-name">Nombre <span class="req" aria-hidden="true">*</span></label>
+                <input id="f-name" name="name" type="text" autocomplete="name" required />
+                <span class="field__err" data-err="f-name">Escribe tu nombre.</span>
+              </div>
+              <div class="field">
+                <label for="f-phone">Teléfono <span class="req" aria-hidden="true">*</span></label>
+                <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
+                <span class="field__err" data-err="f-phone">Necesitamos un teléfono de contacto.</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-email">Correo <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required />
+              <span class="field__err" data-err="f-email">Revisa el formato del correo.</span>
+            </div>
+            <div class="form__row">
+              <div class="field">
+                <label for="f-car">Auto a convertir <span class="req" aria-hidden="true">*</span></label>
+                <input id="f-car" name="car" type="text" placeholder="Marca, modelo y año" required />
+                <span class="field__err" data-err="f-car">Indica marca, modelo y año.</span>
+              </div>
+              <div class="field">
+                <label for="f-pkg">Nivel de interés</label>
+                <select id="f-pkg" name="pkg">
+                  <option value="">Aún no estoy seguro</option>
+                  <option value="esencial">Esencial · ciudad</option>
+                  <option value="calle">Calle · uso diario</option>
+                  <option value="largo">Largo alcance · flota</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-msg">Cómo usas el coche</label>
+              <textarea id="f-msg" name="message" placeholder="Trayecto diario aproximado, dónde podrías cargarlo, qué te gustaría conservar."></textarea>
+              <span class="field__hint">Opcional, pero nos ayuda a darte un estimado más cercano.</span>
+            </div>
+            <button type="submit" class="btn btn--primary form__submit">
+              Solicitar diagnóstico gratuito
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <p class="form__legal">Te respondemos en menos de un día hábil. Tus datos solo se usan para contactarte sobre la conversión.</p>
+          </div>
+          <div class="form__ok" id="formOk" role="status" aria-live="polite">
+            <b>
+              <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M5.5 10.5l3 3 6-7" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Solicitud recibida
+            </b>
+            <p>Gracias. Un ingeniero de VoltSwap revisará los datos de tu coche y te contactará en menos de un día hábil para agendar la visita.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap footer__in">
+    <a href="#top" class="brand" aria-label="VoltSwap, inicio">
+      <svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true">
+        <rect x="1" y="1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M14 4 L8 14 L12.5 14 L11 22 L18 11 L13 11 Z" fill="oklch(0.745 0.158 62)" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+      </svg>
+      Volt<b>Swap</b>
+    </a>
+    <nav class="footer__links" aria-label="Pie de página">
+      <a href="#proceso">Proceso</a>
+      <a href="#paquetes">Paquetes</a>
+      <a href="#precios">Precios</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <span class="footer__meta">VoltSwap · Conversión a eléctrico · CDMX 2026</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- reveal on scroll ---- */
+  var revealEls = document.querySelectorAll('[data-reveal]');
+  if (reduce || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function(el){ el.classList.add('is-in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---- before/after comparator ---- */
+  var cmp = document.getElementById('cmp');
+  if (cmp) {
+    var dragging = false;
+    function setSplit(pct){
+      pct = Math.max(0, Math.min(100, pct));
+      cmp.style.setProperty('--split', pct + '%');
+      cmp.setAttribute('aria-valuenow', Math.round(pct));
+    }
+    function fromEvent(clientX){
+      var r = cmp.getBoundingClientRect();
+      setSplit(((clientX - r.left) / r.width) * 100);
+    }
+    cmp.addEventListener('pointerdown', function(e){
+      dragging = true;
+      cmp.setPointerCapture(e.pointerId);
+      fromEvent(e.clientX);
+    });
+    cmp.addEventListener('pointermove', function(e){
+      if (dragging) fromEvent(e.clientX);
+    });
+    cmp.addEventListener('pointerup', function(e){
+      dragging = false;
+      try { cmp.releasePointerCapture(e.pointerId); } catch(_){}
+    });
+    cmp.addEventListener('pointercancel', function(){ dragging = false; });
+    cmp.addEventListener('keydown', function(e){
+      var cur = parseFloat(cmp.getAttribute('aria-valuenow')) || 50;
+      if (e.key === 'ArrowLeft'){ setSplit(cur - 4); e.preventDefault(); }
+      else if (e.key === 'ArrowRight'){ setSplit(cur + 4); e.preventDefault(); }
+      else if (e.key === 'Home'){ setSplit(0); e.preventDefault(); }
+      else if (e.key === 'End'){ setSplit(100); e.preventDefault(); }
+    });
+    setSplit(50);
+  }
+
+  /* ---- contact form validation ---- */
+  var form = document.getElementById('contactForm');
+  if (form) {
+    var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    function fieldOf(input){ return input.closest('.field'); }
+    function validateInput(input){
+      var val = (input.value || '').trim();
+      var ok = true;
+      if (input.hasAttribute('required') && !val) ok = false;
+      if (ok && input.type === 'email' && val && !emailRe.test(val)) ok = false;
+      var f = fieldOf(input);
+      if (f) f.classList.toggle('field--invalid', !ok);
+      input.setAttribute('aria-invalid', ok ? 'false' : 'true');
+      return ok;
+    }
+    var required = form.querySelectorAll('[required]');
+    required.forEach(function(input){
+      input.addEventListener('blur', function(){ validateInput(input); });
+      input.addEventListener('input', function(){
+        var f = fieldOf(input);
+        if (f && f.classList.contains('field--invalid')) validateInput(input);
+      });
+    });
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var allOk = true, firstBad = null;
+      required.forEach(function(input){
+        if (!validateInput(input)){ allOk = false; if (!firstBad) firstBad = input; }
+      });
+      if (!allOk){ if (firstBad) firstBad.focus(); return; }
+      form.classList.add('is-sent');
+      var ok = document.getElementById('formOk');
+      if (ok){ ok.classList.add('is-on'); ok.focus && ok.setAttribute('tabindex','-1'); ok.focus(); }
+    });
+  }
+})();
+</script>
+</body>
+</html>

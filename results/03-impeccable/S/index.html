@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VoltSwap — Conversión de autos de combustión a 100% eléctricos</title>
+<meta name="description" content="VoltSwap es un taller de electrificación: convertimos tu auto de combustión interna en un 100% eléctrico conservando su carrocería, su carácter y su historia. Ingeniería seria, números reales." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     VoltSwap — sistema de diseño (DESIGN.md aplicado)
+     Register: brand · Estrategia de color: Committed (naranja taller)
+     ============================================================ */
+  :root {
+    /* --- neutros cálidos, tintados hacia el naranja de marca --- */
+    --paper:        oklch(0.967 0.006 70);
+    --paper-sunk:   oklch(0.938 0.008 68);
+    --ink:          oklch(0.225 0.012 55);
+    --graphite:     oklch(0.375 0.013 58);
+    --ash:          oklch(0.565 0.012 60);
+    --hairline:     oklch(0.875 0.008 65);
+    --steel:        oklch(0.305 0.018 250);
+    --steel-deep:   oklch(0.235 0.020 252);
+    --steel-line:   oklch(0.420 0.020 250);
+
+    /* --- naranja de señal: el color que carga la marca --- */
+    --torch:        oklch(0.685 0.185 47);
+    --torch-hot:    oklch(0.620 0.195 42);
+    --torch-wash:   oklch(0.945 0.040 60);
+
+    /* --- teal funcional: solo estado / dato "electrificado" --- */
+    --volt:         oklch(0.760 0.115 195);
+    --volt-deep:    oklch(0.520 0.085 205);
+
+    /* --- escala tipográfica fluida, ratio >=1.25 --- */
+    --step--1: clamp(0.82rem, 0.80rem + 0.10vw, 0.88rem);
+    --step-0:  clamp(1.00rem, 0.96rem + 0.20vw, 1.10rem);
+    --step-1:  clamp(1.27rem, 1.18rem + 0.45vw, 1.55rem);
+    --step-2:  clamp(1.62rem, 1.45rem + 0.85vw, 2.18rem);
+    --step-3:  clamp(2.05rem, 1.75rem + 1.55vw, 3.05rem);
+    --step-4:  clamp(2.40rem, 1.95rem + 2.75vw, 4.30rem);
+    --step-5:  clamp(2.70rem, 1.85rem + 4.40vw, 6.20rem);
+
+    /* --- espaciado --- */
+    --s-1: 0.25rem; --s-2: 0.5rem;  --s-3: 0.75rem; --s-4: 1rem;
+    --s-5: 1.5rem;  --s-6: 2rem;    --s-7: 3rem;    --s-8: 4rem;
+    --s-9: 6rem;    --s-10: 8rem;   --s-11: 12rem;
+    --gap-section: clamp(4rem, 9vw, 8rem);
+
+    --r-sm: 4px; --r-md: 8px; --r-lg: 14px;
+
+    --shadow-1: 0 1px 2px oklch(0.40 0.03 55 / 0.06),
+                0 4px 14px oklch(0.40 0.03 55 / 0.07);
+    --shadow-2: 0 2px 6px oklch(0.40 0.03 55 / 0.10),
+                0 18px 42px oklch(0.40 0.03 55 / 0.12);
+
+    --measure: 40rem;
+    --container: 72rem;
+
+    --font-display: 'Archivo', system-ui, sans-serif;
+    --font-body: 'Hanken Grotesk', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ---------- reset ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  * { margin: 0; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    font-size: var(--step-0);
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  ul { list-style: none; padding: 0; }
+  button { font: inherit; cursor: pointer; }
+  :focus-visible {
+    outline: 2px solid var(--volt-deep);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .reveal { opacity: 1 !important; transform: none !important; }
+  }
+
+  /* ---------- tipografía base ---------- */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    line-height: 1.06;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+    font-weight: 700;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  .prose p { max-width: var(--measure); }
+  .prose p + p { margin-top: var(--s-4); }
+
+  /* texto largo justificado segun regla de la casa */
+  .longread p {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+  }
+
+  /* ---------- layout helpers ---------- */
+  .wrap {
+    width: min(100% - 2.4rem, var(--container));
+    margin-inline: auto;
+  }
+  .wrap-wide {
+    width: min(100% - 2.4rem, 84rem);
+    margin-inline: auto;
+  }
+  section { padding-block: var(--gap-section); }
+  .section-head { max-width: 46rem; margin-bottom: var(--s-7); }
+
+  /* kicker tecnico — micro-etiqueta mono con guion naranja */
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ash);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: var(--s-4);
+  }
+  .kicker::before {
+    content: "";
+    width: 1.6rem;
+    height: 2px;
+    background: var(--torch);
+    display: inline-block;
+  }
+  .section-head h2 {
+    font-size: var(--step-3);
+    font-weight: 800;
+  }
+  .section-head .lede {
+    margin-top: var(--s-4);
+    font-size: var(--step-1);
+    color: var(--graphite);
+    line-height: 1.4;
+    max-width: 38rem;
+  }
+
+  /* ============================================================
+     HEADER / NAV
+     ============================================================ */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: oklch(0.967 0.006 70 / 0.86);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .site-header[data-stuck="true"] {
+    border-bottom-color: var(--hairline);
+    background: oklch(0.967 0.006 70 / 0.96);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-5);
+    padding-block: var(--s-3);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.18rem;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .brand .mark {
+    width: 30px; height: 30px;
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: flex;
+    gap: var(--s-5);
+    align-items: center;
+  }
+  .nav-links a {
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--graphite);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: color 0.18s ease;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+  }
+
+  /* ---------- botones ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--step-0);
+    line-height: 1;
+    padding: 0.85rem 1.3rem;
+    min-height: 44px;
+    border-radius: var(--r-sm);
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    transition: transform 0.22s var(--ease-out-quint),
+                background-color 0.2s ease,
+                box-shadow 0.2s ease, color 0.2s ease;
+  }
+  .btn-primary {
+    background: var(--torch);
+    color: var(--ink);
+    box-shadow: 0 1px 0 oklch(0.50 0.10 47 / 0.4) inset,
+                var(--shadow-1);
+  }
+  .btn-primary:hover {
+    background: var(--torch-hot);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+  }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--ink);
+    color: var(--paper);
+    transform: translateY(-2px);
+  }
+  .btn-ghost-light {
+    background: transparent;
+    color: var(--paper);
+    border-color: var(--steel-line);
+  }
+  .btn-ghost-light:hover {
+    background: oklch(0.967 0.006 70 / 0.10);
+    border-color: var(--paper);
+    transform: translateY(-2px);
+  }
+  .btn-sm { padding: 0.6rem 1rem; font-size: var(--step--1); min-height: 40px; }
+  .arrow { transition: transform 0.22s var(--ease-out-quint); }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero {
+    padding-top: clamp(2.5rem, 6vw, 4.5rem);
+    padding-bottom: var(--gap-section);
+    position: relative;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  @media (max-width: 940px) {
+    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+  }
+  .hero-copy, .hero-plate { min-width: 0; }
+  .plate-figure { min-width: 0; }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    color: var(--torch-hot);
+    text-transform: uppercase;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .hero-eyebrow .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--volt);
+    box-shadow: 0 0 0 3px oklch(0.760 0.115 195 / 0.25);
+  }
+  .hero h1 {
+    font-size: var(--step-5);
+    font-weight: 800;
+    margin-top: var(--s-5);
+    letter-spacing: -0.03em;
+  }
+  .hero h1 .swap {
+    color: var(--torch-hot);
+    position: relative;
+  }
+  @media (min-width: 480px) {
+    .hero h1 .swap { white-space: nowrap; }
+  }
+  .hero h1 .strike {
+    position: relative;
+    color: var(--ash);
+  }
+  .hero h1 .strike::after {
+    content: "";
+    position: absolute;
+    left: -2%; right: -2%;
+    top: 54%;
+    height: 0.10em;
+    background: var(--torch);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.7s var(--ease-out-expo) 0.5s;
+  }
+  .hero.is-in h1 .strike::after { transform: scaleX(1); }
+  .hero-sub {
+    margin-top: var(--s-5);
+    font-size: var(--step-1);
+    color: var(--graphite);
+    max-width: 32rem;
+    line-height: 1.45;
+  }
+  .hero-cta {
+    margin-top: var(--s-6);
+    display: flex;
+    gap: var(--s-4);
+    flex-wrap: wrap;
+  }
+  .hero-trust {
+    margin-top: var(--s-6);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    gap: var(--s-6);
+    flex-wrap: wrap;
+  }
+  .hero-trust .ht {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .hero-trust .ht b {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .hero-trust .ht b .u {
+    font-family: var(--font-mono);
+    font-size: 0.5em;
+    font-weight: 500;
+    color: var(--ash);
+    margin-left: 0.15rem;
+  }
+  .hero-trust .ht span {
+    font-size: var(--step--1);
+    color: var(--ash);
+  }
+
+  /* ---- hero: lámina técnica del auto (SVG, "antes/después") ---- */
+  .hero-plate {
+    position: relative;
+    background: var(--steel);
+    border-radius: var(--r-lg);
+    padding: clamp(1.4rem, 3vw, 2.2rem);
+    box-shadow: var(--shadow-2);
+    overflow: hidden;
+  }
+  .hero-plate::before {
+    /* trama de papel milimétrico tenue */
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(oklch(0.967 0.006 70 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(0.967 0.006 70 / 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+    pointer-events: none;
+  }
+  .plate-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--s-4);
+    position: relative;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: oklch(0.967 0.006 70 / 0.55);
+  }
+  .plate-head .id { color: var(--volt); letter-spacing: 0.04em; }
+  .plate-figure { position: relative; }
+  .plate-figure svg { width: 100%; height: auto; }
+  .plate-toggle {
+    margin-top: var(--s-4);
+    display: flex;
+    background: var(--steel-deep);
+    border: 1px solid var(--steel-line);
+    border-radius: var(--r-sm);
+    padding: 3px;
+    position: relative;
+  }
+  .plate-toggle button {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    color: oklch(0.967 0.006 70 / 0.6);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    font-weight: 500;
+    padding: 0.55rem 0.5rem;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+    transition: color 0.25s ease;
+    z-index: 1;
+  }
+  .plate-toggle button[aria-pressed="true"] { color: var(--ink); }
+  .plate-toggle .knob {
+    position: absolute;
+    top: 3px; left: 3px;
+    width: calc(50% - 3px);
+    bottom: 3px;
+    background: var(--torch);
+    border-radius: 3px;
+    transition: transform 0.42s var(--ease-out-quint);
+  }
+  .hero-plate[data-mode="ev"] .plate-toggle .knob { transform: translateX(100%); }
+
+  /* piezas del SVG que cambian de estado */
+  .ice-only, .ev-only { transition: opacity 0.4s ease; }
+  .hero-plate[data-mode="ice"] .ev-only { opacity: 0; }
+  .hero-plate[data-mode="ev"]  .ice-only { opacity: 0; }
+  .plate-readout {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    margin-top: var(--s-4);
+    background: var(--steel-line);
+    border: 1px solid var(--steel-line);
+    border-radius: var(--r-sm);
+    overflow: hidden;
+  }
+  .plate-readout div {
+    background: var(--steel-deep);
+    padding: 0.7rem 0.6rem;
+    min-width: 0;
+  }
+  .plate-readout .v { overflow-wrap: anywhere; }
+  .plate-readout .v {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(0.92rem, 0.78rem + 0.7vw, 1.4rem);
+    color: var(--paper);
+    letter-spacing: -0.02em;
+    transition: color 0.35s ease;
+  }
+  .hero-plate[data-mode="ev"] .plate-readout .v { color: var(--volt); }
+  .plate-readout .k {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: oklch(0.967 0.006 70 / 0.5);
+    margin-top: 0.1rem;
+  }
+
+  /* ============================================================
+     BARRA DE PROPUESTA DE VALOR
+     ============================================================ */
+  .value {
+    background: var(--paper-sunk);
+    border-block: 1px solid var(--hairline);
+  }
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  @media (max-width: 820px) {
+    .value-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 460px) {
+    .value-grid { grid-template-columns: 1fr; }
+  }
+  .value-cell {
+    background: var(--paper);
+    padding: var(--s-6) var(--s-5);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .value-cell .icn { color: var(--torch-hot); margin-bottom: var(--s-2); }
+  .value-cell h3 {
+    font-size: var(--step-1);
+    font-weight: 700;
+  }
+  .value-cell p {
+    font-size: var(--step--1);
+    color: var(--graphite);
+    line-height: 1.5;
+  }
+  .value-cell .num {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--volt-deep);
+    font-size: var(--step--1);
+  }
+
+  /* ============================================================
+     PROCESO — 5 pasos conectados por una regla
+     ============================================================ */
+  .process { background: var(--paper); }
+  .steps {
+    position: relative;
+    margin-top: var(--s-6);
+  }
+  .steps::before {
+    /* regla conectora vertical */
+    content: "";
+    position: absolute;
+    left: 27px;
+    top: 14px;
+    bottom: 14px;
+    width: 2px;
+    background: var(--hairline);
+  }
+  .step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: var(--s-5);
+    padding-block: var(--s-5);
+  }
+  .step:not(:last-child) { border-bottom: 1px solid var(--hairline); }
+  .step-num {
+    position: relative;
+    z-index: 1;
+    width: 56px; height: 56px;
+    border-radius: var(--r-sm);
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: var(--step-1);
+    color: var(--ink);
+    transition: background-color 0.3s var(--ease-out-quint),
+                color 0.3s ease, border-color 0.3s ease;
+  }
+  .step:hover .step-num,
+  .step:focus-within .step-num {
+    background: var(--torch);
+    border-color: var(--torch);
+  }
+  .step-body { padding-top: 0.35rem; }
+  .step-body h3 {
+    font-size: var(--step-2);
+    font-weight: 700;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.7rem;
+  }
+  .step-body h3 .dur {
+    font-family: var(--font-mono);
+    font-size: 0.62em;
+    font-weight: 500;
+    color: var(--ash);
+    letter-spacing: 0.02em;
+  }
+  .step-body p {
+    margin-top: var(--s-3);
+    color: var(--graphite);
+    max-width: 46rem;
+  }
+  .step-body .check {
+    margin-top: var(--s-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5);
+  }
+  .step-body .check li {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--ash);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .step-body .check li::before {
+    content: "";
+    width: 6px; height: 6px;
+    background: var(--volt);
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+
+  /* ============================================================
+     PAQUETES
+     ============================================================ */
+  .packages { background: var(--paper-sunk); border-block: 1px solid var(--hairline); }
+  .pkg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-5);
+    margin-top: var(--s-6);
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .pkg-grid { grid-template-columns: 1fr; max-width: 30rem; margin-inline: auto; }
+  }
+  .pkg {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    transition: transform 0.3s var(--ease-out-quint), box-shadow 0.3s ease;
+  }
+  .pkg:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); }
+  .pkg.featured {
+    background: var(--steel);
+    border-color: var(--steel);
+    color: var(--paper);
+    position: relative;
+  }
+  @media (min-width: 901px) {
+    .pkg.featured { transform: translateY(-12px); }
+    .pkg.featured:hover { transform: translateY(-16px); }
+  }
+  .pkg.featured h3, .pkg.featured .pkg-price b { color: var(--paper); }
+  .pkg-tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ash);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pkg.featured .pkg-tag { color: oklch(0.967 0.006 70 / 0.6); }
+  .pkg-tag .badge {
+    background: var(--torch);
+    color: var(--ink);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  .pkg h3 {
+    font-size: var(--step-2);
+    font-weight: 800;
+  }
+  .pkg .pkg-desc {
+    font-size: var(--step--1);
+    color: var(--graphite);
+    line-height: 1.5;
+  }
+  .pkg.featured .pkg-desc { color: oklch(0.967 0.006 70 / 0.78); }
+  .pkg-specs {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--hairline);
+  }
+  .pkg.featured .pkg-specs { border-color: var(--steel-line); }
+  .pkg-specs .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-block: 0.6rem;
+    border-bottom: 1px solid var(--hairline);
+    font-size: var(--step--1);
+  }
+  .pkg.featured .pkg-specs .row { border-color: var(--steel-line); }
+  .pkg-specs .row span { color: var(--ash); font-family: var(--font-mono); font-size: 0.78rem; }
+  .pkg.featured .pkg-specs .row span { color: oklch(0.967 0.006 70 / 0.55); }
+  .pkg-specs .row b {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .pkg.featured .pkg-specs .row b { color: var(--paper); }
+  .pkg-specs .row b em {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 0.7em;
+    font-weight: 500;
+    color: var(--volt-deep);
+    margin-left: 0.2rem;
+  }
+  .pkg.featured .pkg-specs .row b em { color: var(--volt); }
+  .pkg-price {
+    margin-top: auto;
+  }
+  .pkg-price .from {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--ash);
+  }
+  .pkg.featured .pkg-price .from { color: oklch(0.967 0.006 70 / 0.55); }
+  .pkg-price b {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-top: 0.1rem;
+  }
+  .pkg-price .weeks {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--ash);
+    margin-top: 0.15rem;
+  }
+  .pkg.featured .pkg-price .weeks { color: oklch(0.967 0.006 70 / 0.55); }
+  .pkg .btn { width: 100%; }
+  .pkg-note {
+    margin-top: var(--s-5);
+    font-size: var(--step--1);
+    color: var(--ash);
+    text-align: center;
+  }
+
+  /* ============================================================
+     GALERÍA ANTES / DESPUÉS
+     ============================================================ */
+  .gallery { background: var(--paper); }
+  .ba-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-6);
+    margin-top: var(--s-6);
+  }
+  @media (max-width: 760px) { .ba-list { grid-template-columns: 1fr; } }
+  .ba {
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--paper-sunk);
+  }
+  .ba-stage {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--steel);
+    overflow: hidden;
+    cursor: ew-resize;
+    touch-action: none;
+  }
+  .ba-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .ba-after {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 0 0 50%);
+  }
+  .ba-divider {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: var(--torch);
+    transform: translateX(-1px);
+    pointer-events: none;
+  }
+  .ba-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 38px; height: 38px;
+    transform: translate(-50%, -50%);
+    background: var(--torch);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    box-shadow: var(--shadow-2);
+    pointer-events: none;
+  }
+  .ba-handle svg { position: static; width: 18px; height: 18px; }
+  .ba-tag {
+    position: absolute;
+    top: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.55rem;
+    border-radius: 3px;
+    background: var(--steel-deep);
+    color: oklch(0.967 0.006 70 / 0.78);
+  }
+  .ba-tag.before { left: 0.7rem; }
+  .ba-tag.after  { right: 0.7rem; color: var(--volt); }
+  .ba-meta {
+    padding: var(--s-5);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .ba-meta h3 {
+    font-size: var(--step-1);
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .ba-meta h3 .yr {
+    font-family: var(--font-mono);
+    font-size: 0.62em;
+    font-weight: 500;
+    color: var(--ash);
+  }
+  .ba-meta p { font-size: var(--step--1); color: var(--graphite); }
+  .ba-stats {
+    display: flex;
+    gap: var(--s-5);
+    margin-top: var(--s-2);
+    flex-wrap: wrap;
+  }
+  .ba-stats div { display: flex; flex-direction: column; }
+  .ba-stats b {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--volt-deep);
+    font-size: var(--step-1);
+    letter-spacing: -0.02em;
+  }
+  .ba-stats span {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--ash);
+  }
+
+  /* ============================================================
+     COSTOS Y TIEMPOS
+     ============================================================ */
+  .costs { background: var(--steel); color: var(--paper); }
+  .costs .kicker { color: oklch(0.967 0.006 70 / 0.55); }
+  .costs .kicker::before { background: var(--torch); }
+  .costs h2 { color: var(--paper); font-size: var(--step-3); font-weight: 800; }
+  .costs .lede { color: oklch(0.967 0.006 70 / 0.72); }
+  .cost-table {
+    margin-top: var(--s-6);
+    border: 1px solid var(--steel-line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .cost-row {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr;
+    gap: 1px;
+  }
+  .cost-row > * {
+    background: var(--steel);
+    padding: var(--s-4) var(--s-5);
+  }
+  .cost-row + .cost-row { margin-top: 1px; }
+  .cost-table { background: var(--steel-line); }
+  .cost-row.head > * {
+    background: var(--steel-deep);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: oklch(0.967 0.006 70 / 0.55);
+  }
+  .cost-row .pkg-name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--step-1);
+  }
+  .cost-row .pkg-name small {
+    display: block;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 0.7rem;
+    color: oklch(0.967 0.006 70 / 0.5);
+    margin-top: 0.15rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .cost-row .val {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-1);
+  }
+  .cost-row .val.accent { color: var(--volt); }
+  .cost-row .val small {
+    display: block;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 0.7rem;
+    color: oklch(0.967 0.006 70 / 0.5);
+  }
+  @media (max-width: 760px) {
+    .cost-row {
+      grid-template-columns: 1fr 1fr;
+    }
+    .cost-row.head { display: none; }
+    .cost-row .pkg-name { grid-column: 1 / -1; }
+    .cost-row .val::before {
+      content: attr(data-label);
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: oklch(0.967 0.006 70 / 0.45);
+      margin-bottom: 0.2rem;
+    }
+  }
+  .cost-foot {
+    margin-top: var(--s-5);
+    font-size: var(--step--1);
+    color: oklch(0.967 0.006 70 / 0.6);
+    max-width: 44rem;
+  }
+
+  /* ============================================================
+     FAQ
+     ============================================================ */
+  .faq { background: var(--paper); }
+  .faq-list {
+    margin-top: var(--s-6);
+    border-top: 1px solid var(--hairline);
+    max-width: 52rem;
+  }
+  .faq-item { border-bottom: 1px solid var(--hairline); }
+  .faq-q {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s-5);
+    padding: var(--s-5) 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-1);
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .faq-q .sign {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--r-sm);
+    position: relative;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+  }
+  .faq-q .sign::before,
+  .faq-q .sign::after {
+    content: "";
+    position: absolute;
+    background: var(--ink);
+    left: 50%; top: 50%;
+    transition: transform 0.3s var(--ease-out-quint), background-color 0.25s ease;
+  }
+  .faq-q .sign::before { width: 12px; height: 2px; transform: translate(-50%, -50%); }
+  .faq-q .sign::after  { width: 2px; height: 12px; transform: translate(-50%, -50%); }
+  .faq-item[data-open="true"] .faq-q .sign { background: var(--torch); border-color: var(--torch); }
+  .faq-item[data-open="true"] .faq-q .sign::after { transform: translate(-50%, -50%) scaleY(0); }
+  .faq-a {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s var(--ease-out-expo);
+  }
+  .faq-item[data-open="true"] .faq-a { grid-template-rows: 1fr; }
+  .faq-a-inner {
+    overflow: hidden;
+  }
+  .faq-a-inner p {
+    padding-bottom: var(--s-5);
+    color: var(--graphite);
+    max-width: 46rem;
+  }
+  .faq-a-inner p strong { color: var(--ink); font-weight: 600; }
+
+  /* ============================================================
+     CTA FINAL
+     ============================================================ */
+  .final-cta { background: var(--torch); color: var(--ink); }
+  .final-cta .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-6);
+    flex-wrap: wrap;
+  }
+  .final-cta h2 {
+    font-size: var(--step-3);
+    font-weight: 800;
+    max-width: 22ch;
+  }
+  .final-cta p {
+    margin-top: var(--s-3);
+    color: oklch(0.30 0.05 50);
+    max-width: 36ch;
+  }
+  .final-cta .btn-dark {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .final-cta .btn-dark:hover {
+    background: var(--steel-deep);
+    transform: translateY(-2px);
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .site-footer {
+    background: var(--steel-deep);
+    color: oklch(0.967 0.006 70 / 0.7);
+    padding-block: var(--s-9) var(--s-6);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: var(--s-7) var(--s-5);
+  }
+  @media (max-width: 820px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+  .footer-brand .brand { color: var(--paper); margin-bottom: var(--s-4); }
+  .footer-brand p {
+    font-size: var(--step--1);
+    line-height: 1.6;
+    max-width: 30ch;
+  }
+  .footer-col h4 {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: oklch(0.967 0.006 70 / 0.45);
+    font-weight: 500;
+    margin-bottom: var(--s-4);
+  }
+  .footer-col ul { display: flex; flex-direction: column; gap: var(--s-3); }
+  .footer-col a, .footer-col li {
+    font-size: var(--step--1);
+    color: oklch(0.967 0.006 70 / 0.72);
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+  .footer-col a:hover { color: var(--torch); }
+  .footer-col address {
+    font-style: normal;
+    font-size: var(--step--1);
+    line-height: 1.7;
+  }
+  .footer-hours {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+  }
+  .footer-hours .open { color: var(--volt); }
+  .footer-bottom {
+    margin-top: var(--s-8);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--steel-line);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s-4);
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: oklch(0.967 0.006 70 / 0.42);
+  }
+
+  /* ============================================================
+     REVEAL ON SCROLL
+     ============================================================ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s var(--ease-out-expo),
+                transform 0.7s var(--ease-out-expo);
+  }
+  .reveal.is-in { opacity: 1; transform: none; }
+  .reveal[data-d="1"] { transition-delay: 0.08s; }
+  .reveal[data-d="2"] { transition-delay: 0.16s; }
+  .reveal[data-d="3"] { transition-delay: 0.24s; }
+  .reveal[data-d="4"] { transition-delay: 0.32s; }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.7rem 1rem;
+    z-index: 100;
+    border-radius: 0 0 var(--r-sm) 0;
+  }
+  .skip-link:focus { left: 0; }
+</style>
+</head>
+<body>
+<a href="#contenido" class="skip-link">Saltar al contenido</a>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header" id="header">
+  <div class="wrap-wide nav">
+    <a href="#" class="brand" aria-label="VoltSwap, inicio">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="29" height="29" rx="5" stroke="var(--ink)" stroke-width="2.4"/>
+        <path d="M17.5 6 L9 18 H15 L13.5 26 L23 13 H16.5 Z" fill="var(--torch)"/>
+      </svg>
+      VoltSwap
+    </a>
+    <nav class="nav-links" aria-label="Navegación principal">
+      <a href="#proceso">Proceso</a>
+      <a href="#paquetes">Paquetes</a>
+      <a href="#galeria">Antes / Después</a>
+      <a href="#costos">Costos</a>
+      <a href="#faq">Preguntas</a>
+      <a href="#contacto" class="btn btn-primary btn-sm">Cotiza tu conversión</a>
+    </nav>
+    <a href="#contacto" class="btn btn-primary btn-sm" style="display:none" id="nav-cta-mobile">Cotizar</a>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="inicio">
+    <div class="wrap-wide hero-grid">
+      <div class="hero-copy">
+        <p class="hero-eyebrow"><span class="dot" aria-hidden="true"></span>Taller de electrificación · desde 2016</p>
+        <h1>
+          Tu auto de <span class="strike">gasolina</span>,<br />
+          ahora <span class="swap">100% eléctrico</span>.
+        </h1>
+        <p class="hero-sub">
+          No lo cambies. Conviértelo. Reemplazamos el tren motriz de combustión
+          por un sistema eléctrico de ingeniería, y tu auto sigue siendo tuyo:
+          misma carrocería, mismo carácter, cero emisiones.
+        </p>
+        <div class="hero-cta">
+          <a href="#contacto" class="btn btn-primary">Cotiza tu conversión <span class="arrow" aria-hidden="true">→</span></a>
+          <a href="#proceso" class="btn btn-secondary">Ver el proceso completo</a>
+        </div>
+        <div class="hero-trust">
+          <div class="ht">
+            <b>140<span class="u">+</span></b>
+            <span>conversiones entregadas</span>
+          </div>
+          <div class="ht">
+            <b>3<span class="u">años</span></b>
+            <span>de garantía en batería</span>
+          </div>
+          <div class="ht">
+            <b>8<span class="u">sem</span></b>
+            <span>tiempo promedio en taller</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- lámina técnica: el auto, antes/después -->
+      <figure class="hero-plate" data-mode="ice" id="heroPlate">
+        <div class="plate-head">
+          <span>FICHA&nbsp;TÉCNICA</span>
+          <span class="id">VS-04 / SEDÁN '78</span>
+        </div>
+        <div class="plate-figure">
+          <svg viewBox="0 0 460 220" role="img" aria-label="Diagrama lateral de un sedán clásico mostrando su configuración mecánica de combustión y, al alternar, su nueva configuración eléctrica con paquete de baterías y motor.">
+            <!-- piso / línea base -->
+            <line x1="20" y1="186" x2="440" y2="186" stroke="oklch(0.967 0.006 70 / 0.22)" stroke-width="1.5"/>
+            <!-- carrocería: idéntica en ambos modos -->
+            <path d="M48 150
+                     L78 150
+                     C84 150 88 146 92 138
+                     L108 108
+                     C112 100 120 96 132 96
+                     L258 96
+                     C272 96 282 100 292 110
+                     L330 146
+                     C334 150 340 150 346 150
+                     L408 150
+                     C420 150 424 156 424 164
+                     L424 150
+                     C424 152 422 154 418 154
+                     L52 154
+                     C48 154 46 152 46 150 Z"
+                  fill="oklch(0.967 0.006 70 / 0.10)"
+                  stroke="oklch(0.967 0.006 70 / 0.85)" stroke-width="2.4" stroke-linejoin="round"/>
+            <!-- cabina / ventanas -->
+            <path d="M132 100 L150 70 C152 66 156 64 162 64 L240 64 C250 64 256 68 262 76 L282 100 Z"
+                  fill="oklch(0.305 0.018 250)" stroke="oklch(0.967 0.006 70 / 0.6)" stroke-width="1.6" stroke-linejoin="round"/>
+            <line x1="196" y1="64" x2="196" y2="100" stroke="oklch(0.967 0.006 70 / 0.5)" stroke-width="1.6"/>
+            <!-- ruedas -->
+            <circle cx="120" cy="156" r="30" fill="oklch(0.235 0.020 252)" stroke="oklch(0.967 0.006 70 / 0.8)" stroke-width="2.4"/>
+            <circle cx="120" cy="156" r="11" fill="none" stroke="oklch(0.967 0.006 70 / 0.45)" stroke-width="2"/>
+            <circle cx="350" cy="156" r="30" fill="oklch(0.235 0.020 252)" stroke="oklch(0.967 0.006 70 / 0.8)" stroke-width="2.4"/>
+            <circle cx="350" cy="156" r="11" fill="none" stroke="oklch(0.967 0.006 70 / 0.45)" stroke-width="2"/>
+
+            <!-- ====== MODO COMBUSTIÓN ====== -->
+            <g class="ice-only">
+              <!-- bloque motor -->
+              <rect x="300" y="118" width="46" height="30" rx="3" fill="oklch(0.565 0.012 60)" stroke="oklch(0.967 0.006 70 / 0.7)" stroke-width="1.8"/>
+              <line x1="308" y1="118" x2="308" y2="148" stroke="oklch(0.967 0.006 70 / 0.4)" stroke-width="1.4"/>
+              <line x1="318" y1="118" x2="318" y2="148" stroke="oklch(0.967 0.006 70 / 0.4)" stroke-width="1.4"/>
+              <line x1="328" y1="118" x2="328" y2="148" stroke="oklch(0.967 0.006 70 / 0.4)" stroke-width="1.4"/>
+              <line x1="338" y1="118" x2="338" y2="148" stroke="oklch(0.967 0.006 70 / 0.4)" stroke-width="1.4"/>
+              <!-- tanque -->
+              <rect x="70" y="138" width="42" height="14" rx="3" fill="none" stroke="oklch(0.967 0.006 70 / 0.55)" stroke-width="1.8"/>
+              <!-- escape + humo -->
+              <path d="M70 158 L40 158 L40 168 L34 168" fill="none" stroke="oklch(0.967 0.006 70 / 0.55)" stroke-width="2.2" stroke-linecap="round"/>
+              <circle cx="28" cy="166" r="3" fill="oklch(0.967 0.006 70 / 0.3)"/>
+              <circle cx="22" cy="160" r="4" fill="oklch(0.967 0.006 70 / 0.2)"/>
+              <circle cx="15" cy="153" r="5" fill="oklch(0.967 0.006 70 / 0.12)"/>
+              <!-- etiqueta -->
+              <text x="323" y="170" font-family="JetBrains Mono, monospace" font-size="10" fill="oklch(0.685 0.185 47)" text-anchor="middle">MOTOR I4</text>
+              <text x="91" y="130" font-family="JetBrains Mono, monospace" font-size="10" fill="oklch(0.967 0.006 70 / 0.5)" text-anchor="middle">TANQUE</text>
+            </g>
+
+            <!-- ====== MODO ELÉCTRICO ====== -->
+            <g class="ev-only">
+              <!-- paquete de baterías bajo el piso -->
+              <rect x="96" y="138" width="228" height="14" rx="3" fill="oklch(0.520 0.085 205)" stroke="oklch(0.760 0.115 195)" stroke-width="1.8"/>
+              <line x1="138" y1="138" x2="138" y2="152" stroke="oklch(0.235 0.020 252)" stroke-width="1.4"/>
+              <line x1="180" y1="138" x2="180" y2="152" stroke="oklch(0.235 0.020 252)" stroke-width="1.4"/>
+              <line x1="222" y1="138" x2="222" y2="152" stroke="oklch(0.235 0.020 252)" stroke-width="1.4"/>
+              <line x1="264" y1="138" x2="264" y2="152" stroke="oklch(0.235 0.020 252)" stroke-width="1.4"/>
+              <!-- motor eléctrico compacto eje trasero -->
+              <circle cx="350" cy="132" r="13" fill="oklch(0.685 0.185 47)" stroke="oklch(0.967 0.006 70 / 0.85)" stroke-width="1.8"/>
+              <path d="M350 126 l-3 7 h4 l-3 6" fill="none" stroke="oklch(0.225 0.012 55)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- etiquetas -->
+              <text x="210" y="130" font-family="JetBrains Mono, monospace" font-size="10" fill="oklch(0.760 0.115 195)" text-anchor="middle">PAQUETE DE BATERÍAS</text>
+              <text x="350" y="170" font-family="JetBrains Mono, monospace" font-size="10" fill="oklch(0.685 0.185 47)" text-anchor="middle">MOTOR&nbsp;E</text>
+              <!-- líneas de "energía" -->
+              <path d="M324 145 L336 138" stroke="oklch(0.760 0.115 195)" stroke-width="2" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="plate-toggle" role="group" aria-label="Alternar configuración del auto">
+          <span class="knob" aria-hidden="true"></span>
+          <button type="button" data-mode="ice" aria-pressed="true">Combustión</button>
+          <button type="button" data-mode="ev" aria-pressed="false">Eléctrico</button>
+        </div>
+
+        <div class="plate-readout" aria-live="polite">
+          <div>
+            <p class="v" data-ice="11.2 km/l" data-ev="0 emisiones">11.2 km/l</p>
+            <p class="k">rendimiento</p>
+          </div>
+          <div>
+            <p class="v" data-ice="98 dB" data-ev="42 dB">98 dB</p>
+            <p class="k">ruido en marcha</p>
+          </div>
+          <div>
+            <p class="v" data-ice="$3,400/mes" data-ev="$520/mes">$3,400/mes</p>
+            <p class="k">combustible + servicio</p>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== PROPUESTA DE VALOR ===================== -->
+  <section class="value" id="ventajas" aria-labelledby="ventajas-h">
+    <div class="wrap-wide">
+      <div class="section-head reveal">
+        <p class="kicker">Por qué convertir</p>
+        <h2 id="ventajas-h">Cuatro razones, todas con número.</h2>
+      </div>
+      <div class="value-grid">
+        <div class="value-cell reveal" data-d="1">
+          <svg class="icn" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>
+          <h3>Conservas tu auto</h3>
+          <p>La carrocería, el interior y la historia se quedan. Solo cambia lo que está bajo el cofre.</p>
+          <span class="num">100% de la lámina original</span>
+        </div>
+        <div class="value-cell reveal" data-d="2">
+          <svg class="icn" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M5 21V5a2 2 0 0 1 2-2h8l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M9 13h6M9 17h4"/></svg>
+          <h3>Cero emisiones</h3>
+          <p>Sin tubo de escape, sin verificación, sin combustión. El auto deja de contaminar el día que sale del taller.</p>
+          <span class="num">0 g CO₂ / km recorrido</span>
+        </div>
+        <div class="value-cell reveal" data-d="3">
+          <svg class="icn" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v6M12 22v-4"/><path d="M5 5l3 3M16 16l3 3M2 12h6M22 12h-4"/><circle cx="12" cy="12" r="3"/></svg>
+          <h3>Ahorro real</h3>
+          <p>Recargar cuesta una fracción de un tanque, y un motor eléctrico casi no necesita servicio.</p>
+          <span class="num">hasta 84% menos costo por km</span>
+        </div>
+        <div class="value-cell reveal" data-d="4">
+          <svg class="icn" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/><circle cx="5" cy="12" r="2"/></svg>
+          <h3>Autonomía que alcanza</h3>
+          <p>Configuramos la capacidad de batería según cómo usas el auto. Lo de diario y los fines de semana.</p>
+          <span class="num">180 a 420 km por carga</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROCESO ===================== -->
+  <section class="process" id="proceso" aria-labelledby="proceso-h">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">El proceso · 5 etapas</p>
+        <h2 id="proceso-h">Cómo convertimos un auto.</h2>
+        <p class="lede">Cada conversión es un proyecto de ingeniería documentado de principio a fin. Esto es lo que pasa entre que dejas tu auto y lo recoges eléctrico.</p>
+      </div>
+      <div class="steps">
+        <article class="step reveal" tabindex="0">
+          <div class="step-num" aria-hidden="true">01</div>
+          <div class="step-body">
+            <h3>Diagnóstico <span class="dur">1 semana</span></h3>
+            <p>Revisamos estructura, frenos, suspensión y peso original. Definimos si el auto es buen candidato y qué necesita reforzarse antes de tocar nada eléctrico.</p>
+            <ul class="check">
+              <li>Inspección de chasis</li>
+              <li>Cálculo de pesos</li>
+              <li>Informe escrito</li>
+            </ul>
+          </div>
+        </article>
+        <article class="step reveal" tabindex="0">
+          <div class="step-num" aria-hidden="true">02</div>
+          <div class="step-body">
+            <h3>Diseño del kit <span class="dur">1 a 2 semanas</span></h3>
+            <p>Elegimos motor, capacidad de batería y ubicación del paquete según tu uso real. Modelamos la integración en 3D antes de cortar o soldar.</p>
+            <ul class="check">
+              <li>Selección de componentes</li>
+              <li>Modelado 3D</li>
+              <li>Plan de autonomía</li>
+            </ul>
+          </div>
+        </article>
+        <article class="step reveal" tabindex="0">
+          <div class="step-num" aria-hidden="true">03</div>
+          <div class="step-body">
+            <h3>Desmontaje del tren motriz <span class="dur">1 semana</span></h3>
+            <p>Retiramos motor, transmisión, tanque, escape y todo el sistema de combustión. Las piezas en buen estado se documentan y se te entregan o se reciclan.</p>
+            <ul class="check">
+              <li>Extracción de motor</li>
+              <li>Limpieza del compartimento</li>
+              <li>Inventario de piezas</li>
+            </ul>
+          </div>
+        </article>
+        <article class="step reveal" tabindex="0">
+          <div class="step-num" aria-hidden="true">04</div>
+          <div class="step-body">
+            <h3>Instalación eléctrica <span class="dur">2 a 3 semanas</span></h3>
+            <p>Montamos motor eléctrico, paquete de baterías, sistema de gestión (BMS), cargador y la electrónica de control. Todo el cableado bajo norma.</p>
+            <ul class="check">
+              <li>Motor y baterías</li>
+              <li>BMS y cargador</li>
+              <li>Tablero e instrumentación</li>
+            </ul>
+          </div>
+        </article>
+        <article class="step reveal" tabindex="0">
+          <div class="step-num" aria-hidden="true">05</div>
+          <div class="step-body">
+            <h3>Pruebas y entrega <span class="dur">1 semana</span></h3>
+            <p>Pruebas de carga, de ruta y de seguridad. Te entregamos el auto con su documentación técnica, la garantía por escrito y una sesión de manejo.</p>
+            <ul class="check">
+              <li>Pruebas de ruta</li>
+              <li>Expediente técnico</li>
+              <li>Capacitación de uso</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PAQUETES ===================== -->
+  <section class="packages" id="paquetes" aria-labelledby="paquetes-h">
+    <div class="wrap-wide">
+      <div class="section-head reveal">
+        <p class="kicker">Paquetes de conversión</p>
+        <h2 id="paquetes-h">Tres configuraciones. Tú eliges autonomía.</h2>
+        <p class="lede">La diferencia entre paquetes es la capacidad de batería y el motor. La calidad de la instalación es la misma en los tres.</p>
+      </div>
+      <div class="pkg-grid">
+        <article class="pkg reveal" data-d="1">
+          <div class="pkg-tag"><span>Nivel 1</span></div>
+          <h3>City</h3>
+          <p class="pkg-desc">Para uso urbano diario: trayecto a la oficina, mandados, ciudad. La opción más accesible para empezar.</p>
+          <div class="pkg-specs">
+            <div class="row"><span>Batería</span><b>24<em>kWh</em></b></div>
+            <div class="row"><span>Autonomía</span><b>~180<em>km</em></b></div>
+            <div class="row"><span>Motor</span><b>80<em>kW</em></b></div>
+            <div class="row"><span>Carga 0–80%</span><b>4<em>h</em></b></div>
+          </div>
+          <div class="pkg-price">
+            <span class="from">Desde</span>
+            <b>$185,000 MXN</b>
+            <span class="weeks">6 a 7 semanas en taller</span>
+          </div>
+          <a href="#contacto" class="btn btn-secondary">Cotizar City</a>
+        </article>
+
+        <article class="pkg featured reveal" data-d="2">
+          <div class="pkg-tag"><span>Nivel 2</span><span class="badge">Más elegido</span></div>
+          <h3>Range</h3>
+          <p class="pkg-desc">El equilibrio entre costo y libertad: cubre la semana entera y la escapada de fin de semana sin pensar en la carga.</p>
+          <div class="pkg-specs">
+            <div class="row"><span>Batería</span><b>42<em>kWh</em></b></div>
+            <div class="row"><span>Autonomía</span><b>~300<em>km</em></b></div>
+            <div class="row"><span>Motor</span><b>120<em>kW</em></b></div>
+            <div class="row"><span>Carga 0–80%</span><b>1.5<em>h</em></b></div>
+          </div>
+          <div class="pkg-price">
+            <span class="from">Desde</span>
+            <b>$268,000 MXN</b>
+            <span class="weeks">8 a 9 semanas en taller</span>
+          </div>
+          <a href="#contacto" class="btn btn-primary">Cotizar Range</a>
+        </article>
+
+        <article class="pkg reveal" data-d="3">
+          <div class="pkg-tag"><span>Nivel 3</span></div>
+          <h3>Performance</h3>
+          <p class="pkg-desc">Máxima autonomía y empuje. Para quien recorre distancias largas o quiere que el clásico además vuele.</p>
+          <div class="pkg-specs">
+            <div class="row"><span>Batería</span><b>60<em>kWh</em></b></div>
+            <div class="row"><span>Autonomía</span><b>~420<em>km</em></b></div>
+            <div class="row"><span>Motor</span><b>180<em>kW</em></b></div>
+            <div class="row"><span>Carga 0–80%</span><b>55<em>min</em></b></div>
+          </div>
+          <div class="pkg-price">
+            <span class="from">Desde</span>
+            <b>$355,000 MXN</b>
+            <span class="weeks">10 a 12 semanas en taller</span>
+          </div>
+          <a href="#contacto" class="btn btn-secondary">Cotizar Performance</a>
+        </article>
+      </div>
+      <p class="pkg-note reveal">Los precios son estimados de referencia e incluyen kit, instalación y pruebas. El costo final depende del modelo y estado de tu auto.</p>
+    </div>
+  </section>
+
+  <!-- ===================== GALERÍA ANTES / DESPUÉS ===================== -->
+  <section class="gallery" id="galeria" aria-labelledby="galeria-h">
+    <div class="wrap-wide">
+      <div class="section-head reveal">
+        <p class="kicker">Casos reales · arrastra para comparar</p>
+        <h2 id="galeria-h">Antes y después.</h2>
+        <p class="lede">Mismo auto, otra mecánica. Mueve el control de cada panel para ver el cambio.</p>
+      </div>
+      <div class="ba-list">
+
+        <!-- caso 1 -->
+        <figure class="ba reveal" data-d="1">
+          <div class="ba-stage" role="img" tabindex="0"
+               aria-label="Comparación antes y después: sedán clásico de 1978. Antes, con motor de combustión; después, convertido a eléctrico con paquete Range."
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <span class="ba-tag before">ANTES · COMBUSTIÓN</span>
+            <!-- ANTES -->
+            <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs>
+                <linearGradient id="g1a" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="oklch(0.345 0.018 250)"/>
+                  <stop offset="1" stop-color="oklch(0.235 0.020 252)"/>
+                </linearGradient>
+              </defs>
+              <rect width="400" height="250" fill="url(#g1a)"/>
+              <line x1="0" y1="200" x2="400" y2="200" stroke="oklch(0.967 0.006 70 / 0.18)" stroke-width="2"/>
+              <!-- auto sucio / opaco -->
+              <path d="M70 165 C76 165 80 161 84 153 L100 122 C104 114 112 110 124 110 L246 110 C260 110 270 114 280 124 L312 158 C316 162 322 162 328 162 L356 162 C366 162 370 168 370 176 L72 176 C68 176 66 172 70 165Z"
+                    fill="oklch(0.500 0.012 60)" stroke="oklch(0.967 0.006 70 / 0.4)" stroke-width="2"/>
+              <path d="M124 114 L142 84 L226 84 C236 84 242 88 248 96 L268 114 Z" fill="oklch(0.305 0.018 250)" stroke="oklch(0.967 0.006 70 / 0.35)" stroke-width="1.5"/>
+              <circle cx="115" cy="178" r="26" fill="oklch(0.235 0.020 252)" stroke="oklch(0.967 0.006 70 / 0.45)" stroke-width="2.5"/>
+              <circle cx="300" cy="178" r="26" fill="oklch(0.235 0.020 252)" stroke="oklch(0.967 0.006 70 / 0.45)" stroke-width="2.5"/>
+              <!-- humo -->
+              <circle cx="56" cy="172" r="4" fill="oklch(0.967 0.006 70 / 0.2)"/>
+              <circle cx="46" cy="164" r="6" fill="oklch(0.967 0.006 70 / 0.14)"/>
+              <circle cx="34" cy="155" r="8" fill="oklch(0.967 0.006 70 / 0.09)"/>
+            </svg>
+            <!-- DESPUÉS -->
+            <div class="ba-after">
+              <span class="ba-tag after">DESPUÉS · ELÉCTRICO</span>
+              <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <defs>
+                  <linearGradient id="g1b" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="oklch(0.520 0.085 205)"/>
+                    <stop offset="1" stop-color="oklch(0.305 0.040 230)"/>
+                  </linearGradient>
+                </defs>
+                <rect width="400" height="250" fill="url(#g1b)"/>
+                <line x1="0" y1="200" x2="400" y2="200" stroke="oklch(0.967 0.006 70 / 0.28)" stroke-width="2"/>
+                <path d="M70 165 C76 165 80 161 84 153 L100 122 C104 114 112 110 124 110 L246 110 C260 110 270 114 280 124 L312 158 C316 162 322 162 328 162 L356 162 C366 162 370 168 370 176 L72 176 C68 176 66 172 70 165Z"
+                      fill="oklch(0.880 0.010 70)" stroke="oklch(0.225 0.012 55 / 0.5)" stroke-width="2"/>
+                <path d="M124 114 L142 84 L226 84 C236 84 242 88 248 96 L268 114 Z" fill="oklch(0.300 0.030 230)" stroke="oklch(0.967 0.006 70 / 0.5)" stroke-width="1.5"/>
+                <circle cx="115" cy="178" r="26" fill="oklch(0.235 0.020 252)" stroke="oklch(0.760 0.115 195)" stroke-width="2.5"/>
+                <circle cx="300" cy="178" r="26" fill="oklch(0.235 0.020 252)" stroke="oklch(0.760 0.115 195)" stroke-width="2.5"/>
+                <!-- destello volt -->
+                <path d="M210 120 l-8 18 h7 l-6 16 16-22 h-8 z" fill="oklch(0.760 0.115 195)"/>
+              </svg>
+            </div>
+            <div class="ba-divider"></div>
+            <div class="ba-handle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg>
+            </div>
+          </div>
+          <figcaption class="ba-meta">
+            <h3>Sedán clásico <span class="yr">1978 · Paquete Range</span></h3>
+            <p>Un diario familiar que había dejado de circular por costos de mantenimiento. Hoy hace 290 km por carga.</p>
+            <div class="ba-stats">
+              <div><b>42 kWh</b><span>batería</span></div>
+              <div><b>290 km</b><span>autonomía real</span></div>
+              <div><b>9 sem</b><span>en taller</span></div>
+            </div>
+          </figcaption>
+        </figure>
+
+        <!-- caso 2 -->
+        <figure class="ba reveal" data-d="2">
+          <div class="ba-stage" role="img" tabindex="0"
+               aria-label="Comparación antes y después: pickup de trabajo de 1985. Antes, con motor de combustión; después, convertida a eléctrica con paquete Performance."
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <span class="ba-tag before">ANTES · COMBUSTIÓN</span>
+            <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="400" height="250" fill="url(#g1a)"/>
+              <line x1="0" y1="200" x2="400" y2="200" stroke="oklch(0.967 0.006 70 / 0.18)" stroke-width="2"/>
+              <!-- pickup -->
+              <path d="M44 168 L70 168 L78 122 C80 114 86 110 96 110 L168 110 C176 110 180 114 180 122 L180 150 L356 150 C366 150 372 156 372 166 L372 178 L46 178 C42 178 42 172 44 168Z"
+                    fill="oklch(0.500 0.012 60)" stroke="oklch(0.967 0.006 70 / 0.4)" stroke-width="2"/>
+              <path d="M96 114 L104 86 L160 86 L168 114 Z" fill="oklch(0.305 0.018 250)" stroke="oklch(0.967 0.006 70 / 0.35)" stroke-width="1.5"/>
+              <circle cx="110" cy="180" r="26" fill="oklch(0.235 0.020 252)" stroke="oklch(0.967 0.006 70 / 0.45)" stroke-width="2.5"/>
+              <circle cx="312" cy="180" r="26" fill="oklch(0.235 0.020 252)" stroke="oklch(0.967 0.006 70 / 0.45)" stroke-width="2.5"/>
+              <circle cx="34" cy="170" r="5" fill="oklch(0.967 0.006 70 / 0.16)"/>
+              <circle cx="24" cy="161" r="7" fill="oklch(0.967 0.006 70 / 0.10)"/>
+            </svg>
+            <div class="ba-after">
+              <span class="ba-tag after">DESPUÉS · ELÉCTRICO</span>
+              <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <rect width="400" height="250" fill="url(#g1b)"/>
+                <line x1="0" y1="200" x2="400" y2="200" stroke="oklch(0.967 0.006 70 / 0.28)" stroke-width="2"/>
+                <path d="M44 168 L70 168 L78 122 C80 114 86 110 96 110 L168 110 C176 110 180 114 180 122 L180 150 L356 150 C366 150 372 156 372 166 L372 178 L46 178 C42 178 42 172 44 168Z"
+                      fill="oklch(0.760 0.060 60)" stroke="oklch(0.225 0.012 55 / 0.5)" stroke-width="2"/>
+                <path d="M96 114 L104 86 L160 86 L168 114 Z" fill="oklch(0.300 0.030 230)" stroke="oklch(0.967 0.006 70 / 0.5)" stroke-width="1.5"/>
+                <circle cx="110" cy="180" r="26" fill="oklch(0.235 0.020 252)" stroke="oklch(0.760 0.115 195)" stroke-width="2.5"/>
+                <circle cx="312" cy="180" r="26" fill="oklch(0.235 0.020 252)" stroke="oklch(0.760 0.115 195)" stroke-width="2.5"/>
+                <path d="M250 122 l-8 18 h7 l-6 16 16-22 h-8 z" fill="oklch(0.760 0.115 195)"/>
+              </svg>
+            </div>
+            <div class="ba-divider"></div>
+            <div class="ba-handle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg>
+            </div>
+          </div>
+          <figcaption class="ba-meta">
+            <h3>Pickup de trabajo <span class="yr">1985 · Paquete Performance</span></h3>
+            <p>Una camioneta de reparto que gastaba en gasolina lo que ahora gasta en cuatro meses de luz.</p>
+            <div class="ba-stats">
+              <div><b>60 kWh</b><span>batería</span></div>
+              <div><b>410 km</b><span>autonomía real</span></div>
+              <div><b>11 sem</b><span>en taller</span></div>
+            </div>
+          </figcaption>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COSTOS Y TIEMPOS ===================== -->
+  <section class="costs" id="costos" aria-labelledby="costos-h">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">Costos y tiempos estimados</p>
+        <h2 id="costos-h">Lo que cuesta, lo que tarda.</h2>
+        <p class="lede">Rangos de referencia por paquete. La cotización formal se hace después del diagnóstico, sin compromiso.</p>
+      </div>
+      <div class="cost-table reveal">
+        <div class="cost-row head">
+          <div>Paquete</div>
+          <div>Inversión estimada</div>
+          <div>Tiempo en taller</div>
+          <div>Autonomía objetivo</div>
+        </div>
+        <div class="cost-row">
+          <div class="pkg-name">City <small>uso urbano diario</small></div>
+          <div class="val" data-label="Inversión">$185k – $215k <small>MXN</small></div>
+          <div class="val" data-label="Tiempo">6 – 7 <small>semanas</small></div>
+          <div class="val accent" data-label="Autonomía">~180 <small>km / carga</small></div>
+        </div>
+        <div class="cost-row">
+          <div class="pkg-name">Range <small>semana + fin de semana</small></div>
+          <div class="val" data-label="Inversión">$268k – $305k <small>MXN</small></div>
+          <div class="val" data-label="Tiempo">8 – 9 <small>semanas</small></div>
+          <div class="val accent" data-label="Autonomía">~300 <small>km / carga</small></div>
+        </div>
+        <div class="cost-row">
+          <div class="pkg-name">Performance <small>distancias largas</small></div>
+          <div class="val" data-label="Inversión">$355k – $410k <small>MXN</small></div>
+          <div class="val" data-label="Tiempo">10 – 12 <small>semanas</small></div>
+          <div class="val accent" data-label="Autonomía">~420 <small>km / carga</small></div>
+        </div>
+      </div>
+      <p class="cost-foot reveal">El rango cubre kit, instalación, electrónica de control y pruebas. Refuerzos estructurales, pintura o trabajo de carrocería se cotizan aparte si tu auto los necesita. Aceptamos pago en etapas alineadas a las 5 fases del proceso.</p>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="faq" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">Preguntas frecuentes</p>
+        <h2 id="faq-h">Lo que todos preguntan.</h2>
+      </div>
+      <div class="faq-list longread reveal">
+        <div class="faq-item" data-open="true">
+          <h3>
+            <button type="button" class="faq-q" aria-expanded="true" aria-controls="faq-a-1">
+              ¿La conversión tiene garantía?
+              <span class="sign" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-a" id="faq-a-1" role="region">
+            <div class="faq-a-inner">
+              <p>Sí. La instalación eléctrica completa lleva <strong>2 años de garantía</strong> y el paquete de baterías <strong>3 años o 60,000 km</strong>, lo que ocurra primero. Te entregamos la garantía por escrito junto con el expediente técnico de tu auto.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>
+            <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a-2">
+              ¿Es legal circular con un auto convertido?
+              <span class="sign" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-a" id="faq-a-2" role="region">
+            <div class="faq-a-inner">
+              <p>La conversión es legal, pero requiere actualizar el registro del vehículo para reflejar el cambio de motorización. Nosotros preparamos el <strong>expediente técnico</strong> y te acompañamos en el trámite de homologación ante la autoridad correspondiente. El auto sale del taller con toda la documentación lista.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>
+            <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a-3">
+              ¿Cuánto mantenimiento necesita después?
+              <span class="sign" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-a" id="faq-a-3" role="region">
+            <div class="faq-a-inner">
+              <p>Mucho menos que un auto de combustión. No hay aceite, bujías, filtros, banda ni escape. El servicio se reduce a <strong>revisar frenos, suspensión, refrigerante de batería y una inspección anual del sistema</strong>. La mayoría de nuestros clientes pasa de servicio cada 6 meses a una visita al año.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>
+            <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a-4">
+              ¿Qué pasa con los repuestos a futuro?
+              <span class="sign" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-a" id="faq-a-4" role="region">
+            <div class="faq-a-inner">
+              <p>Trabajamos con componentes eléctricos estandarizados de proveedores establecidos, no con piezas hechas a la medida imposibles de reponer. Guardamos el <strong>expediente completo de tu conversión</strong>: cada parte, su especificación y su origen. Si algo necesita reemplazo en cinco años, sabemos exactamente qué pedir.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>
+            <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a-5">
+              ¿Cualquier auto se puede convertir?
+              <span class="sign" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-a" id="faq-a-5" role="region">
+            <div class="faq-a-inner">
+              <p>Casi cualquiera, pero no todos son buenos candidatos. La estructura debe estar sana y el peso original debe permitir alojar las baterías con seguridad. Por eso el <strong>diagnóstico es la primera etapa</strong>: si tu auto no es viable, te lo decimos antes de que inviertas un peso. Preferimos perder un proyecto que entregar algo inseguro.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA FINAL ===================== -->
+  <section class="final-cta" id="contacto" aria-labelledby="cta-h">
+    <div class="wrap">
+      <div>
+        <h2 id="cta-h">¿Listo para electrificar tu auto?</h2>
+        <p>Empieza con un diagnóstico. Te decimos si tu auto es buen candidato y cuánto costaría, sin compromiso.</p>
+      </div>
+      <a href="mailto:hola@voltswap.mx?subject=Cotización%20de%20conversión" class="btn btn-dark">Cotiza tu conversión <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="wrap-wide">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="brand" aria-label="VoltSwap, inicio">
+          <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="1.5" y="1.5" width="29" height="29" rx="5" stroke="oklch(0.967 0.006 70 / 0.85)" stroke-width="2.4"/>
+            <path d="M17.5 6 L9 18 H15 L13.5 26 L23 13 H16.5 Z" fill="var(--torch)"/>
+          </svg>
+          VoltSwap
+        </a>
+        <p>Taller de electrificación. Convertimos autos de combustión a 100% eléctricos con ingeniería documentada.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#proceso">El proceso</a></li>
+          <li><a href="#paquetes">Paquetes</a></li>
+          <li><a href="#galeria">Antes / Después</a></li>
+          <li><a href="#costos">Costos</a></li>
+          <li><a href="#faq">Preguntas</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Taller</h4>
+        <address>
+          Av. Industria 214, Nave 3<br />
+          Col. Tres Cruces<br />
+          76040 Querétaro, Qro.<br />
+          <a href="tel:+524421234567">+52 442 123 4567</a><br />
+          <a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a>
+        </address>
+      </div>
+      <div class="footer-col">
+        <h4>Horario</h4>
+        <p class="footer-hours">
+          <span class="open">● Abierto ahora</span><br />
+          Lun a Vie · 9:00 – 18:00<br />
+          Sábado · 9:00 – 14:00<br />
+          Domingo · cerrado
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 VoltSwap. Hecho en taller, no en línea de producción.</span>
+      <span>Querétaro, México · Conversiones desde 2016</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- header pegado ---- */
+  var header = document.getElementById("header");
+  var onScroll = function () {
+    header.dataset.stuck = window.scrollY > 8 ? "true" : "false";
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  /* ---- reveal on scroll ---- */
+  var reveals = document.querySelectorAll(".reveal");
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    reveals.forEach(function (el) { el.classList.add("is-in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.14, rootMargin: "0px 0px -8% 0px" });
+    reveals.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---- hero: marca de entrada para el tachado ---- */
+  var hero = document.querySelector(".hero");
+  if (reduceMotion) {
+    hero.classList.add("is-in");
+  } else {
+    requestAnimationFrame(function () {
+      setTimeout(function () { hero.classList.add("is-in"); }, 60);
+    });
+  }
+
+  /* ---- hero plate: toggle combustión / eléctrico ---- */
+  var plate = document.getElementById("heroPlate");
+  if (plate) {
+    var toggleBtns = plate.querySelectorAll(".plate-toggle button");
+    var readouts = plate.querySelectorAll(".plate-readout .v");
+    var setMode = function (mode) {
+      plate.dataset.mode = mode;
+      toggleBtns.forEach(function (b) {
+        b.setAttribute("aria-pressed", b.dataset.mode === mode ? "true" : "false");
+      });
+      readouts.forEach(function (v) {
+        v.textContent = mode === "ev" ? v.dataset.ev : v.dataset.ice;
+      });
+    };
+    toggleBtns.forEach(function (b) {
+      b.addEventListener("click", function () { setMode(b.dataset.mode); });
+    });
+    /* demostración suave una vez, sin robar el foco */
+    if (!reduceMotion) {
+      setTimeout(function () {
+        if (plate.dataset.mode === "ice" &&
+            plate.getBoundingClientRect().top < window.innerHeight) {
+          setMode("ev");
+        }
+      }, 2600);
+    }
+  }
+
+  /* ---- FAQ acordeón ---- */
+  document.querySelectorAll(".faq-q").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var item = btn.closest(".faq-item");
+      var open = item.dataset.open === "true";
+      item.dataset.open = open ? "false" : "true";
+      btn.setAttribute("aria-expanded", open ? "false" : "true");
+    });
+  });
+
+  /* ---- galería antes/después: slider arrastrable + teclado ---- */
+  document.querySelectorAll(".ba-stage").forEach(function (stage) {
+    var after = stage.querySelector(".ba-after");
+    var divider = stage.querySelector(".ba-divider");
+    var handle = stage.querySelector(".ba-handle");
+    var dragging = false;
+
+    var apply = function (pct) {
+      pct = Math.max(2, Math.min(98, pct));
+      after.style.clipPath = "inset(0 0 0 " + pct + "%)";
+      divider.style.left = pct + "%";
+      handle.style.left = pct + "%";
+      stage.setAttribute("aria-valuenow", Math.round(pct));
+    };
+    var fromEvent = function (clientX) {
+      var r = stage.getBoundingClientRect();
+      apply(((clientX - r.left) / r.width) * 100);
+    };
+    var startDrag = function (e) {
+      dragging = true;
+      stage.style.cursor = "grabbing";
+      fromEvent(e.touches ? e.touches[0].clientX : e.clientX);
+    };
+    var moveDrag = function (e) {
+      if (!dragging) return;
+      fromEvent(e.touches ? e.touches[0].clientX : e.clientX);
+    };
+    var endDrag = function () { dragging = false; stage.style.cursor = ""; };
+
+    stage.addEventListener("mousedown", startDrag);
+    window.addEventListener("mousemove", moveDrag);
+    window.addEventListener("mouseup", endDrag);
+    stage.addEventListener("touchstart", startDrag, { passive: true });
+    stage.addEventListener("touchmove", moveDrag, { passive: true });
+    stage.addEventListener("touchend", endDrag);
+
+    stage.addEventListener("keydown", function (e) {
+      var now = parseFloat(stage.getAttribute("aria-valuenow")) || 50;
+      if (e.key === "ArrowLeft") { apply(now - 5); e.preventDefault(); }
+      else if (e.key === "ArrowRight") { apply(now + 5); e.preventDefault(); }
+      else if (e.key === "Home") { apply(2); e.preventDefault(); }
+      else if (e.key === "End") { apply(98); e.preventDefault(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>

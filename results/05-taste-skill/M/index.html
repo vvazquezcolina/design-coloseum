@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VoltSwap — Convierte tu auto a 100% eléctrico</title>
+<meta name="description" content="VoltSwap es un taller especializado que transforma autos de combustión interna en vehículos 100% eléctricos. Conversión profesional, garantizada y reversible." />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Outfit', 'system-ui', 'sans-serif'],
+          mono: ['Space Grotesk', 'monospace'],
+        },
+        colors: {
+          ink: '#15171a',
+          carbon: '#1f2225',
+          volt: '#1ea672',
+          voltdim: '#15825a',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root { color-scheme: light; }
+  html { scroll-behavior: smooth; }
+  body { background: #f4f5f3; }
+
+  /* Texto largo justificado — regla global */
+  .prose-justify p,
+  .prose-justify li {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+  }
+
+  /* Reveal en scroll — solo transform/opacity */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal[data-delay="1"] { transition-delay: 0.08s; }
+  .reveal[data-delay="2"] { transition-delay: 0.16s; }
+  .reveal[data-delay="3"] { transition-delay: 0.24s; }
+  .reveal[data-delay="4"] { transition-delay: 0.32s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+    .marquee-track { animation: none !important; }
+    .pulse-dot::after { animation: none !important; }
+  }
+
+  /* Marquee infinito */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 32s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Punto de estado "respirando" */
+  .pulse-dot { position: relative; }
+  .pulse-dot::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 9999px;
+    border: 1.5px solid #1ea672;
+    opacity: 0;
+    animation: ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  @keyframes ping {
+    0% { transform: scale(0.8); opacity: 0.7; }
+    80%, 100% { transform: scale(1.9); opacity: 0; }
+  }
+
+  /* Slider antes/después */
+  .ba-wrap { position: relative; overflow: hidden; cursor: ew-resize; touch-action: none; }
+  .ba-after { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .ba-handle {
+    position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 2px; background: #fff;
+    transform: translateX(-1px);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.18);
+  }
+  .ba-knob {
+    position: absolute; top: 50%; left: 50%;
+    width: 44px; height: 44px;
+    transform: translate(-50%, -50%);
+    background: #fff; border-radius: 9999px;
+    display: grid; place-items: center;
+    box-shadow: 0 6px 20px -4px rgba(0,0,0,0.35);
+  }
+
+  /* Botón táctil */
+  .tactile:active { transform: translateY(1px) scale(0.985); }
+
+  /* Grano fino fijo */
+  .grain {
+    position: fixed; inset: 0; z-index: 60; pointer-events: none;
+    opacity: 0.035; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+</style>
+</head>
+<body class="font-sans text-ink antialiased selection:bg-volt selection:text-white">
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ===================== NAV ===================== -->
+<header class="sticky top-0 z-50 border-b border-ink/10 bg-[#f4f5f3]/85 backdrop-blur-md">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
+    <a href="#top" class="flex items-center gap-2.5">
+      <span class="grid h-9 w-9 place-items-center rounded-xl bg-ink text-volt">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg>
+      </span>
+      <span class="text-lg font-700 tracking-tight">VoltSwap</span>
+    </a>
+    <nav class="hidden items-center gap-7 text-sm font-500 text-ink/70 md:flex">
+      <a href="#proceso" class="transition-colors hover:text-ink">Proceso</a>
+      <a href="#paquetes" class="transition-colors hover:text-ink">Paquetes</a>
+      <a href="#galeria" class="transition-colors hover:text-ink">Galería</a>
+      <a href="#precios" class="transition-colors hover:text-ink">Precios</a>
+    </nav>
+    <a href="#contacto" class="tactile rounded-full bg-ink px-5 py-2.5 text-sm font-600 text-white transition-[transform,background-color] duration-200 hover:bg-carbon">
+      Agendar diagnóstico
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===================== HERO (split asimétrico) ===================== -->
+  <section class="relative overflow-hidden border-b border-ink/10">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 pb-16 pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6 lg:px-8 lg:pb-24 lg:pt-20">
+      <!-- Columna texto -->
+      <div class="reveal flex flex-col justify-center">
+        <div class="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-ink/15 bg-white px-3.5 py-1.5 text-xs font-500 text-ink/70">
+          <span class="pulse-dot block h-2 w-2 rounded-full bg-volt"></span>
+          Taller certificado · Conversiones EV desde 2019
+        </div>
+        <h1 class="text-4xl font-700 leading-[1.04] tracking-tighter md:text-6xl">
+          Tu auto de siempre,<br />
+          ahora <span class="text-volt">100% eléctrico</span>.
+        </h1>
+        <p class="mt-6 max-w-[55ch] text-base leading-relaxed text-ink/65">
+          En VoltSwap retiramos el motor de combustión de tu vehículo y montamos un tren
+          eléctrico completo: baterías, motor, controlador y software. Conservas la
+          carrocería que conoces y eliminas gasolina, ruido y mantenimiento pesado.
+        </p>
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+          <a href="#contacto" class="tactile rounded-full bg-volt px-6 py-3.5 text-center text-sm font-600 text-white transition-[transform,background-color] duration-200 hover:bg-voltdim">
+            Cotiza tu conversión
+          </a>
+          <a href="#proceso" class="tactile rounded-full border border-ink/20 bg-white px-6 py-3.5 text-center text-sm font-600 text-ink transition-[transform,border-color] duration-200 hover:border-ink/40">
+            Ver cómo funciona
+          </a>
+        </div>
+        <!-- métricas, sin cajas: solo líneas divisorias -->
+        <dl class="mt-12 grid grid-cols-3 divide-x divide-ink/10 border-t border-ink/10 pt-6">
+          <div class="pr-4">
+            <dt class="text-xs uppercase tracking-wide text-ink/45">Conversiones</dt>
+            <dd class="mt-1 font-mono text-2xl font-600">214</dd>
+          </div>
+          <div class="px-4">
+            <dt class="text-xs uppercase tracking-wide text-ink/45">Autonomía típica</dt>
+            <dd class="mt-1 font-mono text-2xl font-600">280<span class="text-base text-ink/45"> km</span></dd>
+          </div>
+          <div class="pl-4">
+            <dt class="text-xs uppercase tracking-wide text-ink/45">Garantía tren</dt>
+            <dd class="mt-1 font-mono text-2xl font-600">3<span class="text-base text-ink/45"> años</span></dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Columna visual: SVG inline del auto + capas -->
+      <div class="reveal" data-delay="2">
+        <div class="relative h-full min-h-[340px] overflow-hidden rounded-[2rem] border border-ink/10 bg-carbon p-6 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.4)]">
+          <!-- malla de fondo -->
+          <div class="absolute inset-0 opacity-[0.18]" style="background-image:linear-gradient(#3a3f44 1px,transparent 1px),linear-gradient(90deg,#3a3f44 1px,transparent 1px);background-size:34px 34px;" aria-hidden="true"></div>
+          <!-- resplandor volt suave -->
+          <div class="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-volt/25 blur-3xl" aria-hidden="true"></div>
+
+          <div class="relative flex h-full flex-col">
+            <div class="flex items-center justify-between text-xs font-500 text-white/55">
+              <span>DIAGNÓSTICO EN VIVO</span>
+              <span class="font-mono text-volt">UNIDAD #214</span>
+            </div>
+
+            <!-- ilustración auto -->
+            <div class="my-6 flex flex-1 items-center justify-center">
+              <svg viewBox="0 0 360 150" class="w-full max-w-[360px]" fill="none" aria-label="Ilustración de auto convertido a eléctrico">
+                <defs>
+                  <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#2f343a"/>
+                    <stop offset="1" stop-color="#1b1e22"/>
+                  </linearGradient>
+                </defs>
+                <ellipse cx="180" cy="132" rx="150" ry="9" fill="#000" opacity="0.35"/>
+                <path d="M30 96 C30 96 52 92 70 90 C92 62 116 50 168 50 C214 50 250 60 276 86 C300 88 330 92 334 100 C338 108 336 116 330 118 L42 118 C32 116 28 104 30 96 Z" fill="url(#body)" stroke="#41464c" stroke-width="1.5"/>
+                <path d="M96 86 C108 66 128 60 162 60 L168 84 Z" fill="#14171a"/>
+                <path d="M176 60 C214 60 240 68 262 84 L176 84 Z" fill="#14171a"/>
+                <rect x="172" y="60" width="6" height="24" fill="#41464c"/>
+                <!-- ruedas -->
+                <circle cx="92" cy="118" r="22" fill="#101316" stroke="#4a4f55" stroke-width="2"/>
+                <circle cx="92" cy="118" r="9" fill="#2a2e33"/>
+                <circle cx="276" cy="118" r="22" fill="#101316" stroke="#4a4f55" stroke-width="2"/>
+                <circle cx="276" cy="118" r="9" fill="#2a2e33"/>
+                <!-- "batería" iluminada bajo el piso -->
+                <rect x="118" y="104" width="130" height="9" rx="3" fill="#1ea672"/>
+                <rect x="118" y="104" width="130" height="9" rx="3" fill="#1ea672" opacity="0.5"/>
+                <!-- rayo -->
+                <path d="M188 22 L172 46 H184 L180 64 L198 38 H186 L188 22 Z" fill="#1ea672" stroke="#15171a" stroke-width="1.5"/>
+              </svg>
+            </div>
+
+            <!-- lecturas estilo telemetría -->
+            <div class="grid grid-cols-3 gap-2.5">
+              <div class="rounded-xl border border-white/10 bg-white/[0.04] p-3">
+                <p class="text-[10px] uppercase tracking-wide text-white/40">Batería</p>
+                <p class="mt-1 font-mono text-sm font-600 text-white">62 kWh</p>
+              </div>
+              <div class="rounded-xl border border-white/10 bg-white/[0.04] p-3">
+                <p class="text-[10px] uppercase tracking-wide text-white/40">Potencia</p>
+                <p class="mt-1 font-mono text-sm font-600 text-white">201 hp</p>
+              </div>
+              <div class="rounded-xl border border-volt/40 bg-volt/10 p-3">
+                <p class="text-[10px] uppercase tracking-wide text-volt">Estado</p>
+                <p class="mt-1 font-mono text-sm font-600 text-volt">Listo</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- marquee de marcas -->
+    <div class="border-t border-ink/10 bg-white py-4">
+      <div class="overflow-hidden">
+        <div class="marquee-track gap-12 px-6 text-sm font-500 uppercase tracking-wide text-ink/35">
+          <span>Volkswagen Sedán</span><span>·</span><span>Nissan Tsuru</span><span>·</span>
+          <span>Jeep Wrangler</span><span>·</span><span>VW Combi</span><span>·</span>
+          <span>Ford Mustang 67</span><span>·</span><span>Chevrolet C10</span><span>·</span>
+          <span>Mini Cooper Clásico</span><span>·</span>
+          <span aria-hidden="true">Volkswagen Sedán</span><span aria-hidden="true">·</span><span aria-hidden="true">Nissan Tsuru</span><span aria-hidden="true">·</span>
+          <span aria-hidden="true">Jeep Wrangler</span><span aria-hidden="true">·</span><span aria-hidden="true">VW Combi</span><span aria-hidden="true">·</span>
+          <span aria-hidden="true">Ford Mustang 67</span><span aria-hidden="true">·</span><span aria-hidden="true">Chevrolet C10</span><span aria-hidden="true">·</span>
+          <span aria-hidden="true">Mini Cooper Clásico</span><span aria-hidden="true">·</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROCESO ===================== -->
+  <section id="proceso" class="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+    <div class="reveal grid grid-cols-1 gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+      <div>
+        <p class="mb-3 font-mono text-xs uppercase tracking-widest text-volt">Cómo funciona</p>
+        <h2 class="text-3xl font-700 tracking-tighter md:text-5xl">
+          Cuatro etapas,<br />una sola obsesión: hacerlo bien.
+        </h2>
+      </div>
+      <p class="max-w-[60ch] text-base leading-relaxed text-ink/60 lg:pb-2 prose-justify">
+        <span>Cada conversión sigue un protocolo documentado. Tú recibes un reporte fotográfico
+        por etapa y un cronograma con fechas reales. Sin sorpresas, sin "ya casi".</span>
+      </p>
+    </div>
+
+    <!-- timeline en zig-zag, no tres cards iguales -->
+    <ol class="mt-14 space-y-px overflow-hidden rounded-3xl border border-ink/10 bg-white">
+      <li class="reveal grid grid-cols-1 gap-6 border-b border-ink/10 p-7 md:grid-cols-[auto_1fr_auto] md:items-center md:p-9">
+        <span class="font-mono text-sm font-600 text-volt">ETAPA 01</span>
+        <div>
+          <h3 class="text-xl font-600 tracking-tight">Diagnóstico y planeación</h3>
+          <p class="mt-1.5 max-w-[58ch] text-sm leading-relaxed text-ink/60">
+            Revisamos chasis, suspensión y frenos. Definimos tamaño de batería según el uso
+            real que le das al auto y entregamos una propuesta cerrada.
+          </p>
+        </div>
+        <span class="font-mono text-sm text-ink/40 md:text-right">3–5 días</span>
+      </li>
+      <li class="reveal grid grid-cols-1 gap-6 border-b border-ink/10 bg-[#fafbfa] p-7 md:grid-cols-[auto_1fr_auto] md:items-center md:p-9">
+        <span class="font-mono text-sm font-600 text-volt">ETAPA 02</span>
+        <div>
+          <h3 class="text-xl font-600 tracking-tight">Desmontaje del tren de combustión</h3>
+          <p class="mt-1.5 max-w-[58ch] text-sm leading-relaxed text-ink/60">
+            Retiramos motor, tanque, escape y radiador. El cliente decide si conserva las
+            piezas o las dejamos en consignación para abaratar el proyecto.
+          </p>
+        </div>
+        <span class="font-mono text-sm text-ink/40 md:text-right">1 semana</span>
+      </li>
+      <li class="reveal grid grid-cols-1 gap-6 border-b border-ink/10 p-7 md:grid-cols-[auto_1fr_auto] md:items-center md:p-9">
+        <span class="font-mono text-sm font-600 text-volt">ETAPA 03</span>
+        <div>
+          <h3 class="text-xl font-600 tracking-tight">Montaje del sistema eléctrico</h3>
+          <p class="mt-1.5 max-w-[58ch] text-sm leading-relaxed text-ink/60">
+            Instalamos motor, controlador, packs de batería con su sistema de gestión
+            térmica y el cargador de a bordo. Cableado bajo norma y refuerzos donde hacen falta.
+          </p>
+        </div>
+        <span class="font-mono text-sm text-ink/40 md:text-right">3–4 semanas</span>
+      </li>
+      <li class="reveal grid grid-cols-1 gap-6 bg-[#fafbfa] p-7 md:grid-cols-[auto_1fr_auto] md:items-center md:p-9">
+        <span class="font-mono text-sm font-600 text-volt">ETAPA 04</span>
+        <div>
+          <h3 class="text-xl font-600 tracking-tight">Calibración, pruebas y entrega</h3>
+          <p class="mt-1.5 max-w-[58ch] text-sm leading-relaxed text-ink/60">
+            Ajustamos software, hacemos pruebas de ruta y dinamómetro, y tramitamos los
+            papeles. Te entregamos el auto con manual y curso de manejo eléctrico.
+          </p>
+        </div>
+        <span class="font-mono text-sm text-ink/40 md:text-right">1 semana</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ===================== PAQUETES / SERVICIOS ===================== -->
+  <section id="paquetes" class="border-y border-ink/10 bg-ink py-20 text-white lg:py-28">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="reveal max-w-2xl">
+        <p class="mb-3 font-mono text-xs uppercase tracking-widest text-volt">Servicios y paquetes</p>
+        <h2 class="text-3xl font-700 tracking-tighter md:text-5xl">
+          Elige el alcance. Nosotros nos ocupamos del resto.
+        </h2>
+      </div>
+
+      <!-- grid asimétrico 7/5: paquete destacado más ancho -->
+      <div class="mt-14 grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <!-- destacado -->
+        <article class="reveal lg:col-span-7 flex flex-col rounded-[1.75rem] border border-volt/40 bg-carbon p-8 md:p-10">
+          <div class="flex items-center justify-between">
+            <h3 class="text-2xl font-700 tracking-tight">Conversión Integral</h3>
+            <span class="rounded-full bg-volt px-3 py-1 text-xs font-600 text-ink">Más solicitado</span>
+          </div>
+          <p class="mt-3 max-w-[52ch] text-sm leading-relaxed text-white/60">
+            El proyecto completo, llave en mano. Para quien quiere un auto eléctrico
+            confiable de uso diario sin preocuparse de nada.
+          </p>
+          <ul class="mt-7 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+            <li class="flex items-start gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-volt" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m4 10 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/></svg>Motor 150–250 hp a elección</li>
+            <li class="flex items-start gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-volt" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m4 10 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/></svg>Batería 40–62 kWh</li>
+            <li class="flex items-start gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-volt" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m4 10 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/></svg>Frenos regenerativos</li>
+            <li class="flex items-start gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-volt" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m4 10 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/></svg>Cargador casero incluido</li>
+            <li class="flex items-start gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-volt" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m4 10 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/></svg>Trámite vehicular</li>
+            <li class="flex items-start gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-volt" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m4 10 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/></svg>Garantía 3 años</li>
+          </ul>
+          <div class="mt-auto flex flex-wrap items-end justify-between gap-4 pt-9">
+            <p class="font-mono text-sm text-white/55">desde <span class="text-2xl font-600 text-white">$385,000</span> MXN</p>
+            <a href="#contacto" class="tactile rounded-full bg-volt px-5 py-2.5 text-sm font-600 text-ink transition-transform duration-200 hover:bg-white">Solicitar este paquete</a>
+          </div>
+        </article>
+
+        <!-- columna de dos paquetes apilados -->
+        <div class="lg:col-span-5 grid grid-cols-1 gap-6">
+          <article class="reveal" data-delay="1">
+            <div class="flex h-full flex-col rounded-[1.75rem] border border-white/12 bg-carbon p-8">
+              <h3 class="text-xl font-700 tracking-tight">Conversión Esencial</h3>
+              <p class="mt-2 text-sm leading-relaxed text-white/55">
+                Tren eléctrico funcional con batería de menor capacidad. Ideal para
+                trayectos urbanos cortos y presupuestos ajustados.
+              </p>
+              <div class="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
+                <p class="font-mono text-sm text-white/55">desde <span class="text-lg font-600 text-white">$245,000</span></p>
+                <a href="#contacto" class="text-sm font-600 text-volt hover:text-white">Ver detalle →</a>
+              </div>
+            </div>
+          </article>
+          <article class="reveal" data-delay="2">
+            <div class="flex h-full flex-col rounded-[1.75rem] border border-white/12 bg-carbon p-8">
+              <h3 class="text-xl font-700 tracking-tight">Restauración + EV</h3>
+              <p class="mt-2 text-sm leading-relaxed text-white/55">
+                Para autos clásicos: hojalatería, pintura e interiores junto con la
+                conversión eléctrica. Un proyecto, dos transformaciones.
+              </p>
+              <div class="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
+                <p class="font-mono text-sm text-white/55">cotización <span class="text-lg font-600 text-white">a medida</span></p>
+                <a href="#contacto" class="text-sm font-600 text-volt hover:text-white">Ver detalle →</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- servicios sueltos: línea divisoria, sin cajas -->
+      <div class="mt-14 grid grid-cols-1 divide-y divide-white/10 border-t border-white/10 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4">
+        <div class="reveal py-6 sm:pr-6 lg:border-r lg:border-white/10">
+          <h4 class="font-600">Mantenimiento EV</h4>
+          <p class="mt-1.5 text-sm text-white/55">Revisión de packs, software y refrigeración para autos ya convertidos.</p>
+        </div>
+        <div class="reveal py-6 sm:px-6 lg:border-r lg:border-white/10" data-delay="1">
+          <h4 class="font-600">Ampliación de batería</h4>
+          <p class="mt-1.5 text-sm text-white/55">Sumar capacidad a una conversión existente para ganar autonomía.</p>
+        </div>
+        <div class="reveal py-6 sm:pr-6 lg:border-r lg:border-white/10" data-delay="2">
+          <h4 class="font-600">Instalación de cargador</h4>
+          <p class="mt-1.5 text-sm text-white/55">Punto de carga en casa o negocio, con la protección eléctrica adecuada.</p>
+        </div>
+        <div class="reveal py-6 sm:pl-6" data-delay="3">
+          <h4 class="font-600">Peritaje y trámites</h4>
+          <p class="mt-1.5 text-sm text-white/55">Gestión de placas, verificación y documentación del vehículo convertido.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GALERÍA ANTES/DESPUÉS ===================== -->
+  <section id="galeria" class="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+    <div class="reveal grid grid-cols-1 gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+      <div>
+        <p class="mb-3 font-mono text-xs uppercase tracking-widest text-volt">Antes / Después</p>
+        <h2 class="text-3xl font-700 tracking-tighter md:text-5xl">
+          La carrocería intacta.<br />El corazón, otro.
+        </h2>
+      </div>
+      <p class="max-w-[42ch] text-sm leading-relaxed text-ink/55 lg:pb-2">
+        Arrastra el control sobre cada imagen para comparar el estado original
+        con el resultado tras la conversión.
+      </p>
+    </div>
+
+    <!-- grid asimétrico de comparadores -->
+    <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-12">
+      <figure class="reveal md:col-span-7">
+        <div class="ba-wrap aspect-[16/10] rounded-3xl border border-ink/10" data-ba>
+          <img class="ba-before h-full w-full object-cover" src="https://placehold.co/1200x750/3d3a35/ffffff?text=Antes+%E2%80%94+VW+Seda%CC%81n+1974" alt="Volkswagen Sedán 1974 antes de la conversión, con motor de combustión" />
+          <div class="ba-after">
+            <img class="h-full w-full object-cover" src="https://placehold.co/1200x750/15825a/ffffff?text=Despue%CC%81s+%E2%80%94+100%25+ele%CC%81ctrico" alt="El mismo Volkswagen Sedán tras la conversión a 100% eléctrico" />
+          </div>
+          <div class="ba-handle"><span class="ba-knob">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15171a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5M15 7l5 5-5 5"/></svg>
+          </span></div>
+        </div>
+        <figcaption class="mt-3 flex items-center justify-between text-sm">
+          <span class="font-600">Volkswagen Sedán 1974</span>
+          <span class="font-mono text-ink/45">62 kWh · 240 km</span>
+        </figcaption>
+      </figure>
+
+      <figure class="reveal md:col-span-5" data-delay="1">
+        <div class="ba-wrap aspect-[4/5] rounded-3xl border border-ink/10" data-ba>
+          <img class="ba-before h-full w-full object-cover" src="https://placehold.co/800x1000/2f2c28/ffffff?text=Antes+%E2%80%94+Jeep+CJ7" alt="Jeep CJ7 antes de la conversión" />
+          <div class="ba-after">
+            <img class="h-full w-full object-cover" src="https://placehold.co/800x1000/15825a/ffffff?text=Despue%CC%81s+%E2%80%94+EV" alt="El mismo Jeep CJ7 convertido a eléctrico" />
+          </div>
+          <div class="ba-handle"><span class="ba-knob">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15171a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5M15 7l5 5-5 5"/></svg>
+          </span></div>
+        </div>
+        <figcaption class="mt-3 flex items-center justify-between text-sm">
+          <span class="font-600">Jeep CJ7 1981</span>
+          <span class="font-mono text-ink/45">48 kWh · 190 km</span>
+        </figcaption>
+      </figure>
+
+      <figure class="reveal md:col-span-5" data-delay="1">
+        <div class="ba-wrap aspect-[4/5] rounded-3xl border border-ink/10" data-ba>
+          <img class="ba-before h-full w-full object-cover" src="https://placehold.co/800x1000/3a342c/ffffff?text=Antes+%E2%80%94+Ford+Mustang+67" alt="Ford Mustang 1967 antes de la conversión" />
+          <div class="ba-after">
+            <img class="h-full w-full object-cover" src="https://placehold.co/800x1000/15825a/ffffff?text=Despue%CC%81s+%E2%80%94+EV" alt="El mismo Ford Mustang 1967 convertido a eléctrico" />
+          </div>
+          <div class="ba-handle"><span class="ba-knob">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15171a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5M15 7l5 5-5 5"/></svg>
+          </span></div>
+        </div>
+        <figcaption class="mt-3 flex items-center justify-between text-sm">
+          <span class="font-600">Ford Mustang 1967</span>
+          <span class="font-mono text-ink/45">62 kWh · 310 km</span>
+        </figcaption>
+      </figure>
+
+      <figure class="reveal md:col-span-7" data-delay="2">
+        <div class="ba-wrap aspect-[16/10] rounded-3xl border border-ink/10" data-ba>
+          <img class="ba-before h-full w-full object-cover" src="https://placehold.co/1200x750/35332f/ffffff?text=Antes+%E2%80%94+VW+Combi+1979" alt="VW Combi 1979 antes de la conversión" />
+          <div class="ba-after">
+            <img class="h-full w-full object-cover" src="https://placehold.co/1200x750/15825a/ffffff?text=Despue%CC%81s+%E2%80%94+100%25+ele%CC%81ctrico" alt="La misma VW Combi 1979 convertida a eléctrica" />
+          </div>
+          <div class="ba-handle"><span class="ba-knob">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15171a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5M15 7l5 5-5 5"/></svg>
+          </span></div>
+        </div>
+        <figcaption class="mt-3 flex items-center justify-between text-sm">
+          <span class="font-600">Volkswagen Combi 1979</span>
+          <span class="font-mono text-ink/45">54 kWh · 220 km</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== PRECIOS ESTIMADOS ===================== -->
+  <section id="precios" class="border-y border-ink/10 bg-white py-20 lg:py-28">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="reveal grid grid-cols-1 gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+        <div>
+          <p class="mb-3 font-mono text-xs uppercase tracking-widest text-volt">Precios estimados</p>
+          <h2 class="text-3xl font-700 tracking-tighter md:text-5xl">
+            Rangos claros,<br />antes de tocar tu auto.
+          </h2>
+        </div>
+        <p class="max-w-[58ch] text-base leading-relaxed text-ink/60 lg:pb-2 prose-justify">
+          <span>Los montos siguientes son estimaciones de referencia en pesos mexicanos e incluyen
+          mano de obra y componentes principales. El precio final se cierra tras el diagnóstico,
+          según el estado del vehículo y la autonomía que necesites.</span>
+        </p>
+      </div>
+
+      <!-- tabla con líneas divisorias, sin cajas -->
+      <div class="mt-12 overflow-hidden rounded-3xl border border-ink/10">
+        <div class="hidden grid-cols-[1.4fr_1fr_1fr_0.9fr] gap-4 border-b border-ink/10 bg-[#fafbfa] px-7 py-4 text-xs font-600 uppercase tracking-wide text-ink/45 md:grid">
+          <span>Configuración</span><span>Batería</span><span>Autonomía aprox.</span><span class="text-right">Estimado</span>
+        </div>
+        <div class="reveal grid grid-cols-2 gap-3 border-b border-ink/10 px-7 py-6 md:grid-cols-[1.4fr_1fr_1fr_0.9fr] md:gap-4 md:py-5">
+          <span class="col-span-2 font-600 md:col-span-1">Urbano ligero</span>
+          <span class="font-mono text-sm text-ink/65">30–40 kWh</span>
+          <span class="font-mono text-sm text-ink/65">120–170 km</span>
+          <span class="font-mono text-sm font-600 md:text-right">$245k – $300k</span>
+        </div>
+        <div class="reveal grid grid-cols-2 gap-3 border-b border-ink/10 bg-[#fafbfa] px-7 py-6 md:grid-cols-[1.4fr_1fr_1fr_0.9fr] md:gap-4 md:py-5" data-delay="1">
+          <span class="col-span-2 font-600 md:col-span-1">Diario equilibrado</span>
+          <span class="font-mono text-sm text-ink/65">45–55 kWh</span>
+          <span class="font-mono text-sm text-ink/65">200–260 km</span>
+          <span class="font-mono text-sm font-600 md:text-right">$320k – $400k</span>
+        </div>
+        <div class="reveal grid grid-cols-2 gap-3 border-b border-ink/10 px-7 py-6 md:grid-cols-[1.4fr_1fr_1fr_0.9fr] md:gap-4 md:py-5" data-delay="2">
+          <span class="col-span-2 font-600 md:col-span-1">Carretera / largo alcance</span>
+          <span class="font-mono text-sm text-ink/65">58–72 kWh</span>
+          <span class="font-mono text-sm text-ink/65">290–360 km</span>
+          <span class="font-mono text-sm font-600 md:text-right">$420k – $540k</span>
+        </div>
+        <div class="reveal grid grid-cols-2 gap-3 px-7 py-6 md:grid-cols-[1.4fr_1fr_1fr_0.9fr] md:gap-4 md:py-5" data-delay="3">
+          <span class="col-span-2 font-600 md:col-span-1">Restauración + EV</span>
+          <span class="font-mono text-sm text-ink/65">a definir</span>
+          <span class="font-mono text-sm text-ink/65">a definir</span>
+          <span class="font-mono text-sm font-600 md:text-right">cotización a medida</span>
+        </div>
+      </div>
+      <p class="reveal mt-5 max-w-[70ch] text-xs leading-relaxed text-ink/45 prose-justify">
+        <span>Precios vigentes a mayo de 2026, sujetos a cambio sin previo aviso. No incluyen
+        hojalatería ni pintura salvo en el paquete de restauración. Manejamos planes de
+        pago a 6 y 12 meses con instituciones afiliadas.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACTO ===================== -->
+  <section id="contacto" class="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
+      <!-- Info lateral -->
+      <div class="reveal">
+        <p class="mb-3 font-mono text-xs uppercase tracking-widest text-volt">Contacto</p>
+        <h2 class="text-3xl font-700 tracking-tighter md:text-5xl">
+          Agenda tu diagnóstico.<br />Sin compromiso.
+        </h2>
+        <p class="mt-5 max-w-[50ch] text-base leading-relaxed text-ink/60">
+          Cuéntanos qué auto tienes y cómo lo usas. Te respondemos en menos de
+          24 horas hábiles con los siguientes pasos.
+        </p>
+
+        <dl class="mt-10 space-y-px overflow-hidden rounded-2xl border border-ink/10">
+          <div class="flex items-center gap-4 border-b border-ink/10 bg-white px-5 py-4">
+            <svg class="h-5 w-5 shrink-0 text-volt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <div><dt class="text-xs uppercase tracking-wide text-ink/45">WhatsApp</dt><dd class="font-mono text-sm font-600">+52 (33) 2841-7019</dd></div>
+          </div>
+          <div class="flex items-center gap-4 border-b border-ink/10 bg-white px-5 py-4">
+            <svg class="h-5 w-5 shrink-0 text-volt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <div><dt class="text-xs uppercase tracking-wide text-ink/45">Correo</dt><dd class="font-mono text-sm font-600">taller@voltswap.mx</dd></div>
+          </div>
+          <div class="flex items-center gap-4 bg-white px-5 py-4">
+            <svg class="h-5 w-5 shrink-0 text-volt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div><dt class="text-xs uppercase tracking-wide text-ink/45">Taller</dt><dd class="text-sm font-600">Calz. Lázaro Cárdenas 3380, Guadalajara, Jal.</dd></div>
+          </div>
+        </dl>
+        <p class="mt-5 font-mono text-xs text-ink/45">Lun a Vie 9:00–18:30 · Sáb 9:00–14:00</p>
+      </div>
+
+      <!-- Formulario con estados -->
+      <div class="reveal" data-delay="1">
+        <form id="leadForm" novalidate class="rounded-3xl border border-ink/10 bg-white p-7 md:p-9">
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div class="flex flex-col gap-2">
+              <label for="nombre" class="text-sm font-600">Nombre completo</label>
+              <input id="nombre" name="nombre" type="text" autocomplete="name" required
+                class="rounded-xl border border-ink/15 bg-[#fafbfa] px-4 py-3 text-sm outline-none transition-colors focus:border-volt focus:bg-white"
+                placeholder="Renata Alcántara" />
+              <p class="hidden text-xs text-rose-600" data-err="nombre">Escribe tu nombre.</p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="tel" class="text-sm font-600">Teléfono / WhatsApp</label>
+              <input id="tel" name="tel" type="tel" autocomplete="tel" required
+                class="rounded-xl border border-ink/15 bg-[#fafbfa] px-4 py-3 text-sm outline-none transition-colors focus:border-volt focus:bg-white"
+                placeholder="+52 (33) 1234-5678" />
+              <p class="hidden text-xs text-rose-600" data-err="tel">Ingresa un teléfono válido.</p>
+            </div>
+          </div>
+
+          <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div class="flex flex-col gap-2">
+              <label for="auto" class="text-sm font-600">Auto a convertir</label>
+              <input id="auto" name="auto" type="text" required
+                class="rounded-xl border border-ink/15 bg-[#fafbfa] px-4 py-3 text-sm outline-none transition-colors focus:border-volt focus:bg-white"
+                placeholder="Marca, modelo y año" />
+              <p class="hidden text-xs text-rose-600" data-err="auto">Dinos qué auto tienes.</p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="paquete" class="text-sm font-600">Paquete de interés</label>
+              <select id="paquete" name="paquete"
+                class="rounded-xl border border-ink/15 bg-[#fafbfa] px-4 py-3 text-sm outline-none transition-colors focus:border-volt focus:bg-white">
+                <option>Conversión Integral</option>
+                <option>Conversión Esencial</option>
+                <option>Restauración + EV</option>
+                <option>Aún no lo sé</option>
+              </select>
+              <p class="text-xs text-ink/45">Podemos ajustarlo tras el diagnóstico.</p>
+            </div>
+          </div>
+
+          <div class="mt-5 flex flex-col gap-2">
+            <label for="mensaje" class="text-sm font-600">¿Cómo usas el auto?</label>
+            <textarea id="mensaje" name="mensaje" rows="3"
+              class="resize-none rounded-xl border border-ink/15 bg-[#fafbfa] px-4 py-3 text-sm outline-none transition-colors focus:border-volt focus:bg-white"
+              placeholder="Trayectos diarios, kilómetros aproximados, dónde cargarías..."></textarea>
+            <p class="text-xs text-ink/45">Opcional, pero nos ayuda a estimar mejor la batería.</p>
+          </div>
+
+          <button type="submit"
+            class="tactile mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-600 text-white transition-[transform,background-color] duration-200 hover:bg-carbon disabled:cursor-not-allowed disabled:opacity-60">
+            <span data-btn-label>Enviar solicitud de diagnóstico</span>
+            <svg data-btn-spinner class="hidden h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+          </button>
+
+          <!-- estado de éxito -->
+          <div data-success class="mt-5 hidden items-start gap-3 rounded-xl border border-volt/40 bg-volt/10 px-4 py-3.5">
+            <svg class="mt-0.5 h-5 w-5 shrink-0 text-voltdim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p class="text-sm text-voltdim"><span class="font-600">Solicitud recibida.</span> Te contactaremos en menos de 24 horas hábiles para agendar tu diagnóstico.</p>
+          </div>
+          <!-- estado de error general -->
+          <div data-formerr class="mt-5 hidden items-start gap-3 rounded-xl border border-rose-300 bg-rose-50 px-4 py-3.5">
+            <svg class="mt-0.5 h-5 w-5 shrink-0 text-rose-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v5M12 16.5v.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>
+            <p class="text-sm text-rose-700">Revisa los campos marcados y vuelve a intentar.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="border-t border-ink/10 bg-ink py-12 text-white/55">
+  <div class="mx-auto flex max-w-7xl flex-col gap-8 px-5 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+    <div class="flex items-center gap-2.5">
+      <span class="grid h-8 w-8 place-items-center rounded-lg bg-white/10 text-volt">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg>
+      </span>
+      <span class="text-sm"><span class="font-600 text-white">VoltSwap</span> · Conversiones eléctricas · Guadalajara</span>
+    </div>
+    <nav class="flex flex-wrap gap-x-7 gap-y-2 text-sm">
+      <a href="#proceso" class="hover:text-white">Proceso</a>
+      <a href="#paquetes" class="hover:text-white">Paquetes</a>
+      <a href="#galeria" class="hover:text-white">Galería</a>
+      <a href="#precios" class="hover:text-white">Precios</a>
+      <a href="#contacto" class="hover:text-white">Contacto</a>
+    </nav>
+    <p class="font-mono text-xs text-white/35">© 2026 VoltSwap. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<script>
+  // ---- Reveal on scroll (IntersectionObserver, sin listeners de scroll) ----
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (e) { e.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+
+  // ---- Comparadores antes/después ----
+  (function () {
+    document.querySelectorAll('[data-ba]').forEach(function (wrap) {
+      var after = wrap.querySelector('.ba-after');
+      var handle = wrap.querySelector('.ba-handle');
+      var dragging = false;
+
+      function setPos(clientX) {
+        var rect = wrap.getBoundingClientRect();
+        var pct = ((clientX - rect.left) / rect.width) * 100;
+        pct = Math.max(2, Math.min(98, pct));
+        after.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+        handle.style.left = pct + '%';
+      }
+      function down(e) {
+        dragging = true;
+        setPos((e.touches ? e.touches[0] : e).clientX);
+      }
+      function move(e) {
+        if (!dragging) return;
+        setPos((e.touches ? e.touches[0] : e).clientX);
+      }
+      function up() { dragging = false; }
+
+      wrap.addEventListener('mousedown', down);
+      wrap.addEventListener('touchstart', down, { passive: true });
+      window.addEventListener('mousemove', move);
+      window.addEventListener('touchmove', move, { passive: true });
+      window.addEventListener('mouseup', up);
+      window.addEventListener('touchend', up);
+    });
+  })();
+
+  // ---- Formulario: validación + estados loading/success/error ----
+  (function () {
+    var form = document.getElementById('leadForm');
+    if (!form) return;
+    var btn = form.querySelector('button[type="submit"]');
+    var label = form.querySelector('[data-btn-label]');
+    var spinner = form.querySelector('[data-btn-spinner]');
+    var success = form.querySelector('[data-success]');
+    var formErr = form.querySelector('[data-formerr]');
+    var fields = ['nombre', 'tel', 'auto'];
+
+    function showErr(name, show) {
+      var el = form.querySelector('[data-err="' + name + '"]');
+      var input = document.getElementById(name);
+      if (!el) return;
+      el.classList.toggle('hidden', !show);
+      input.classList.toggle('border-rose-400', show);
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var valid = true;
+      fields.forEach(function (name) {
+        var v = document.getElementById(name).value.trim();
+        var bad = name === 'tel' ? v.replace(/[^0-9]/g, '').length < 8 : v.length < 2;
+        showErr(name, bad);
+        if (bad) valid = false;
+      });
+      success.classList.add('hidden');
+      success.classList.remove('flex');
+
+      if (!valid) {
+        formErr.classList.remove('hidden');
+        formErr.classList.add('flex');
+        return;
+      }
+      formErr.classList.add('hidden');
+      formErr.classList.remove('flex');
+
+      // loading
+      btn.disabled = true;
+      label.textContent = 'Enviando...';
+      spinner.classList.remove('hidden');
+
+      setTimeout(function () {
+        spinner.classList.add('hidden');
+        btn.disabled = false;
+        label.textContent = 'Enviar solicitud de diagnóstico';
+        success.classList.remove('hidden');
+        success.classList.add('flex');
+        form.reset();
+      }, 1400);
+    });
+
+    fields.forEach(function (name) {
+      document.getElementById(name).addEventListener('input', function () {
+        showErr(name, false);
+      });
+    });
+  })();
+</script>
+</body>
+</html>

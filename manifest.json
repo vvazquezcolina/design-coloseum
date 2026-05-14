@@ -1,0 +1,492 @@
+{
+  "generated": "2026-05-14T23:07:55.819Z",
+  "title": "Design Colosseum",
+  "note": "7 modelos (baseline + 6 skills) × 3 niveles de prompt. Tema: conversión de autos de combustión a eléctricos. Scoring 1-5 en 10 dimensiones, /50 por celda.",
+  "prompts": {
+    "S": {
+      "label": "Prompt base",
+      "text": "Diseñame una web sobre conversión de autos de combustión interna a eléctricos."
+    },
+    "M": {
+      "label": "Prompt medio",
+      "text": "Landing page para «VoltSwap», taller que convierte autos de combustión a 100% eléctricos: hero, proceso, servicios/paquetes, galería antes/después, precios y contacto."
+    },
+    "L": {
+      "label": "Prompt elaborado",
+      "text": "Landing premium de «VoltSwap» con marca/público definidos, proceso en 5 pasos, 3 paquetes (City/Range/Performance), galería, costos, testimonios, FAQ, footer; responsive, paleta grafito + cian, microinteracciones y accesibilidad AA."
+    }
+  },
+  "models": [
+    {
+      "id": "00-baseline",
+      "name": "Baseline (Claude sin skill)"
+    },
+    {
+      "id": "01-design-md",
+      "name": "design.md"
+    },
+    {
+      "id": "02-ui-ux-pro-max",
+      "name": "ui-ux-pro-max"
+    },
+    {
+      "id": "03-impeccable",
+      "name": "impeccable"
+    },
+    {
+      "id": "04-huashu-design",
+      "name": "huashu-design"
+    },
+    {
+      "id": "05-taste-skill",
+      "name": "taste-skill"
+    },
+    {
+      "id": "06-sesh-acid-pipeline",
+      "name": "sesh-acid-pipeline"
+    }
+  ],
+  "cells": [
+    {
+      "model": "00-baseline",
+      "level": "S",
+      "site": "results/00-baseline/S/index.html",
+      "thumb": "evaluation/screenshots/00-baseline-S-desktop.png",
+      "thumbMobile": "evaluation/screenshots/00-baseline-S-mobile.png",
+      "report": "evaluation/reports/00-baseline.md",
+      "total": 39,
+      "scores": {
+        "d1_wow": 4,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 3,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "00-baseline",
+      "level": "M",
+      "site": "results/00-baseline/M/index.html",
+      "thumb": "evaluation/screenshots/00-baseline-M-desktop.png",
+      "thumbMobile": "evaluation/screenshots/00-baseline-M-mobile.png",
+      "report": "evaluation/reports/00-baseline.md",
+      "total": 39,
+      "scores": {
+        "d1_wow": 4,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 3,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "00-baseline",
+      "level": "L",
+      "site": "results/00-baseline/L/index.html",
+      "thumb": "evaluation/screenshots/00-baseline-L-desktop.png",
+      "thumbMobile": "evaluation/screenshots/00-baseline-L-mobile.png",
+      "report": "evaluation/reports/00-baseline.md",
+      "total": 42,
+      "scores": {
+        "d1_wow": 4,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 4,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 5,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "01-design-md",
+      "level": "S",
+      "site": "results/01-design-md/S/index.html",
+      "thumb": "evaluation/screenshots/01-design-md-S-desktop.png",
+      "thumbMobile": "evaluation/screenshots/01-design-md-S-mobile.png",
+      "report": "evaluation/reports/01-design-md.md",
+      "total": 38,
+      "scores": {
+        "d1_wow": 3,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 4,
+        "d10_adherencia": 4
+      }
+    },
+    {
+      "model": "01-design-md",
+      "level": "M",
+      "site": "results/01-design-md/M/index.html",
+      "thumb": "evaluation/screenshots/01-design-md-M-desktop.png",
+      "thumbMobile": "evaluation/screenshots/01-design-md-M-mobile.png",
+      "report": "evaluation/reports/01-design-md.md",
+      "total": 37,
+      "scores": {
+        "d1_wow": 3,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 3,
+        "d9_codigo": 4,
+        "d10_adherencia": 4
+      }
+    },
+    {
+      "model": "01-design-md",
+      "level": "L",
+      "site": "results/01-design-md/L/index.html",
+      "thumb": "evaluation/screenshots/01-design-md-L-desktop.png",
+      "thumbMobile": "evaluation/screenshots/01-design-md-L-mobile.png",
+      "report": "evaluation/reports/01-design-md.md",
+      "total": 40,
+      "scores": {
+        "d1_wow": 3,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 5,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "02-ui-ux-pro-max",
+      "level": "S",
+      "site": "results/02-ui-ux-pro-max/S/index.html",
+      "thumb": "evaluation/screenshots/02-ui-ux-pro-max-S-desktop.png",
+      "thumbMobile": "evaluation/screenshots/02-ui-ux-pro-max-S-mobile.png",
+      "report": "evaluation/reports/02-ui-ux-pro-max.md",
+      "total": 41,
+      "scores": {
+        "d1_wow": 4,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 4,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "02-ui-ux-pro-max",
+      "level": "M",
+      "site": "results/02-ui-ux-pro-max/M/index.html",
+      "thumb": "evaluation/screenshots/02-ui-ux-pro-max-M-desktop.png",
+      "thumbMobile": "evaluation/screenshots/02-ui-ux-pro-max-M-mobile.png",
+      "report": "evaluation/reports/02-ui-ux-pro-max.md",
+      "total": 42,
+      "scores": {
+        "d1_wow": 4,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 4,
+        "d8_accesibilidad": 5,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "02-ui-ux-pro-max",
+      "level": "L",
+      "site": "results/02-ui-ux-pro-max/L/index.html",
+      "thumb": "evaluation/screenshots/02-ui-ux-pro-max-L-desktop.png",
+      "thumbMobile": "evaluation/screenshots/02-ui-ux-pro-max-L-mobile.png",
+      "report": "evaluation/reports/02-ui-ux-pro-max.md",
+      "total": 44,
+      "scores": {
+        "d1_wow": 4,
+        "d2_hierarchy": 5,
+        "d3_typography": 4,
+        "d4_color": 5,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 4,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 5,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "03-impeccable",
+      "level": "S",
+      "site": "results/03-impeccable/S/index.html",
+      "thumb": "evaluation/screenshots/03-impeccable-S-desktop.png",
+      "thumbMobile": "evaluation/screenshots/03-impeccable-S-mobile.png",
+      "report": "evaluation/reports/03-impeccable.md",
+      "total": 46,
+      "scores": {
+        "d1_wow": 5,
+        "d2_hierarchy": 5,
+        "d3_typography": 5,
+        "d4_color": 5,
+        "d5_spacing": 5,
+        "d6_responsive": 4,
+        "d7_motion": 4,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "03-impeccable",
+      "level": "M",
+      "site": "results/03-impeccable/M/index.html",
+      "thumb": "evaluation/screenshots/03-impeccable-M-desktop.png",
+      "thumbMobile": "evaluation/screenshots/03-impeccable-M-mobile.png",
+      "report": "evaluation/reports/03-impeccable.md",
+      "total": 46,
+      "scores": {
+        "d1_wow": 5,
+        "d2_hierarchy": 5,
+        "d3_typography": 5,
+        "d4_color": 5,
+        "d5_spacing": 5,
+        "d6_responsive": 4,
+        "d7_motion": 4,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "03-impeccable",
+      "level": "L",
+      "site": "results/03-impeccable/L/index.html",
+      "thumb": "evaluation/screenshots/03-impeccable-L-desktop.png",
+      "thumbMobile": "evaluation/screenshots/03-impeccable-L-mobile.png",
+      "report": "evaluation/reports/03-impeccable.md",
+      "total": 48,
+      "scores": {
+        "d1_wow": 5,
+        "d2_hierarchy": 5,
+        "d3_typography": 5,
+        "d4_color": 5,
+        "d5_spacing": 5,
+        "d6_responsive": 4,
+        "d7_motion": 4,
+        "d8_accesibilidad": 5,
+        "d9_codigo": 5,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "04-huashu-design",
+      "level": "S",
+      "site": "results/04-huashu-design/S/index.html",
+      "thumb": "evaluation/screenshots/04-huashu-design-S-desktop.png",
+      "thumbMobile": "evaluation/screenshots/04-huashu-design-S-mobile.png",
+      "report": "evaluation/reports/04-huashu-design.md",
+      "total": 36,
+      "scores": {
+        "d1_wow": 3,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 3,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 3,
+        "d9_codigo": 4,
+        "d10_adherencia": 4
+      }
+    },
+    {
+      "model": "04-huashu-design",
+      "level": "M",
+      "site": "results/04-huashu-design/M/index.html",
+      "thumb": "evaluation/screenshots/04-huashu-design-M-desktop.png",
+      "thumbMobile": "evaluation/screenshots/04-huashu-design-M-mobile.png",
+      "report": "evaluation/reports/04-huashu-design.md",
+      "total": 35,
+      "scores": {
+        "d1_wow": 3,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 2,
+        "d9_codigo": 3,
+        "d10_adherencia": 4
+      }
+    },
+    {
+      "model": "04-huashu-design",
+      "level": "L",
+      "site": "results/04-huashu-design/L/index.html",
+      "thumb": "evaluation/screenshots/04-huashu-design-L-desktop.png",
+      "thumbMobile": "evaluation/screenshots/04-huashu-design-L-mobile.png",
+      "report": "evaluation/reports/04-huashu-design.md",
+      "total": 39,
+      "scores": {
+        "d1_wow": 3,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "05-taste-skill",
+      "level": "S",
+      "site": "results/05-taste-skill/S/index.html",
+      "thumb": "evaluation/screenshots/05-taste-skill-S-desktop.png",
+      "thumbMobile": "evaluation/screenshots/05-taste-skill-S-mobile.png",
+      "report": "evaluation/reports/05-taste-skill.md",
+      "total": 39,
+      "scores": {
+        "d1_wow": 4,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 4,
+        "d8_accesibilidad": 3,
+        "d9_codigo": 4,
+        "d10_adherencia": 4
+      }
+    },
+    {
+      "model": "05-taste-skill",
+      "level": "M",
+      "site": "results/05-taste-skill/M/index.html",
+      "thumb": "evaluation/screenshots/05-taste-skill-M-desktop.png",
+      "thumbMobile": "evaluation/screenshots/05-taste-skill-M-mobile.png",
+      "report": "evaluation/reports/05-taste-skill.md",
+      "total": 38,
+      "scores": {
+        "d1_wow": 4,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 4,
+        "d8_accesibilidad": 2,
+        "d9_codigo": 3,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "05-taste-skill",
+      "level": "L",
+      "site": "results/05-taste-skill/L/index.html",
+      "thumb": "evaluation/screenshots/05-taste-skill-L-desktop.png",
+      "thumbMobile": "evaluation/screenshots/05-taste-skill-L-mobile.png",
+      "report": "evaluation/reports/05-taste-skill.md",
+      "total": 42,
+      "scores": {
+        "d1_wow": 4,
+        "d2_hierarchy": 4,
+        "d3_typography": 4,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 5,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "06-sesh-acid-pipeline",
+      "level": "S",
+      "site": "results/06-sesh-acid-pipeline/S/index.html",
+      "thumb": "evaluation/screenshots/06-sesh-acid-pipeline-S-desktop.png",
+      "thumbMobile": "evaluation/screenshots/06-sesh-acid-pipeline-S-mobile.png",
+      "report": "evaluation/reports/06-sesh-acid-pipeline.md",
+      "total": 35,
+      "scores": {
+        "d1_wow": 3,
+        "d2_hierarchy": 3,
+        "d3_typography": 3,
+        "d4_color": 4,
+        "d5_spacing": 3,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 3,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "06-sesh-acid-pipeline",
+      "level": "M",
+      "site": "results/06-sesh-acid-pipeline/M/index.html",
+      "thumb": "evaluation/screenshots/06-sesh-acid-pipeline-M-desktop.png",
+      "thumbMobile": "evaluation/screenshots/06-sesh-acid-pipeline-M-mobile.png",
+      "report": "evaluation/reports/06-sesh-acid-pipeline.md",
+      "total": 38,
+      "scores": {
+        "d1_wow": 3,
+        "d2_hierarchy": 4,
+        "d3_typography": 3,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    },
+    {
+      "model": "06-sesh-acid-pipeline",
+      "level": "L",
+      "site": "results/06-sesh-acid-pipeline/L/index.html",
+      "thumb": "evaluation/screenshots/06-sesh-acid-pipeline-L-desktop.png",
+      "thumbMobile": "evaluation/screenshots/06-sesh-acid-pipeline-L-mobile.png",
+      "report": "evaluation/reports/06-sesh-acid-pipeline.md",
+      "total": 38,
+      "scores": {
+        "d1_wow": 3,
+        "d2_hierarchy": 4,
+        "d3_typography": 3,
+        "d4_color": 4,
+        "d5_spacing": 4,
+        "d6_responsive": 4,
+        "d7_motion": 3,
+        "d8_accesibilidad": 4,
+        "d9_codigo": 4,
+        "d10_adherencia": 5
+      }
+    }
+  ]
+}

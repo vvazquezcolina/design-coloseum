@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ReVolt — Conversión de autos de combustión a eléctricos</title>
+<meta name="description" content="Convertimos tu auto de combustión interna a 100% eléctrico. Conserva el auto que amas, deja atrás la gasolina." />
+<style>
+  :root {
+    --graphite-900: #14181c;
+    --graphite-800: #1c2127;
+    --graphite-700: #262d35;
+    --graphite-600: #3a434e;
+    --graphite-400: #8a96a3;
+    --graphite-200: #d6dce2;
+    --paper: #f4f6f8;
+    --white: #ffffff;
+    --accent: #00e0a4;
+    --accent-deep: #00b285;
+    --accent-glow: rgba(0, 224, 164, 0.25);
+    --radius: 14px;
+    --radius-lg: 22px;
+    --maxw: 1180px;
+    --ease: cubic-bezier(.22,.61,.36,1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--graphite-900);
+    color: var(--graphite-200);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 { color: var(--white); line-height: 1.15; letter-spacing: -0.02em; font-weight: 700; }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  /* long text justified per house rule */
+  .prose p {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 600; font-size: 15px;
+    padding: 14px 26px; border-radius: 999px;
+    cursor: pointer; border: none;
+    transition: transform .2s var(--ease), box-shadow .25s var(--ease), background .2s;
+  }
+  .btn-primary {
+    background: var(--accent); color: var(--graphite-900);
+    box-shadow: 0 8px 28px var(--accent-glow);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 38px var(--accent-glow); }
+  .btn-ghost {
+    background: transparent; color: var(--white);
+    border: 1px solid var(--graphite-600);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(14px);
+    background: rgba(20, 24, 28, 0.78);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--white); font-size: 19px; letter-spacing: -0.02em; }
+  .brand .mark {
+    width: 30px; height: 30px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    display: grid; place-items: center; color: var(--graphite-900); font-weight: 900; font-size: 17px;
+    box-shadow: 0 4px 14px var(--accent-glow);
+  }
+  .nav-links { display: flex; gap: 30px; font-size: 14.5px; }
+  .nav-links a { color: var(--graphite-400); transition: color .2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta { display: flex; align-items: center; gap: 14px; }
+  .burger { display: none; background: none; border: none; cursor: pointer; }
+  .burger span { display: block; width: 22px; height: 2px; background: var(--white); margin: 5px 0; border-radius: 2px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    padding: 96px 0 110px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(680px 420px at 78% 12%, rgba(0,224,164,0.16), transparent 70%),
+      radial-gradient(560px 480px at 12% 90%, rgba(0,178,133,0.10), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: relative;
+    display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(0,224,164,0.08); border: 1px solid rgba(0,224,164,0.22);
+    padding: 7px 14px; border-radius: 999px;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 5.2vw, 4.05rem);
+    margin: 22px 0 20px;
+  }
+  .hero h1 .hl {
+    background: linear-gradient(120deg, var(--accent), #5cf0d0);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p.lead {
+    font-size: 18px; color: var(--graphite-400); max-width: 520px; margin-bottom: 32px;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-stats {
+    display: flex; gap: 38px; margin-top: 46px; flex-wrap: wrap;
+  }
+  .stat .num { font-size: 30px; font-weight: 800; color: var(--white); }
+  .stat .num span { color: var(--accent); }
+  .stat .lbl { font-size: 13px; color: var(--graphite-400); }
+
+  /* Hero visual: stylized car silhouette in CSS/SVG */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-lg);
+    background:
+      linear-gradient(160deg, var(--graphite-700), var(--graphite-800));
+    border: 1px solid rgba(255,255,255,0.07);
+    display: grid; place-items: center;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+  }
+  .hero-visual::after {
+    content: ""; position: absolute; width: 130%; height: 130%;
+    background: conic-gradient(from 0deg, transparent, rgba(0,224,164,0.10), transparent 40%);
+    animation: spin 16s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .hero-visual svg { position: relative; width: 80%; height: auto; }
+  .badge-float {
+    position: absolute; z-index: 2;
+    background: rgba(20,24,28,0.92); border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 16px; border-radius: 12px;
+    font-size: 13px; color: var(--white);
+    display: flex; align-items: center; gap: 9px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    animation: bob 4s ease-in-out infinite;
+  }
+  .badge-float .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+  .badge-float.one { top: 9%; left: -22px; }
+  .badge-float.two { bottom: 12%; right: -18px; animation-delay: 1.5s; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+
+  /* ---------- Section shells ---------- */
+  section { padding: 96px 0; }
+  .section-head { max-width: 640px; margin-bottom: 56px; }
+  .section-head .eyebrow { margin-bottom: 16px; }
+  .section-head h2 { font-size: clamp(2rem, 3.6vw, 2.85rem); }
+  .section-head p { color: var(--graphite-400); margin-top: 14px; font-size: 17px; }
+  .alt { background: var(--graphite-800); }
+
+  /* ---------- Why / value cards ---------- */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card {
+    background: var(--graphite-800); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius); padding: 30px;
+    transition: transform .25s var(--ease), border-color .25s, background .25s;
+  }
+  .alt .card { background: var(--graphite-700); }
+  .card:hover { transform: translateY(-6px); border-color: rgba(0,224,164,0.4); }
+  .card .ico {
+    width: 50px; height: 50px; border-radius: 12px;
+    background: rgba(0,224,164,0.1); border: 1px solid rgba(0,224,164,0.2);
+    display: grid; place-items: center; margin-bottom: 18px;
+    color: var(--accent);
+  }
+  .card h3 { font-size: 19px; margin-bottom: 8px; }
+  .card p { font-size: 15px; color: var(--graphite-400); }
+
+  /* ---------- Process steps ---------- */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .step {
+    position: relative; padding: 28px 24px;
+    background: var(--graphite-800); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    transition: border-color .25s, transform .25s var(--ease);
+  }
+  .step:hover { border-color: rgba(0,224,164,0.4); transform: translateY(-5px); }
+  .step .n {
+    font-size: 14px; font-weight: 800; color: var(--graphite-900);
+    background: var(--accent); width: 34px; height: 34px; border-radius: 9px;
+    display: grid; place-items: center; margin-bottom: 16px;
+  }
+  .step h3 { font-size: 17px; margin-bottom: 7px; }
+  .step p { font-size: 14.5px; color: var(--graphite-400); }
+
+  /* ---------- Before / After ---------- */
+  .ba-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
+  .ba-card {
+    border-radius: var(--radius-lg); overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: var(--graphite-700);
+  }
+  .ba-img {
+    height: 230px; position: relative;
+    display: grid; place-items: center;
+  }
+  .ba-img.before { background: linear-gradient(135deg, #2a2620, #3a3329); }
+  .ba-img.after  { background: linear-gradient(135deg, #11302a, #0c4438); }
+  .ba-img .tag {
+    position: absolute; top: 14px; left: 14px;
+    font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+    padding: 6px 12px; border-radius: 999px;
+  }
+  .ba-img.before .tag { background: rgba(0,0,0,0.5); color: #d8b98a; }
+  .ba-img.after .tag  { background: var(--accent); color: var(--graphite-900); }
+  .ba-img svg { width: 62%; opacity: .9; }
+  .ba-body { padding: 22px 24px; }
+  .ba-body h3 { font-size: 18px; margin-bottom: 6px; }
+  .ba-body p { font-size: 14.5px; color: var(--graphite-400); }
+  .ba-meta { display: flex; gap: 22px; margin-top: 14px; }
+  .ba-meta div { font-size: 13px; color: var(--graphite-400); }
+  .ba-meta strong { display: block; color: var(--white); font-size: 16px; }
+
+  /* ---------- Pricing ---------- */
+  .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+  .price {
+    background: var(--graphite-800); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius-lg); padding: 32px 30px;
+    display: flex; flex-direction: column;
+    transition: transform .25s var(--ease), border-color .25s;
+  }
+  .price:hover { transform: translateY(-6px); }
+  .price.featured {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, rgba(0,224,164,0.07), var(--graphite-800));
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+  }
+  .price .plan { font-size: 14px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); }
+  .price .pop {
+    float: right; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    background: var(--accent); color: var(--graphite-900);
+    padding: 4px 10px; border-radius: 999px;
+  }
+  .price .amount { font-size: 34px; font-weight: 800; color: var(--white); margin: 14px 0 4px; }
+  .price .amount span { font-size: 15px; font-weight: 500; color: var(--graphite-400); }
+  .price .desc { font-size: 14px; color: var(--graphite-400); margin-bottom: 20px; }
+  .price ul { list-style: none; margin-bottom: 26px; display: flex; flex-direction: column; gap: 11px; }
+  .price li { font-size: 14.5px; display: flex; gap: 10px; align-items: flex-start; }
+  .price li svg { flex-shrink: 0; margin-top: 3px; color: var(--accent); }
+  .price .btn { width: 100%; justify-content: center; margin-top: auto; }
+
+  /* ---------- FAQ ---------- */
+  .faq-list { max-width: 780px; margin: 0 auto; }
+  .faq-item {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .faq-q {
+    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    color: var(--white); font-size: 17px; font-weight: 600;
+    padding: 22px 0; display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  }
+  .faq-q .plus {
+    flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px;
+    background: var(--graphite-700); display: grid; place-items: center;
+    transition: transform .3s var(--ease), background .2s; color: var(--accent);
+  }
+  .faq-item.open .faq-q .plus { transform: rotate(45deg); background: var(--accent); color: var(--graphite-900); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height .35s var(--ease), padding .35s var(--ease);
+  }
+  .faq-item.open .faq-a { max-height: 320px; padding-bottom: 22px; }
+  .faq-a p { font-size: 15px; color: var(--graphite-400); }
+
+  /* ---------- CTA band ---------- */
+  .cta-band {
+    position: relative; border-radius: var(--radius-lg); overflow: hidden;
+    padding: 64px 56px;
+    background: linear-gradient(135deg, var(--accent-deep), #0a8f6c);
+    text-align: center;
+  }
+  .cta-band::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(500px 300px at 80% 0%, rgba(255,255,255,0.18), transparent 70%);
+  }
+  .cta-band h2 { color: var(--graphite-900); font-size: clamp(1.8rem, 3.4vw, 2.6rem); position: relative; }
+  .cta-band p { color: rgba(20,24,28,0.78); margin: 14px auto 28px; max-width: 520px; position: relative; font-size: 17px; font-weight: 500; }
+  .cta-band .btn { position: relative; background: var(--graphite-900); color: var(--white); }
+  .cta-band .btn:hover { transform: translateY(-2px); }
+
+  /* ---------- Footer ---------- */
+  footer { background: var(--graphite-800); border-top: 1px solid rgba(255,255,255,0.06); padding: 60px 0 34px; }
+  .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.4fr; gap: 40px; }
+  .foot-grid h4 { color: var(--white); font-size: 14px; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 16px; }
+  .foot-grid p, .foot-grid a { font-size: 14.5px; color: var(--graphite-400); display: block; margin-bottom: 9px; }
+  .foot-grid a:hover { color: var(--accent); }
+  .foot-brand p { max-width: 280px; margin-top: 12px; }
+  .foot-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06); margin-top: 44px; padding-top: 24px;
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-size: 13px; color: var(--graphite-400);
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* focus visible for a11y */
+  a:focus-visible, button:focus-visible, .btn:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 940px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+    .hero-visual { max-width: 440px; margin: 0 auto; }
+    .grid-3, .steps, .price-grid, .ba-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .burger { display: block; }
+    .nav-cta .btn-ghost { display: none; }
+    .nav-links.open {
+      display: flex; flex-direction: column; position: absolute;
+      top: 72px; left: 0; right: 0; background: var(--graphite-800);
+      padding: 22px 24px; gap: 18px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+  }
+  @media (max-width: 560px) {
+    .steps { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .cta-band { padding: 48px 26px; }
+    section { padding: 70px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="wrap nav">
+    <a href="#inicio" class="brand">
+      <span class="mark">R</span> ReVolt
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#beneficios">Beneficios</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#galeria">Antes / Después</a>
+      <a href="#precios">Precios</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#contacto" class="btn btn-ghost">Hablar con un ingeniero</a>
+      <a href="#precios" class="btn btn-primary">Cotiza tu conversión</a>
+      <button class="burger" id="burger" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div class="hero-copy prose">
+      <span class="eyebrow"><span class="dot" style="width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;"></span> Electromovilidad para autos que ya amas</span>
+      <h1>Tu auto de siempre, ahora <span class="hl">100% eléctrico</span>.</h1>
+      <p class="lead">Convertimos tu vehículo de combustión interna en un eléctrico silencioso, confiable y sin emisiones. Conservas el auto que conoces; cambiamos lo que lo mueve.</p>
+      <div class="hero-actions">
+        <a href="#precios" class="btn btn-primary">Cotiza tu conversión →</a>
+        <a href="#proceso" class="btn btn-ghost">Ver cómo funciona</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="num"><span>+120</span></div>
+          <div class="lbl">Conversiones entregadas</div>
+        </div>
+        <div class="stat">
+          <div class="num"><span>0</span> g/km</div>
+          <div class="lbl">Emisiones después</div>
+        </div>
+        <div class="stat">
+          <div class="num"><span>~85%</span></div>
+          <div class="lbl">Ahorro en energía vs. gasolina</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="badge-float one"><span class="dot"></span> Motor eléctrico instalado</div>
+      <div class="badge-float two"><span class="dot"></span> Autonomía: 240 km</div>
+      <!-- stylized side-view car, SVG inline -->
+      <svg viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M20 110 Q30 70 90 64 L150 60 Q190 40 240 56 L280 70 Q300 76 300 100 L300 112 Q300 118 294 118 L26 118 Q20 118 20 110 Z"
+              fill="#2f3942" stroke="#00e0a4" stroke-width="2.2"/>
+        <path d="M96 64 L150 60 L168 50 L120 53 Z" fill="#1c2127"/>
+        <path d="M155 59 L240 56 L262 64 L200 66 Z" fill="#1c2127"/>
+        <circle cx="86" cy="120" r="22" fill="#14181c" stroke="#00e0a4" stroke-width="2.4"/>
+        <circle cx="86" cy="120" r="8" fill="#3a434e"/>
+        <circle cx="244" cy="120" r="22" fill="#14181c" stroke="#00e0a4" stroke-width="2.4"/>
+        <circle cx="244" cy="120" r="8" fill="#3a434e"/>
+        <path d="M150 92 l-14 0 6 -16 -16 22 14 0 -6 16 z" fill="#00e0a4"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Beneficios ===== -->
+<section id="beneficios" class="alt">
+  <div class="wrap">
+    <div class="section-head reveal prose">
+      <span class="eyebrow">Por qué convertir</span>
+      <h2>Las ventajas de electrificar en lugar de reemplazar</h2>
+      <p>No necesitas comprar un auto nuevo para dejar la gasolina. La conversión aprovecha el chasis, la carrocería y la historia de tu vehículo.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+        </div>
+        <h3>Cero emisiones</h3>
+        <p>Eliminas por completo el escape contaminante. Tu auto deja de quemar combustible y deja de emitir CO₂ en circulación.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M5 8h9a4 4 0 010 8H8"/></svg>
+        </div>
+        <h3>Ahorro real</h3>
+        <p>Recargar con electricidad cuesta una fracción de lo que pagas en gasolina, y el motor eléctrico casi no necesita mantenimiento.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.2-8.5M21 4v6h-6"/></svg>
+        </div>
+        <h3>Conservas tu auto</h3>
+        <p>Mantienes el diseño, el carácter y el valor sentimental del vehículo. Solo modernizamos lo que está bajo el cofre.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <h3>Autonomía a tu medida</h3>
+        <p>Elegimos contigo la capacidad de batería según tu uso diario: de trayectos urbanos cortos a recorridos largos en carretera.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Manejo más suave</h3>
+        <p>Aceleración instantánea, marcha silenciosa y sin vibraciones de motor. Una experiencia de conducción completamente nueva.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Ingeniería certificada</h3>
+        <p>Cada conversión se documenta y se prueba para que el vehículo pueda homologarse y circular con respaldo técnico.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Proceso ===== -->
+<section id="proceso">
+  <div class="wrap">
+    <div class="section-head reveal prose">
+      <span class="eyebrow">El proceso</span>
+      <h2>De la gasolina al enchufe en 4 etapas</h2>
+      <p>Un camino claro y supervisado por ingenieros. Te mantenemos informado en cada fase del proyecto.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="n">01</div>
+        <h3>Diagnóstico</h3>
+        <p>Revisamos el estado del chasis, frenos y suspensión, y definimos contigo el objetivo de autonomía y desempeño.</p>
+      </div>
+      <div class="step reveal">
+        <div class="n">02</div>
+        <h3>Diseño del kit</h3>
+        <p>Seleccionamos motor, batería y electrónica de potencia adecuados al peso y uso de tu auto. Te entregamos el plan técnico.</p>
+      </div>
+      <div class="step reveal">
+        <div class="n">03</div>
+        <h3>Conversión</h3>
+        <p>Desmontamos el tren motriz de combustión e instalamos el sistema eléctrico: motor, baterías, cargador y cableado.</p>
+      </div>
+      <div class="step reveal">
+        <div class="n">04</div>
+        <h3>Pruebas y entrega</h3>
+        <p>Calibramos, hacemos pruebas de ruta y verificamos seguridad. Te entregamos el auto con su documentación completa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Galería antes / después ===== -->
+<section id="galeria" class="alt">
+  <div class="wrap">
+    <div class="section-head reveal prose">
+      <span class="eyebrow">Antes / Después</span>
+      <h2>Conversiones reales, autos con segunda vida</h2>
+      <p>Cada proyecto conserva la esencia del vehículo original y suma una mecánica eléctrica moderna.</p>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-card reveal">
+        <div class="ba-img before">
+          <span class="tag">Antes · Gasolina</span>
+          <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M16 70 Q24 44 60 40 L100 38 Q130 24 162 36 L182 46 Q190 50 190 64 L190 72 Q190 76 186 76 L20 76 Q16 76 16 70Z" fill="#4a4234" stroke="#d8b98a" stroke-width="2"/>
+            <circle cx="58" cy="78" r="14" fill="#1c1a15" stroke="#d8b98a" stroke-width="2"/>
+            <circle cx="158" cy="78" r="14" fill="#1c1a15" stroke="#d8b98a" stroke-width="2"/>
+            <path d="M20 60 q-8 2 -10 8" stroke="#9c9484" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="ba-body prose">
+          <h3>Sedán clásico 1978</h3>
+          <p>Un sedán familiar con motor original desgastado. El cliente quería conservarlo para los fines de semana sin seguir pagando combustible.</p>
+          <div class="ba-meta">
+            <div><strong>0 km</strong> de autonomía útil</div>
+            <div><strong>Alto</strong> mantenimiento</div>
+          </div>
+        </div>
+      </div>
+      <div class="ba-card reveal">
+        <div class="ba-img after">
+          <span class="tag">Después · Eléctrico</span>
+          <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M16 70 Q24 44 60 40 L100 38 Q130 24 162 36 L182 46 Q190 50 190 64 L190 72 Q190 76 186 76 L20 76 Q16 76 16 70Z" fill="#1d4339" stroke="#00e0a4" stroke-width="2"/>
+            <circle cx="58" cy="78" r="14" fill="#0c1f1b" stroke="#00e0a4" stroke-width="2"/>
+            <circle cx="158" cy="78" r="14" fill="#0c1f1b" stroke="#00e0a4" stroke-width="2"/>
+            <path d="M100 50 l-9 0 4 -11 -11 15 9 0 -4 11 z" fill="#00e0a4"/>
+          </svg>
+        </div>
+        <div class="ba-body prose">
+          <h3>El mismo sedán, ahora eléctrico</h3>
+          <p>Conserva su línea original, pero ahora monta un motor eléctrico y batería de 40 kWh. Silencioso, limpio y listo para uso diario.</p>
+          <div class="ba-meta">
+            <div><strong>240 km</strong> de autonomía</div>
+            <div><strong>Mínimo</strong> mantenimiento</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Precios ===== -->
+<section id="precios">
+  <div class="wrap">
+    <div class="section-head reveal prose">
+      <span class="eyebrow">Precios estimados</span>
+      <h2>Tres paquetes según tu autonomía</h2>
+      <p>Los montos son estimaciones de referencia: el precio final depende del modelo del auto y la batería elegida. La cotización formal es siempre gratuita.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price reveal">
+        <div class="plan">City</div>
+        <div class="amount">$185,000 <span>MXN aprox.</span></div>
+        <div class="desc">Para uso urbano y trayectos cortos del día a día.</div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> Batería 24 kWh</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> ~120 km de autonomía</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> Carga en toma doméstica</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> 6 a 8 semanas de taller</li>
+        </ul>
+        <a href="#contacto" class="btn btn-ghost">Cotizar City</a>
+      </div>
+      <div class="price featured reveal">
+        <div class="plan">Range <span class="pop">Más elegido</span></div>
+        <div class="amount">$310,000 <span>MXN aprox.</span></div>
+        <div class="desc">El equilibrio ideal entre autonomía, costo y uso mixto.</div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> Batería 48 kWh</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> ~280 km de autonomía</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> Cargador rápido incluido</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> 8 a 10 semanas de taller</li>
+        </ul>
+        <a href="#contacto" class="btn btn-primary">Cotizar Range</a>
+      </div>
+      <div class="price reveal">
+        <div class="plan">Performance</div>
+        <div class="amount">$480,000 <span>MXN aprox.</span></div>
+        <div class="desc">Máxima autonomía y potencia para entusiastas exigentes.</div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> Batería 72 kWh</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> ~420 km de autonomía</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> Motor de alto desempeño</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> 10 a 14 semanas de taller</li>
+        </ul>
+        <a href="#contacto" class="btn btn-ghost">Cotizar Performance</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq" class="alt">
+  <div class="wrap">
+    <div class="section-head reveal prose" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2>Lo que más nos preguntan</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">¿Mi auto puede seguir circulando legalmente? <span class="plus">+</span></button>
+        <div class="faq-a prose"><p>Sí. Cada conversión se documenta técnicamente para que puedas iniciar el trámite de homologación correspondiente. Te entregamos los reportes de ingeniería necesarios y te orientamos en el proceso.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">¿Qué pasa con la garantía? <span class="plus">+</span></button>
+        <div class="faq-a prose"><p>Los componentes eléctricos principales —motor, batería y controlador— se entregan con garantía. Además ofrecemos una garantía de instalación sobre el trabajo realizado en el taller.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">¿Cuánto mantenimiento necesita después? <span class="plus">+</span></button>
+        <div class="faq-a prose"><p>Mucho menos que un motor de combustión: sin cambios de aceite, sin filtros, sin bujías. El mantenimiento se concentra en frenos, suspensión, neumáticos y revisiones periódicas de la batería.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">¿Y si necesito repuestos en el futuro? <span class="plus">+</span></button>
+        <div class="faq-a prose"><p>Trabajamos con componentes de proveedores establecidos y de disponibilidad estable. Conservamos el registro técnico de tu conversión, así que cualquier repuesto o ajuste futuro parte de información precisa.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">¿Cualquier auto se puede convertir? <span class="plus">+</span></button>
+        <div class="faq-a prose"><p>La mayoría de los autos con chasis y carrocería en buen estado son candidatos. En el diagnóstico inicial confirmamos la viabilidad técnica antes de comprometer cualquier trabajo.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA band ===== -->
+<section id="contacto">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>¿Listo para electrificar tu auto?</h2>
+      <p>Cuéntanos qué vehículo tienes y cómo lo usas. Te preparamos una cotización sin costo y sin compromiso.</p>
+      <a href="mailto:hola@revolt.mx" class="btn">Cotiza tu conversión</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#inicio" class="brand"><span class="mark">R</span> ReVolt</a>
+        <p class="prose">Taller de electrificación: convertimos autos de combustión interna a 100% eléctricos, con ingeniería seria y trato cercano.</p>
+      </div>
+      <div>
+        <h4>Sitio</h4>
+        <a href="#beneficios">Beneficios</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#galeria">Antes / Después</a>
+        <a href="#precios">Precios</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <a href="mailto:hola@revolt.mx">hola@revolt.mx</a>
+        <a href="tel:+525555550123">+52 55 5555 0123</a>
+        <p>Lun a Vie · 9:00 – 18:00</p>
+      </div>
+      <div>
+        <h4>Taller</h4>
+        <p>Av. Industria Eléctrica 240<br/>Col. Granjas, Ciudad de México</p>
+        <p>Estacionamiento para clientes</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 ReVolt. Todos los derechos reservados.</span>
+      <span>Hecho con ingeniería, no con humo.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav
+  var burger = document.getElementById('burger');
+  var navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', function () {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { navLinks.classList.remove('open'); });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    var q = item.querySelector('.faq-q');
+    q.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function (other) {
+        other.classList.remove('open');
+        other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        q.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // Reveal on scroll
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+</script>
+</body>
+</html>

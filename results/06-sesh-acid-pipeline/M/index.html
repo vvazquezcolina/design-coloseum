@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoltSwap — Convierte tu auto de combustión a 100% eléctrico</title>
+<meta name="description" content="VoltSwap es el taller que convierte autos de combustión interna a 100% eléctricos. Conserva el auto que ya amas: motor silencioso, cero gasolina, garantía de ingeniería. Agenda tu diagnóstico.">
+<!--
+  PERSONALITY COMMIT (Skill 03 — 5 preguntas)
+  1. Emoción dominante: confianza con energía — "precisión cálida".
+  2. ¿Producto = trabajo o confianza? CONFIANZA/EXPERTISE. El auto convertido se ve casi igual por fuera;
+     lo que se vende es el proceso de ingeniería + garantía. → Layout Personality C (AUTHORITY).
+  3. ¿Qué tan establecidos? Moderno, técnico, nicho emergente — limpio, no heritage.
+  4. ¿Qué sienten los clientes? Alivio + entusiasmo: "no tuve que tirar mi auto".
+  5. ¿Qué NUNCA encajaría? Lujo frío de concesionaria, serif decorativo, dark-mode gaming, stock photos.
+
+  DESIGNER REVIEW
+  ✓ Logo: claro sobre header navy — contraste OK
+  ✓ H1: clamp ~64–88px vs body 17px — >4x OK
+  ✓ Servicios: NO 4 cards iguales — 3 paquetes con centro destacado + servicios como cards de oficio
+  ✓ Hero: split (copy izq + visual técnico der), NO centrado
+  ✓ Sección full-bleed: proceso navy + CTA navy
+  ✓ Diferenciación de secciones: claro / navy / alt / navy — OK
+  ✓ Tema light respetado; navy solo como acento de contraste
+  ✓ Fuentes: Space Grotesk + Source Sans 3 + JetBrains Mono (cero Playfair/Inter/Roboto)
+
+  UX REVIEW
+  ✓ Negocio identificable en <3s: hero dice "convierte tu auto a 100% eléctrico"
+  ✓ CTA primario "Agenda tu diagnóstico" visible sin scroll
+  ✓ CTA aparece arriba (hero), medio (paquetes) y final (sección navy)
+  ✓ Datos reales: tel con tel:, dirección, horario, mapa esquemático
+  ✓ Móvil: hero legible a 390px, nav colapsa a hamburguesa
+  ✓ Sin barra de stats inventada
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- WATERMARK BANNER -->
+<div class="watermark">
+  VISTA PREVIA NO OFICIAL — Sitio construido por Sesh ACID como rediseño cortesía para VoltSwap. No afiliado a VoltSwap.
+  <button aria-label="Cerrar aviso">&times;</button>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="wrap header__inner">
+    <a class="logo" href="index.html" aria-label="VoltSwap — inicio">
+      <span class="logo__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+      </span>
+      <span class="logo__text">Volt<b>Swap</b></span>
+    </a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="proceso.html">Proceso</a>
+      <a href="paquetes.html">Paquetes</a>
+      <a href="galeria.html">Galería</a>
+      <a href="contacto.html">Contacto</a>
+      <a class="btn btn--cta" href="contacto.html">Agenda tu diagnóstico</a>
+    </nav>
+    <button class="burger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div class="hero__copy reveal">
+      <span class="overline">Conversión EV · Taller de ingeniería</span>
+      <h1>El auto que <span class="accent">ya amas</span>, ahora 100% eléctrico.</h1>
+      <p class="hero__lead">VoltSwap convierte autos de combustión interna en vehículos eléctricos. Conservas tu carrocería, tu historia y tu placa — cambiamos el corazón: motor silencioso, cero gasolina y un rango real que te decimos sin adornos.</p>
+      <div class="hero__cta">
+        <a class="btn btn--primary btn--lg" href="contacto.html">Agenda tu diagnóstico</a>
+        <a class="btn btn--ghost btn--lg" href="proceso.html">Ver el proceso</a>
+      </div>
+      <div class="hero__trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Garantía de ingeniería de 3 años en motor, batería y electrónica de potencia.
+      </div>
+    </div>
+    <aside class="hero__viz reveal" aria-label="Visualización técnica de conversión">
+      <div class="hero__viz-label">Sedán → conversión EV · esquema</div>
+      <svg class="viz-car" viewBox="0 0 420 200" role="img" aria-label="Esquema de un auto con su nuevo tren motriz eléctrico">
+        <defs>
+          <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#1f3a57"/><stop offset="1" stop-color="#16304a"/>
+          </linearGradient>
+        </defs>
+        <!-- grid -->
+        <g stroke="#23426b" stroke-width="1">
+          <line x1="0" y1="50" x2="420" y2="50"/><line x1="0" y1="100" x2="420" y2="100"/><line x1="0" y1="150" x2="420" y2="150"/>
+          <line x1="105" y1="0" x2="105" y2="200"/><line x1="210" y1="0" x2="210" y2="200"/><line x1="315" y1="0" x2="315" y2="200"/>
+        </g>
+        <!-- carrocería -->
+        <path d="M40 130 L70 90 Q80 78 100 76 L250 72 Q300 72 330 100 L380 116 Q392 120 392 134 L392 150 L40 150 Z" fill="url(#body)" stroke="#3a5d85" stroke-width="2"/>
+        <path d="M110 88 L240 84 L300 104 L120 108 Z" fill="#0e1b2c" stroke="#3a5d85"/>
+        <!-- ruedas -->
+        <circle cx="120" cy="150" r="22" fill="#0e1b2c" stroke="#f4b500" stroke-width="3"/>
+        <circle cx="310" cy="150" r="22" fill="#0e1b2c" stroke="#f4b500" stroke-width="3"/>
+        <!-- pack de baterías -->
+        <rect x="140" y="132" width="160" height="14" rx="3" fill="#0b6e4f" stroke="#6fd6a8" stroke-width="1.5"/>
+        <text x="220" y="142" font-family="JetBrains Mono, monospace" font-size="8" fill="#bff0d6" text-anchor="middle">PACK BATERÍA · 42 kWh</text>
+        <!-- motor eléctrico -->
+        <circle cx="115" cy="120" r="13" fill="#f4b500"/>
+        <path d="M115 113 l-4 7 h5 l-3 7" stroke="#0e1b2c" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- callouts -->
+        <line x1="115" y1="100" x2="115" y2="60" stroke="#f4b500" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <text x="115" y="52" font-family="JetBrains Mono, monospace" font-size="9" fill="#f4b500" text-anchor="middle">MOTOR e-DRIVE</text>
+        <line x1="300" y1="132" x2="345" y2="78" stroke="#6fd6a8" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <text x="345" y="70" font-family="JetBrains Mono, monospace" font-size="9" fill="#6fd6a8" text-anchor="middle">BMS + carga CCS</text>
+      </svg>
+      <div class="hero__gauge">
+        <div class="hero__gauge-row">
+          <span class="big">240 <small style="font-size:.9rem">km</small></span>
+          <span class="lbl">Rango estimado · ciudad</span>
+        </div>
+        <div class="hero__gauge-track"><div class="hero__gauge-fill"></div></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA EL PROCESO -->
+<section class="section section--navy" id="proceso">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="overline on-dark">Cómo funciona</span>
+      <h2>De combustión a eléctrico en 5 etapas claras</h2>
+      <p>Sin sorpresas y sin tecnicismos vacíos. Cada etapa tiene un entregable concreto y la apruebas tú antes de que sigamos. El plazo típico de una conversión completa es de 3 a 5 semanas.</p>
+    </div>
+    <div class="steps">
+      <article class="step reveal">
+        <div class="step__num">01</div>
+        <div class="step__body">
+          <h3>Diagnóstico y estudio de viabilidad</h3>
+          <p>Revisamos carrocería, chasis, frenos y suspensión. Definimos si tu auto es buen candidato y qué configuración de batería y motor le queda mejor.</p>
+          <div class="step__meta">Entregable: <b>informe de viabilidad + cotización en firme</b></div>
+        </div>
+      </article>
+      <article class="step reveal">
+        <div class="step__num">02</div>
+        <div class="step__body">
+          <h3>Diseño del tren motriz</h3>
+          <p>Ingeniería del paquete: ubicación del pack de baterías, motor eléctrico, BMS y sistema de carga. Calculamos pesos, ejes y rango real esperado.</p>
+          <div class="step__meta">Entregable: <b>planos técnicos + rango garantizado por escrito</b></div>
+        </div>
+      </article>
+      <article class="step reveal">
+        <div class="step__num">03</div>
+        <div class="step__body">
+          <h3>Desmontaje del sistema de combustión</h3>
+          <p>Retiramos motor, tanque, escape y sistema de combustible. Reforzamos los puntos de anclaje y preparamos el bahía para los nuevos componentes.</p>
+          <div class="step__meta">Entregable: <b>chasis preparado + componentes antiguos documentados</b></div>
+        </div>
+      </article>
+      <article class="step reveal">
+        <div class="step__num">04</div>
+        <div class="step__body">
+          <h3>Instalación e integración eléctrica</h3>
+          <p>Montaje del motor, pack de baterías, electrónica de potencia y cableado de alto voltaje. Integramos tablero, climatización y dirección al nuevo sistema.</p>
+          <div class="step__meta">Entregable: <b>vehículo ensamblado + cableado certificado</b></div>
+        </div>
+      </article>
+      <article class="step reveal">
+        <div class="step__num">05</div>
+        <div class="step__body">
+          <h3>Pruebas, calibración y entrega</h3>
+          <p>Banco de pruebas, calibración del BMS, pruebas de ruta y verificación de seguridad. Te entregamos el auto con manual, garantía y capacitación de carga.</p>
+          <div class="step__meta">Entregable: <b>auto listo + garantía de 3 años activada</b></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS / PAQUETES (teaser de servicios de oficio) -->
+<section class="section" id="servicios">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="overline">Servicios</span>
+      <h2>Lo que hacemos en el taller</h2>
+      <p>Más allá de la conversión completa, VoltSwap mantiene y mejora vehículos ya eléctricos. Todo bajo el mismo techo y el mismo equipo de ingeniería.</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        </div>
+        <h3>Conversión completa a EV</h3>
+        <p>El servicio insignia: tu auto de combustión transformado en 100% eléctrico, llave en mano.</p>
+        <ul class="card__list">
+          <li>Motor eléctrico + pack de baterías</li>
+          <li>Rango garantizado por escrito</li>
+          <li>Garantía de ingeniería de 3 años</li>
+        </ul>
+      </article>
+      <article class="card reveal">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v6a6 6 0 0 1-6 6h-3"/></svg>
+        </div>
+        <h3>Upgrade de batería y rango</h3>
+        <p>¿Ya tienes un EV o una conversión previa? Ampliamos su pack para más kilómetros por carga.</p>
+        <ul class="card__list">
+          <li>Diagnóstico de celdas y BMS</li>
+          <li>Repotenciación de pack</li>
+          <li>Recalibración de rango</li>
+        </ul>
+      </article>
+      <article class="card reveal">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-6 6 3 3 6-6a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6z"/></svg>
+        </div>
+        <h3>Mantenimiento y soporte EV</h3>
+        <p>Servicio especializado para vehículos eléctricos: lo que un taller convencional no toca.</p>
+        <ul class="card__list">
+          <li>Revisión de alto voltaje</li>
+          <li>Software, BMS y cargadores</li>
+          <li>Plan de mantenimiento anual</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA ANTES / DESPUÉS -->
+<section class="section section--alt" id="galeria">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="overline">Galería antes / después</span>
+      <h2>Mismo auto. Corazón nuevo.</h2>
+      <p>Arrastra el control para ver la conversión. El medidor de rango se recalcula en vivo según avanzas — porque convertir es justamente eso: pasar de "0 km eléctricos" a un rango real con el que cuentas todos los días.</p>
+    </div>
+
+    <div class="gallery-feature reveal">
+      <div class="ba" aria-label="Comparador antes y después: sedán 1989">
+        <div class="ba__layer ba__after">
+          <svg class="ba__svg" viewBox="0 0 400 300" aria-hidden="true">
+            <path d="M40 200 L75 140 Q86 124 110 122 L250 116 Q300 116 330 150 L370 168 Q382 174 382 192 L382 220 L40 220 Z" fill="#16304a" stroke="#3a5d85" stroke-width="2"/>
+            <rect x="150" y="196" width="150" height="18" rx="3" fill="#0b6e4f"/>
+            <circle cx="120" cy="222" r="26" fill="#0e1b2c" stroke="#f4b500" stroke-width="3"/>
+            <circle cx="310" cy="222" r="26" fill="#0e1b2c" stroke="#f4b500" stroke-width="3"/>
+            <circle cx="118" cy="170" r="15" fill="#f4b500"/>
+            <path d="M118 161 l-5 9 h6 l-4 9" stroke="#0e1b2c" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="ba__layer ba__before">
+          <svg class="ba__svg" viewBox="0 0 400 300" aria-hidden="true">
+            <path d="M40 200 L75 140 Q86 124 110 122 L250 116 Q300 116 330 150 L370 168 Q382 174 382 192 L382 220 L40 220 Z" fill="#3a342b" stroke="#5b5347" stroke-width="2"/>
+            <rect x="150" y="196" width="80" height="22" rx="2" fill="#222"/>
+            <circle cx="120" cy="222" r="26" fill="#1a1814" stroke="#6b6052" stroke-width="3"/>
+            <circle cx="310" cy="222" r="26" fill="#1a1814" stroke="#6b6052" stroke-width="3"/>
+            <path d="M250 210 q26 4 40 0" stroke="#6b6052" stroke-width="4" fill="none"/>
+            <circle cx="118" cy="172" r="14" fill="#5b5347"/>
+          </svg>
+        </div>
+        <span class="ba__tag ba__tag--before">Antes · combustión</span>
+        <span class="ba__tag ba__tag--after">Después · 100% EV</span>
+        <div class="ba__handle" aria-hidden="true"></div>
+        <input class="ba__range" type="range" min="0" max="100" value="55" aria-label="Control comparador antes y después">
+      </div>
+      <div class="ba-caption prose">
+        <span class="overline">Caso 01 · Sedán clásico 1989</span>
+        <h3>De 11 km/L a cero gasolina</h3>
+        <p>Un sedán familiar con carrocería impecable pero motor cansado. Le instalamos un pack de 42&nbsp;kWh y un motor e-Drive: hoy hace los traslados diarios sin pasar por una gasolinera y conserva cada detalle original que su dueño no quería perder.</p>
+        <div class="hero__gauge" style="margin-top:1.2rem">
+          <div class="hero__gauge-row">
+            <span class="big"><span class="range-num">132</span> <small style="font-size:.9rem;color:var(--text-muted)">km eléctricos</small></span>
+            <span class="lbl" style="color:var(--text-muted)">según avance de conversión</span>
+          </div>
+          <div class="hero__gauge-track" style="background:var(--line)">
+            <div class="hero__gauge-fill range-fill" data-max="240" style="width:55%"></div>
+          </div>
+        </div>
+        <dl class="ba-specs">
+          <div><dt>Batería instalada</dt><dd>42 kWh</dd></div>
+          <div><dt>Rango final · ciudad</dt><dd>240 km</dd></div>
+          <div><dt>Tiempo en taller</dt><dd>4 semanas</dd></div>
+          <div><dt>Garantía</dt><dd>3 años</dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="gallery-grid">
+      <figure class="g-tile reveal" style="background:linear-gradient(135deg,#16304a,#0b6e4f)">
+        <figcaption class="g-tile__cap">Hatchback MK3 · pack 38 kWh · 205 km</figcaption>
+      </figure>
+      <figure class="g-tile reveal" style="background:linear-gradient(135deg,#0e1b2c,#16304a 70%,#f4b500)">
+        <figcaption class="g-tile__cap">Pickup clásica · pack 60 kWh · 280 km</figcaption>
+      </figure>
+      <figure class="g-tile reveal" style="background:linear-gradient(135deg,#0b6e4f,#16304a)">
+        <figcaption class="g-tile__cap">Coupé deportivo · motor doble · 0–100 en 6.4 s</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS ESTIMADOS -->
+<section class="section" id="precios">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="overline">Precios estimados</span>
+      <h2>Tres paquetes, un solo estándar de ingeniería</h2>
+      <p>Estos son rangos de referencia para autos compactos y medianos. El precio final lo define el diagnóstico de tu vehículo — y te lo entregamos por escrito antes de empezar.</p>
+    </div>
+    <div class="pricing">
+      <article class="plan reveal">
+        <h3>Urbano</h3>
+        <p class="plan__desc">Para uso diario en ciudad y trayectos cortos.</p>
+        <div class="plan__price"><b>$185k</b><span>MXN aprox.</span></div>
+        <div class="plan__from mono">Batería 30–38 kWh · 150–200 km</div>
+        <ul class="plan__feat">
+          <li>Motor eléctrico e-Drive</li>
+          <li>Pack de baterías 30–38 kWh</li>
+          <li>Cargador a bordo nivel 2</li>
+          <li>Garantía de ingeniería 3 años</li>
+          <li>Capacitación de carga incluida</li>
+        </ul>
+        <a class="btn btn--ghost" href="contacto.html">Cotizar este paquete</a>
+      </article>
+      <article class="plan plan--featured reveal">
+        <span class="plan__badge">El más elegido</span>
+        <h3>Carretera</h3>
+        <p class="plan__desc">El equilibrio entre rango, potencia y precio.</p>
+        <div class="plan__price"><b>$285k</b><span>MXN aprox.</span></div>
+        <div class="plan__from mono">Batería 42–52 kWh · 230–290 km</div>
+        <ul class="plan__feat">
+          <li>Motor e-Drive de mayor torque</li>
+          <li>Pack de baterías 42–52 kWh</li>
+          <li>Carga rápida CCS compatible</li>
+          <li>Climatización integrada al sistema EV</li>
+          <li>Garantía de ingeniería 3 años</li>
+          <li>Revisión anual el primer año, gratis</li>
+        </ul>
+        <a class="btn btn--cta" href="contacto.html">Cotizar este paquete</a>
+      </article>
+      <article class="plan reveal">
+        <h3>Performance</h3>
+        <p class="plan__desc">Máximo rango y potencia para entusiastas.</p>
+        <div class="plan__price"><b>$420k</b><span>MXN aprox.</span></div>
+        <div class="plan__from mono">Batería 60–75 kWh · 300+ km</div>
+        <ul class="plan__feat">
+          <li>Configuración de motor doble opcional</li>
+          <li>Pack de baterías 60–75 kWh</li>
+          <li>Carga rápida CCS de alta potencia</li>
+          <li>Suspensión y frenos reforzados</li>
+          <li>Garantía de ingeniería 3 años</li>
+          <li>Telemetría y app de monitoreo</li>
+        </ul>
+        <a class="btn btn--ghost" href="contacto.html">Cotizar este paquete</a>
+      </article>
+    </div>
+    <p class="pricing-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      El diagnóstico ajusta el número. Autos con carrocería o frenos que requieran trabajo previo pueden variar el estimado; te lo decimos antes, nunca después.
+    </p>
+  </div>
+</section>
+
+<!-- PRUEBA SOCIAL -->
+<section class="section section--navy section--tight">
+  <div class="wrap reveal">
+    <span class="overline on-dark">Lo que dicen los dueños</span>
+    <blockquote class="quote-big">"Pensé que mi auto ya estaba para el desguace. VoltSwap me dio el rango real desde el día uno y lo cumplió. Ahora es el auto más callado de la cuadra."</blockquote>
+    <div class="quote-author">Mariana R. <span>· conversión de sedán 1989, paquete Carretera</span></div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="section" id="contacto">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="overline">Contacto</span>
+      <h2>Agenda tu diagnóstico</h2>
+      <p>Cuéntanos qué auto tienes y qué esperas de él. Te respondemos en menos de 24 horas hábiles con los próximos pasos — sin compromiso.</p>
+    </div>
+    <div class="contact-grid">
+      <form class="reveal" id="contact-form" novalidate>
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" required autocomplete="name" placeholder="Tu nombre">
+        </div>
+        <div class="field">
+          <label for="email">Correo</label>
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+        </div>
+        <div class="field">
+          <label for="tel">Teléfono</label>
+          <input id="tel" name="tel" type="tel" autocomplete="tel" placeholder="55 0000 0000">
+        </div>
+        <div class="field">
+          <label for="auto">Auto a convertir</label>
+          <input id="auto" name="auto" type="text" placeholder="Marca, modelo y año — ej. Volkswagen Caribe 1989">
+        </div>
+        <div class="field">
+          <label for="paquete">Paquete de interés</label>
+          <select id="paquete" name="paquete">
+            <option value="">Aún no lo sé / quiero asesoría</option>
+            <option>Urbano</option>
+            <option>Carretera</option>
+            <option>Performance</option>
+            <option>Upgrade de batería</option>
+            <option>Mantenimiento EV</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="msg">Mensaje</label>
+          <textarea id="msg" name="msg" placeholder="¿Para qué usas el auto? ¿Cuánto rango necesitas al día?"></textarea>
+        </div>
+        <button class="btn btn--primary btn--lg" type="submit">Enviar y agendar diagnóstico</button>
+        <div class="form-success">¡Gracias! Recibimos tu solicitud. Te contactamos en menos de 24 horas hábiles. (Demo — sin envío real.)</div>
+      </form>
+
+      <aside class="contact-info reveal">
+        <h3>Visítanos en el taller</h3>
+        <div class="ci-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div><span class="lbl">Dirección</span><br>Av. Industria 245, Col. Talleres<br>Ciudad de México</div>
+        </div>
+        <div class="ci-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <div><span class="lbl">Teléfono</span><br><a href="tel:+525500001234">55 5000 1234</a></div>
+        </div>
+        <div class="ci-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+          <div><span class="lbl">Correo</span><br><a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a></div>
+        </div>
+        <div class="ci-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <div><span class="lbl">Horario</span><br>Lun–Vie 9:00–18:00 · Sáb 9:00–14:00</div>
+        </div>
+        <div class="ci-map" role="img" aria-label="Mapa esquemático de la ubicación del taller"></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL (sección navy de alto contraste) -->
+<section class="section section--navy section--tight">
+  <div class="wrap reveal" style="text-align:center">
+    <span class="overline on-dark">¿Listo para hacer el cambio?</span>
+    <h2 style="margin:.6rem auto .8rem;max-width:18ch">Tu próximo auto ya está en tu cochera.</h2>
+    <p style="margin:0 auto 1.8rem;max-width:52ch">Conviértelo en vez de cambiarlo. Agenda un diagnóstico y te decimos exactamente qué rango, qué costo y qué plazo — por escrito.</p>
+    <a class="btn btn--cta btn--lg" href="contacto.html">Agenda tu diagnóstico</a>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__about">
+        <a class="logo" href="index.html" aria-label="VoltSwap — inicio">
+          <span class="logo__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          </span>
+          <span class="logo__text">Volt<b>Swap</b></span>
+        </a>
+        <p>Taller de ingeniería que convierte autos de combustión interna a 100% eléctricos. Conserva el auto que ya amas — cámbiale el corazón, no la historia.</p>
+        <div class="socials">
+          <a href="#" aria-label="VoltSwap en Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23a3.7 3.7 0 0 1-.9 1.38c-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2zm0 1.8c-3.14 0-3.51.01-4.75.07-1.15.05-1.77.24-2.18.4-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.41-.35 1.03-.4 2.18C2.21 10.49 2.2 10.86 2.2 14s.01 3.51.07 4.75c.05 1.15.24 1.77.4 2.18.21.55.47.94.88 1.35.41.41.8.67 1.35.88.41.16 1.03.35 2.18.4 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c1.15-.05 1.77-.24 2.18-.4.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.41.35-1.03.4-2.18.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.05-1.15-.24-1.77-.4-2.18a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.18-.4C15.51 4.01 15.14 4 12 4zm0 3.06A4.94 4.94 0 1 1 12 17a4.94 4.94 0 0 1 0-9.88zm0 1.8a3.14 3.14 0 1 0 0 6.28 3.14 3.14 0 0 0 0-6.28zm5.2-.36a1.16 1.16 0 1 1-2.32 0 1.16 1.16 0 0 1 2.32 0z"/></svg>
+          </a>
+          <a href="#" aria-label="VoltSwap en Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
+          </a>
+          <a href="#" aria-label="VoltSwap en YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.5 3.9 12 3.9 12 3.9s-7.5 0-9.4.5A3 3 0 0 0 .5 6.5C0 8.4 0 12 0 12s0 3.6.5 5.5a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.5.5-5.5s0-3.6-.5-5.5zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
+          </a>
+          <a href="#" aria-label="VoltSwap en Maps">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Sitio</h4>
+        <ul>
+          <li><a href="proceso.html">Proceso de conversión</a></li>
+          <li><a href="paquetes.html">Servicios y paquetes</a></li>
+          <li><a href="galeria.html">Galería antes/después</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Paquetes</h4>
+        <ul>
+          <li><a href="paquetes.html">Urbano</a></li>
+          <li><a href="paquetes.html">Carretera</a></li>
+          <li><a href="paquetes.html">Performance</a></li>
+          <li><a href="paquetes.html">Upgrade de batería</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="tel:+525500001234">55 5000 1234</a></li>
+          <li><a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a></li>
+          <li>Av. Industria 245, Col. Talleres</li>
+          <li>Lun–Vie 9–18 · Sáb 9–14</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span class="js-year">2026</span> VoltSwap · Taller de conversión EV</span>
+      <span>Hecho con ingeniería, no con humo.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CHATBOT DEMO -->
+<button class="chat-fab" aria-label="Abrir asistente VoltSwap">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>
+</button>
+<div class="chat-win" role="dialog" aria-label="Asistente VoltSwap">
+  <div class="chat-head">
+    <b>Asistente IA — VoltSwap</b>
+    <button aria-label="Cerrar chat">&times;</button>
+  </div>
+  <div class="chat-body">
+    <div class="msg msg--bot">¡Hola! Soy el asistente de VoltSwap. Puedo ayudarte con cotizaciones de conversión, agendar tu diagnóstico y resolver dudas técnicas sobre rango, baterías y garantía. ¿En qué te ayudo? ⚡</div>
+  </div>
+  <form class="chat-foot">
+    <input type="text" placeholder="Escribe tu mensaje…" aria-label="Mensaje para el asistente">
+    <button type="submit" aria-label="Enviar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </form>
+  <div class="chat-badge">Powered by AI · Sesh</div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

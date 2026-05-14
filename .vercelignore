@@ -1,0 +1,22 @@
+# Dependencias y repos de trabajo — no van al deploy
+node_modules
+_models
+package.json
+package-lock.json
+
+# Scripts de build/captura — se corren localmente, no se sirven
+*.mjs
+
+# Documentos internos de planeación
+_AGENT_BRIEF.md
+PLAN.md
+prompts
+wiki
+
+# Artefactos no usados por el visor (quedan en disco, no se despliegan)
+evaluation/screenshots/_montage
+evaluation/screenshots/*-mobile.png
+
+# Basura del SO
+.DS_Store
+**/.DS_Store

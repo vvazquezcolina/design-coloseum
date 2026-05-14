@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VoltSwap — Conversión de autos de combustión a 100% eléctricos</title>
+<meta name="description" content="Taller premium de electrificación. Conservamos tu auto clásico y lo volvemos eléctrico con ingeniería seria y autonomía real." />
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Fonts: Cabinet Grotesk (display) + Satoshi (body) + JetBrains Mono (numbers) -->
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['"Cabinet Grotesk"', 'system-ui', 'sans-serif'],
+          sans: ['"Satoshi"', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+        colors: {
+          ink: {
+            950: '#0c0e10',
+            900: '#141719',
+            850: '#1b1f22',
+            800: '#23282c',
+            700: '#31373c',
+            600: '#454d54',
+          },
+          volt: {
+            DEFAULT: '#2bd4c4',
+            soft: '#5ee0d3',
+            deep: '#16a99c',
+            ink: '#0a3e3a',
+          },
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #0c0e10;
+    color: #d7dbde;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Texto largo: justificado segun receta global */
+  .prose-just p,
+  .prose-just li {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+  }
+
+  /* Foco visible AA */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #5ee0d3;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.is-in { opacity: 1; transform: translateY(0); }
+  .reveal[data-delay="1"] { transition-delay: 0.08s; }
+  .reveal[data-delay="2"] { transition-delay: 0.16s; }
+  .reveal[data-delay="3"] { transition-delay: 0.24s; }
+  .reveal[data-delay="4"] { transition-delay: 0.32s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+    .marquee-track { animation: none !important; }
+    .pulse-dot { animation: none !important; }
+  }
+
+  /* Grain overlay — fijo, pointer-events-none, fuera de scroll containers */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Kinetic marquee */
+  .marquee-track {
+    animation: marquee 38s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Pulse status dot */
+  .pulse-dot { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(43,212,196,0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(43,212,196,0); }
+  }
+
+  /* Magnetic-ish CTA: tactile push handled via :active in utility classes */
+  .btn-press:active { transform: translateY(1px) scale(0.985); }
+
+  /* Hover-aware accent underline for nav */
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -4px;
+    width: 100%; height: 1px;
+    background: #2bd4c4;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+
+  /* Spotlight border card */
+  .spotlight {
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease;
+  }
+  .spotlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(420px circle at var(--mx,50%) var(--my,50%), rgba(94,224,211,0.55), transparent 42%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .spotlight:hover::before { opacity: 1; }
+  .spotlight:hover { transform: translateY(-4px); }
+
+  /* Process connector line draw */
+  .step-num { transition: color 0.4s ease, border-color 0.4s ease, background-color 0.4s ease; }
+  .step-row:hover .step-num {
+    color: #0c0e10;
+    background-color: #2bd4c4;
+    border-color: #2bd4c4;
+  }
+
+  /* Before/After slider */
+  .ba-range {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: ew-resize;
+  }
+  .ba-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px; height: 30px;
+    border-radius: 9999px;
+    background: #2bd4c4;
+    border: 3px solid #0c0e10;
+    box-shadow: 0 0 0 1px #2bd4c4;
+  }
+  .ba-range::-moz-range-thumb {
+    width: 30px; height: 30px;
+    border-radius: 9999px;
+    background: #2bd4c4;
+    border: 3px solid #0c0e10;
+    box-shadow: 0 0 0 1px #2bd4c4;
+  }
+
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .faq-chevron { transform: rotate(45deg); }
+  .faq-chevron { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
+
+  /* Skip link */
+  .skip {
+    position: absolute;
+    left: 1rem; top: -100px;
+    z-index: 100;
+    transition: top 0.2s ease;
+  }
+  .skip:focus { top: 1rem; }
+</style>
+</head>
+
+<body class="font-sans antialiased selection:bg-volt selection:text-ink-950">
+
+<div class="grain" aria-hidden="true"></div>
+
+<a href="#contenido" class="skip bg-volt text-ink-950 font-display font-bold px-4 py-2 rounded-lg">Saltar al contenido</a>
+
+<!-- ============ NAV ============ -->
+<header class="sticky top-0 z-50 border-b border-ink-800/80 bg-ink-950/80 backdrop-blur-md">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" aria-label="Principal">
+    <a href="#contenido" class="flex items-center gap-2.5 group">
+      <span class="grid place-items-center w-9 h-9 rounded-lg bg-volt text-ink-950 transition-transform duration-300 group-hover:rotate-[-8deg]">
+        <!-- bolt icon -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M13 2 4.5 13.5H11l-1 8.5L18.5 10.5H12l1-8.5Z" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="font-display font-extrabold text-lg tracking-tight text-white">Volt<span class="text-volt">Swap</span></span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-8 text-sm text-ink-600 font-medium">
+      <a href="#valor" class="nav-link hover:text-white transition-colors">Por qué convertir</a>
+      <a href="#proceso" class="nav-link hover:text-white transition-colors">Proceso</a>
+      <a href="#paquetes" class="nav-link hover:text-white transition-colors">Paquetes</a>
+      <a href="#casos" class="nav-link hover:text-white transition-colors">Casos reales</a>
+      <a href="#faq" class="nav-link hover:text-white transition-colors">Preguntas</a>
+    </div>
+
+    <a href="#cotiza" class="btn-press hidden sm:inline-flex items-center gap-2 bg-volt hover:bg-volt-soft text-ink-950 font-display font-bold text-sm px-4 py-2 rounded-lg transition-all duration-300">
+      Cotiza tu conversión
+    </a>
+
+    <!-- mobile menu toggle -->
+    <button id="menuBtn" class="md:hidden grid place-items-center w-10 h-10 rounded-lg border border-ink-700 text-white" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16"/>
+      </svg>
+    </button>
+  </nav>
+
+  <div id="mobileMenu" class="md:hidden hidden border-t border-ink-800 bg-ink-950 px-4 py-4">
+    <div class="flex flex-col gap-1 text-sm">
+      <a href="#valor" class="py-2.5 px-2 rounded-lg text-ink-600 hover:text-white hover:bg-ink-900 transition-colors">Por qué convertir</a>
+      <a href="#proceso" class="py-2.5 px-2 rounded-lg text-ink-600 hover:text-white hover:bg-ink-900 transition-colors">Proceso</a>
+      <a href="#paquetes" class="py-2.5 px-2 rounded-lg text-ink-600 hover:text-white hover:bg-ink-900 transition-colors">Paquetes</a>
+      <a href="#casos" class="py-2.5 px-2 rounded-lg text-ink-600 hover:text-white hover:bg-ink-900 transition-colors">Casos reales</a>
+      <a href="#costos" class="py-2.5 px-2 rounded-lg text-ink-600 hover:text-white hover:bg-ink-900 transition-colors">Costos y tiempos</a>
+      <a href="#faq" class="py-2.5 px-2 rounded-lg text-ink-600 hover:text-white hover:bg-ink-900 transition-colors">Preguntas</a>
+      <a href="#cotiza" class="mt-2 py-2.5 px-2 rounded-lg bg-volt text-ink-950 font-display font-bold text-center">Cotiza tu conversión</a>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+
+<!-- ============ HERO — split asimétrico, no centrado ============ -->
+<section class="relative overflow-hidden border-b border-ink-800">
+  <!-- ambient mesh blobs -->
+  <div class="absolute -top-32 -right-24 w-[34rem] h-[34rem] rounded-full bg-volt/10 blur-[120px]" aria-hidden="true"></div>
+  <div class="absolute bottom-0 -left-40 w-[30rem] h-[30rem] rounded-full bg-volt-deep/10 blur-[120px]" aria-hidden="true"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-12 items-center min-h-[100dvh] py-24 lg:py-0">
+
+      <!-- Columna texto: alineada a la izquierda -->
+      <div class="reveal is-in">
+        <div class="inline-flex items-center gap-2 rounded-full border border-ink-700 bg-ink-900/60 pl-2 pr-3.5 py-1.5 text-xs text-ink-600 font-medium mb-7">
+          <span class="pulse-dot w-2 h-2 rounded-full bg-volt" aria-hidden="true"></span>
+          Taller de electrificación · CDMX desde 2017
+        </div>
+
+        <h1 class="font-display font-extrabold text-white text-4xl sm:text-5xl lg:text-6xl tracking-tighter leading-[1.02]">
+          Tu auto de siempre,<br />
+          ahora <span class="text-volt">100% eléctrico.</span>
+        </h1>
+
+        <div class="prose-just mt-6 max-w-[60ch]">
+          <p class="text-base sm:text-lg text-ink-600 leading-relaxed">
+            Conservamos la carrocería, el carácter y la historia de tu auto.
+            Reemplazamos el tren motriz de combustión por un sistema eléctrico
+            diseñado a la medida: batería, motor, controladores y frenado
+            regenerativo. Ingeniería verificable, no improvisación.
+          </p>
+        </div>
+
+        <div class="mt-9 flex flex-col sm:flex-row gap-3 sm:items-center">
+          <a href="#cotiza" class="btn-press group inline-flex items-center justify-center gap-2 bg-volt hover:bg-volt-soft text-ink-950 font-display font-bold px-6 py-3.5 rounded-xl transition-all duration-300">
+            Cotiza tu conversión
+            <svg class="transition-transform duration-300 group-hover:translate-x-1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#proceso" class="btn-press inline-flex items-center justify-center gap-2 border border-ink-700 hover:border-volt/60 text-white font-display font-bold px-6 py-3.5 rounded-xl transition-all duration-300">
+            Ver el proceso
+          </a>
+        </div>
+
+        <!-- métricas tira -->
+        <dl class="mt-12 grid grid-cols-3 gap-px bg-ink-800 border-y border-ink-800 rounded-xl overflow-hidden">
+          <div class="bg-ink-950 px-4 py-5">
+            <dt class="text-xs text-ink-600 mb-1">Conversiones entregadas</dt>
+            <dd class="font-mono text-2xl text-white">142</dd>
+          </div>
+          <div class="bg-ink-950 px-4 py-5">
+            <dt class="text-xs text-ink-600 mb-1">Autonomía máx. real</dt>
+            <dd class="font-mono text-2xl text-white">410<span class="text-ink-600 text-base"> km</span></dd>
+          </div>
+          <div class="bg-ink-950 px-4 py-5">
+            <dt class="text-xs text-ink-600 mb-1">Garantía de batería</dt>
+            <dd class="font-mono text-2xl text-white">8<span class="text-ink-600 text-base"> años</span></dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Columna asset: render técnico con SVG -->
+      <div class="reveal is-in" data-delay="2">
+        <div class="relative">
+          <!-- panel principal -->
+          <div class="relative rounded-3xl border border-ink-800 bg-gradient-to-br from-ink-900 to-ink-950 p-6 sm:p-8 overflow-hidden shadow-[0_30px_60px_-25px_rgba(0,0,0,0.7)]">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(43,212,196,0.12),transparent_55%)]" aria-hidden="true"></div>
+
+            <div class="relative">
+              <div class="flex items-center justify-between mb-6">
+                <span class="text-xs uppercase tracking-[0.18em] text-ink-600 font-medium">Esquema de conversión</span>
+                <span class="font-mono text-xs text-volt">REV 4.2</span>
+              </div>
+
+              <!-- silueta auto + powertrain -->
+              <svg viewBox="0 0 400 220" class="w-full" role="img" aria-label="Diagrama esquemático de un auto clásico con su nuevo tren motriz eléctrico: paquete de baterías, motor y controlador">
+                <defs>
+                  <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#31373c"/>
+                    <stop offset="1" stop-color="#1b1f22"/>
+                  </linearGradient>
+                </defs>
+                <!-- piso -->
+                <line x1="20" y1="186" x2="380" y2="186" stroke="#31373c" stroke-width="1.5"/>
+                <!-- carroceria clasica -->
+                <path d="M40 150 C44 110 70 96 110 92 C130 70 165 60 210 60 C262 60 300 76 322 100 C352 104 362 122 362 150 L362 162 L40 162 Z" fill="url(#body)" stroke="#454d54" stroke-width="1.5"/>
+                <!-- ventanas -->
+                <path d="M124 92 C140 76 168 70 205 70 C244 70 272 80 290 98 Z" fill="#0c0e10" stroke="#454d54" stroke-width="1"/>
+                <!-- ruedas -->
+                <circle cx="112" cy="162" r="26" fill="#0c0e10" stroke="#454d54" stroke-width="2"/>
+                <circle cx="112" cy="162" r="11" fill="#23282c"/>
+                <circle cx="296" cy="162" r="26" fill="#0c0e10" stroke="#454d54" stroke-width="2"/>
+                <circle cx="296" cy="162" r="11" fill="#23282c"/>
+                <!-- battery pack -->
+                <rect x="150" y="138" width="120" height="20" rx="4" fill="#0a3e3a" stroke="#2bd4c4" stroke-width="1.5"/>
+                <line x1="172" y1="138" x2="172" y2="158" stroke="#2bd4c4" stroke-width="1" opacity="0.6"/>
+                <line x1="194" y1="138" x2="194" y2="158" stroke="#2bd4c4" stroke-width="1" opacity="0.6"/>
+                <line x1="216" y1="138" x2="216" y2="158" stroke="#2bd4c4" stroke-width="1" opacity="0.6"/>
+                <line x1="238" y1="138" x2="238" y2="158" stroke="#2bd4c4" stroke-width="1" opacity="0.6"/>
+                <!-- motor -->
+                <circle cx="310" cy="138" r="14" fill="#16a99c" stroke="#5ee0d3" stroke-width="1.5"/>
+                <circle cx="310" cy="138" r="5" fill="#0c0e10"/>
+                <!-- bolt en motor -->
+                <path d="M310 130 l-4 9 h4 l-1 6 5-9 h-4 l1-6Z" fill="#2bd4c4"/>
+                <!-- controlador -->
+                <rect x="92" y="128" width="44" height="22" rx="3" fill="#23282c" stroke="#2bd4c4" stroke-width="1.2"/>
+                <!-- cableado -->
+                <path d="M136 139 H150" stroke="#2bd4c4" stroke-width="2" stroke-linecap="round"/>
+                <path d="M270 145 C285 145 296 142 296 138" stroke="#2bd4c4" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- etiquetas -->
+                <text x="114" y="116" font-family="JetBrains Mono, monospace" font-size="8" fill="#5ee0d3" text-anchor="middle">CONTROLADOR</text>
+                <text x="210" y="128" font-family="JetBrains Mono, monospace" font-size="8" fill="#5ee0d3" text-anchor="middle">PAQUETE DE BATERÍA</text>
+                <text x="310" y="166" font-family="JetBrains Mono, monospace" font-size="8" fill="#5ee0d3" text-anchor="middle">MOTOR</text>
+              </svg>
+
+              <!-- readouts -->
+              <div class="mt-6 grid grid-cols-3 gap-px bg-ink-800 rounded-lg overflow-hidden border border-ink-800">
+                <div class="bg-ink-900 px-3 py-3">
+                  <p class="text-[10px] text-ink-600 uppercase tracking-wider">Batería</p>
+                  <p class="font-mono text-volt text-sm mt-0.5">62 kWh</p>
+                </div>
+                <div class="bg-ink-900 px-3 py-3">
+                  <p class="text-[10px] text-ink-600 uppercase tracking-wider">Par motor</p>
+                  <p class="font-mono text-volt text-sm mt-0.5">340 Nm</p>
+                </div>
+                <div class="bg-ink-900 px-3 py-3">
+                  <p class="text-[10px] text-ink-600 uppercase tracking-wider">Recarga 10-80%</p>
+                  <p class="font-mono text-volt text-sm mt-0.5">47 min</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- badge flotante -->
+          <div class="absolute -bottom-5 -left-3 sm:-left-6 rounded-2xl border border-ink-700 bg-ink-900 px-4 py-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.6)]">
+            <p class="text-[10px] text-ink-600 uppercase tracking-wider">Emisiones de escape</p>
+            <p class="font-display font-extrabold text-white text-xl leading-none mt-1">Cero<span class="text-volt">.</span></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ KINETIC MARQUEE ============ -->
+<section class="border-b border-ink-800 bg-ink-900/40 py-4 overflow-hidden" aria-hidden="true">
+  <div class="flex marquee-track w-max gap-12 text-ink-700 font-display font-bold text-sm uppercase tracking-[0.2em]">
+    <span>Conserva tu auto</span><span class="text-volt">·</span>
+    <span>Cero emisiones</span><span class="text-volt">·</span>
+    <span>Frenado regenerativo</span><span class="text-volt">·</span>
+    <span>Homologación incluida</span><span class="text-volt">·</span>
+    <span>Garantía 8 años</span><span class="text-volt">·</span>
+    <span>Conserva tu auto</span><span class="text-volt">·</span>
+    <span>Cero emisiones</span><span class="text-volt">·</span>
+    <span>Frenado regenerativo</span><span class="text-volt">·</span>
+    <span>Homologación incluida</span><span class="text-volt">·</span>
+    <span>Garantía 8 años</span><span class="text-volt">·</span>
+  </div>
+</section>
+
+<!-- ============ PROPUESTA DE VALOR — zig-zag, no 3 cards ============ -->
+<section id="valor" class="border-b border-ink-800 py-24 sm:py-32 scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-16 mb-16">
+      <div class="reveal">
+        <span class="font-mono text-xs text-volt uppercase tracking-[0.2em]">01 — Por qué convertir</span>
+        <h2 class="font-display font-extrabold text-white text-3xl sm:text-4xl lg:text-5xl tracking-tighter leading-[1.05] mt-4">
+          Cuatro razones medibles, no promesas.
+        </h2>
+      </div>
+      <div class="reveal prose-just self-end" data-delay="1">
+        <p class="text-base text-ink-600 leading-relaxed max-w-[60ch]">
+          Electrificar no es un capricho estético: es una decisión de ingeniería
+          y de economía. Aquí está lo que cambia el día que recoges tu auto, con
+          números que puedes verificar en la entrega.
+        </p>
+      </div>
+    </div>
+
+    <!-- bento asimétrico: fila 1 ancho + estrecho, fila 2 estrecho + ancho -->
+    <div class="grid md:grid-cols-3 gap-5">
+      <!-- conserva tu auto - wide -->
+      <article class="spotlight reveal md:col-span-2 rounded-3xl border border-ink-800 bg-ink-900/50 p-7 sm:p-9">
+        <div class="flex items-start gap-4">
+          <span class="shrink-0 grid place-items-center w-11 h-11 rounded-xl bg-ink-800 text-volt">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14M5 11v6m14-6v6M7 17h2m6 0h2M6 17v2H4v-2m16 0v2h-2v-2"/></svg>
+          </span>
+          <div>
+            <h3 class="font-display font-bold text-white text-xl tracking-tight">Conserva tu auto</h3>
+            <div class="prose-just mt-2">
+              <p class="text-sm text-ink-600 leading-relaxed max-w-[55ch]">
+                Respetamos chasis, carrocería y línea original. No fabricamos un
+                auto nuevo: liberamos el que ya amas del motor que lo ata a la
+                gasolina. Tu patrimonio sigue siendo tuyo, solo que silencioso.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- cero emisiones - narrow -->
+      <article class="spotlight reveal rounded-3xl border border-ink-800 bg-ink-900/50 p-7 sm:p-9" data-delay="1">
+        <span class="grid place-items-center w-11 h-11 rounded-xl bg-ink-800 text-volt mb-4">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9M12 3v9l6.5 6.5"/><path d="M12 3a9 9 0 0 1 9 9"/></svg>
+        </span>
+        <h3 class="font-display font-bold text-white text-xl tracking-tight">Cero emisiones de escape</h3>
+        <p class="text-sm text-ink-600 leading-relaxed mt-2 prose-just">
+          Sin tubo de escape, sin verificación de humo, sin restricción de
+          circulación. Holograma exento donde aplica.
+        </p>
+      </article>
+
+      <!-- ahorro - narrow -->
+      <article class="spotlight reveal rounded-3xl border border-ink-800 bg-ink-900/50 p-7 sm:p-9" data-delay="1">
+        <span class="grid place-items-center w-11 h-11 rounded-xl bg-ink-800 text-volt mb-4">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </span>
+        <h3 class="font-display font-bold text-white text-xl tracking-tight">Ahorro real en uso</h3>
+        <p class="text-sm text-ink-600 leading-relaxed mt-2 prose-just">
+          El equivalente energético cuesta cerca de un tercio frente a la
+          gasolina. Sin aceite, sin bujías, sin afinaciones: el mantenimiento
+          se reduce a frenos, llantas y revisión del sistema.
+        </p>
+        <div class="mt-5 flex items-baseline gap-2">
+          <span class="font-mono text-volt text-2xl">~68%</span>
+          <span class="text-xs text-ink-600">menos gasto por km recorrido</span>
+        </div>
+      </article>
+
+      <!-- autonomia - wide -->
+      <article class="spotlight reveal md:col-span-2 rounded-3xl border border-ink-800 bg-gradient-to-br from-volt-ink/40 to-ink-900/50 p-7 sm:p-9" data-delay="2">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-6 sm:justify-between">
+          <div class="flex items-start gap-4">
+            <span class="shrink-0 grid place-items-center w-11 h-11 rounded-xl bg-ink-800 text-volt">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20a8 8 0 1 0-8-8"/><path d="M12 12l4-4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><path d="M4 12H2m20 0h-2M12 4V2"/></svg>
+            </span>
+            <div>
+              <h3 class="font-display font-bold text-white text-xl tracking-tight">Autonomía real, no de folleto</h3>
+              <p class="text-sm text-ink-600 leading-relaxed mt-2 max-w-[44ch] prose-just">
+                Calculamos la autonomía con tu peso, tus llantas y tu ruta
+                típica. La cifra que firmamos es la que vives, medida en
+                pruebas de carretera reales.
+              </p>
+            </div>
+          </div>
+          <div class="shrink-0 grid grid-cols-3 gap-px bg-ink-800 rounded-xl overflow-hidden border border-ink-800">
+            <div class="bg-ink-950/80 px-3.5 py-3 text-center"><p class="font-mono text-volt text-lg">160</p><p class="text-[10px] text-ink-600">City km</p></div>
+            <div class="bg-ink-950/80 px-3.5 py-3 text-center"><p class="font-mono text-volt text-lg">290</p><p class="text-[10px] text-ink-600">Range km</p></div>
+            <div class="bg-ink-950/80 px-3.5 py-3 text-center"><p class="font-mono text-volt text-lg">410</p><p class="text-[10px] text-ink-600">Perf. km</p></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESO — 5 pasos, lista vertical con linea ============ -->
+<section id="proceso" class="border-b border-ink-800 py-24 sm:py-32 scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20">
+
+      <!-- columna sticky -->
+      <div class="lg:sticky lg:top-28 lg:self-start reveal">
+        <span class="font-mono text-xs text-volt uppercase tracking-[0.2em]">02 — El proceso</span>
+        <h2 class="font-display font-extrabold text-white text-3xl sm:text-4xl lg:text-5xl tracking-tighter leading-[1.05] mt-4">
+          Cinco pasos.<br />Sin sorpresas.
+        </h2>
+        <div class="prose-just mt-5">
+          <p class="text-base text-ink-600 leading-relaxed max-w-[48ch]">
+            Cada conversión sigue el mismo protocolo documentado. Recibes un
+            reporte fotográfico por etapa y un punto de control firmado antes de
+            avanzar a la siguiente. Tú decides el ritmo; nosotros respondemos
+            por la ingeniería.
+          </p>
+        </div>
+        <a href="#cotiza" class="btn-press inline-flex items-center gap-2 mt-7 border border-ink-700 hover:border-volt/60 text-white font-display font-bold text-sm px-5 py-3 rounded-xl transition-all duration-300">
+          Agenda tu diagnóstico
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <!-- pasos -->
+      <ol class="relative border-l border-ink-800 ml-5 lg:ml-2">
+        <!-- 1 -->
+        <li class="step-row reveal pl-8 sm:pl-10 pb-12 group">
+          <span class="step-num absolute -left-[1.15rem] grid place-items-center w-9 h-9 rounded-full border border-ink-700 bg-ink-950 font-mono text-sm text-volt">01</span>
+          <div class="flex items-baseline gap-3 flex-wrap">
+            <h3 class="font-display font-bold text-white text-xl tracking-tight">Diagnóstico</h3>
+            <span class="font-mono text-xs text-ink-600">1–2 semanas</span>
+          </div>
+          <p class="text-sm text-ink-600 leading-relaxed mt-2 max-w-[58ch] prose-just">
+            Inspeccionamos chasis, suspensión, frenos y estructura. Pesamos el
+            auto, medimos espacios disponibles y revisamos el estado eléctrico.
+            De aquí sale tu informe de viabilidad y el rango de costo.
+          </p>
+        </li>
+        <!-- 2 -->
+        <li class="step-row reveal pl-8 sm:pl-10 pb-12 group" data-delay="1">
+          <span class="step-num absolute -left-[1.15rem] grid place-items-center w-9 h-9 rounded-full border border-ink-700 bg-ink-950 font-mono text-sm text-volt">02</span>
+          <div class="flex items-baseline gap-3 flex-wrap">
+            <h3 class="font-display font-bold text-white text-xl tracking-tight">Diseño del kit</h3>
+            <span class="font-mono text-xs text-ink-600">2–3 semanas</span>
+          </div>
+          <p class="text-sm text-ink-600 leading-relaxed mt-2 max-w-[58ch] prose-just">
+            Modelamos en CAD el alojamiento de baterías, soportes de motor y
+            ruteo de alto voltaje. Eliges el paquete y firmas la ficha técnica:
+            capacidad en kWh, autonomía objetivo y par motor.
+          </p>
+        </li>
+        <!-- 3 -->
+        <li class="step-row reveal pl-8 sm:pl-10 pb-12 group" data-delay="2">
+          <span class="step-num absolute -left-[1.15rem] grid place-items-center w-9 h-9 rounded-full border border-ink-700 bg-ink-950 font-mono text-sm text-volt">03</span>
+          <div class="flex items-baseline gap-3 flex-wrap">
+            <h3 class="font-display font-bold text-white text-xl tracking-tight">Desmontaje del tren motriz</h3>
+            <span class="font-mono text-xs text-ink-600">1 semana</span>
+          </div>
+          <p class="text-sm text-ink-600 leading-relaxed mt-2 max-w-[58ch] prose-just">
+            Retiramos motor de combustión, transmisión, tanque, escape y
+            radiador. Conservamos y etiquetamos cada pieza original: si algún
+            día quieres revertir, el archivo está completo.
+          </p>
+        </li>
+        <!-- 4 -->
+        <li class="step-row reveal pl-8 sm:pl-10 pb-12 group" data-delay="3">
+          <span class="step-num absolute -left-[1.15rem] grid place-items-center w-9 h-9 rounded-full border border-ink-700 bg-ink-950 font-mono text-sm text-volt">04</span>
+          <div class="flex items-baseline gap-3 flex-wrap">
+            <h3 class="font-display font-bold text-white text-xl tracking-tight">Instalación eléctrica</h3>
+            <span class="font-mono text-xs text-ink-600">3–5 semanas</span>
+          </div>
+          <p class="text-sm text-ink-600 leading-relaxed mt-2 max-w-[58ch] prose-just">
+            Montamos motor, paquete de baterías, controlador, sistema de carga
+            y refrigeración. Integramos frenado regenerativo y tablero. Todo el
+            alto voltaje queda fusible, aterrizado y aislado bajo norma.
+          </p>
+        </li>
+        <!-- 5 -->
+        <li class="step-row reveal pl-8 sm:pl-10 group" data-delay="4">
+          <span class="step-num absolute -left-[1.15rem] grid place-items-center w-9 h-9 rounded-full border border-ink-700 bg-ink-950 font-mono text-sm text-volt">05</span>
+          <div class="flex items-baseline gap-3 flex-wrap">
+            <h3 class="font-display font-bold text-white text-xl tracking-tight">Pruebas y entrega</h3>
+            <span class="font-mono text-xs text-ink-600">1–2 semanas</span>
+          </div>
+          <p class="text-sm text-ink-600 leading-relaxed mt-2 max-w-[58ch] prose-just">
+            Ciclos de carga, pruebas de carretera y validación de autonomía.
+            Gestionamos la homologación y el alta de la modificación. Te
+            entregamos el auto con manual de uso y reporte final firmado.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAQUETES — 3 niveles ============ -->
+<section id="paquetes" class="border-b border-ink-800 py-24 sm:py-32 scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-[1fr_auto] lg:items-end gap-8 mb-14">
+      <div class="reveal">
+        <span class="font-mono text-xs text-volt uppercase tracking-[0.2em]">03 — Paquetes</span>
+        <h2 class="font-display font-extrabold text-white text-3xl sm:text-4xl lg:text-5xl tracking-tighter leading-[1.05] mt-4 max-w-[18ch]">
+          Tres configuraciones. Una decisión sencilla.
+        </h2>
+      </div>
+      <p class="reveal text-sm text-ink-600 max-w-[42ch] prose-just" data-delay="1">
+        La diferencia es la capacidad de batería y la autonomía. El estándar de
+        seguridad, garantía y acabado es idéntico en los tres.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+      <!-- City -->
+      <article class="spotlight reveal rounded-3xl border border-ink-800 bg-ink-900/50 p-7 sm:p-8 flex flex-col">
+        <div class="flex items-center justify-between">
+          <h3 class="font-display font-extrabold text-white text-2xl tracking-tight">City</h3>
+          <span class="text-xs text-ink-600 border border-ink-700 rounded-full px-2.5 py-1">Ciudad diaria</span>
+        </div>
+        <p class="text-sm text-ink-600 mt-3 leading-relaxed prose-just">
+          Para quien se mueve dentro de la ciudad y carga en casa. Ágil,
+          ligero y suficiente de sobra para la rutina.
+        </p>
+        <dl class="mt-6 divide-y divide-ink-800 border-y border-ink-800">
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Capacidad de batería</dt><dd class="font-mono text-white">32 kWh</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Autonomía estimada</dt><dd class="font-mono text-volt">~160 km</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Par motor</dt><dd class="font-mono text-white">210 Nm</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Tiempo en taller</dt><dd class="font-mono text-white">8–11 sem</dd></div>
+        </dl>
+        <div class="mt-6">
+          <p class="text-xs text-ink-600">Desde</p>
+          <p class="font-display font-extrabold text-white text-2xl mt-0.5">$ 285,000 <span class="text-ink-600 text-sm font-sans font-normal">MXN</span></p>
+        </div>
+        <a href="#cotiza" class="btn-press mt-6 inline-flex items-center justify-center gap-2 border border-ink-700 hover:border-volt/60 text-white font-display font-bold text-sm px-5 py-3 rounded-xl transition-all duration-300">
+          Cotizar paquete City
+        </a>
+      </article>
+
+      <!-- Range — destacado -->
+      <article class="spotlight reveal rounded-3xl border border-volt/50 bg-gradient-to-b from-volt-ink/40 to-ink-900/60 p-7 sm:p-8 flex flex-col relative md:-mt-4 md:mb-4" data-delay="1">
+        <span class="absolute -top-3 left-7 bg-volt text-ink-950 font-display font-bold text-xs px-3 py-1 rounded-full">El más elegido</span>
+        <div class="flex items-center justify-between">
+          <h3 class="font-display font-extrabold text-white text-2xl tracking-tight">Range</h3>
+          <span class="text-xs text-volt border border-volt/40 rounded-full px-2.5 py-1">Uso mixto</span>
+        </div>
+        <p class="text-sm text-ink-600 mt-3 leading-relaxed prose-just">
+          El equilibrio. Cubre la ciudad sin pensar y la carretera de fin de
+          semana sin ansiedad de carga.
+        </p>
+        <dl class="mt-6 divide-y divide-ink-800 border-y border-ink-800">
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Capacidad de batería</dt><dd class="font-mono text-white">52 kWh</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Autonomía estimada</dt><dd class="font-mono text-volt">~290 km</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Par motor</dt><dd class="font-mono text-white">300 Nm</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Tiempo en taller</dt><dd class="font-mono text-white">10–14 sem</dd></div>
+        </dl>
+        <div class="mt-6">
+          <p class="text-xs text-ink-600">Desde</p>
+          <p class="font-display font-extrabold text-white text-2xl mt-0.5">$ 410,000 <span class="text-ink-600 text-sm font-sans font-normal">MXN</span></p>
+        </div>
+        <a href="#cotiza" class="btn-press mt-6 inline-flex items-center justify-center gap-2 bg-volt hover:bg-volt-soft text-ink-950 font-display font-bold text-sm px-5 py-3 rounded-xl transition-all duration-300">
+          Cotizar paquete Range
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </article>
+
+      <!-- Performance -->
+      <article class="spotlight reveal rounded-3xl border border-ink-800 bg-ink-900/50 p-7 sm:p-8 flex flex-col" data-delay="2">
+        <div class="flex items-center justify-between">
+          <h3 class="font-display font-extrabold text-white text-2xl tracking-tight">Performance</h3>
+          <span class="text-xs text-ink-600 border border-ink-700 rounded-full px-2.5 py-1">Carretera</span>
+        </div>
+        <p class="text-sm text-ink-600 mt-3 leading-relaxed prose-just">
+          Máxima autonomía y empuje. Para quien recorre distancias largas o
+          quiere que el clásico además vuele.
+        </p>
+        <dl class="mt-6 divide-y divide-ink-800 border-y border-ink-800">
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Capacidad de batería</dt><dd class="font-mono text-white">78 kWh</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Autonomía estimada</dt><dd class="font-mono text-volt">~410 km</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Par motor</dt><dd class="font-mono text-white">420 Nm</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-sm text-ink-600">Tiempo en taller</dt><dd class="font-mono text-white">12–17 sem</dd></div>
+        </dl>
+        <div class="mt-6">
+          <p class="text-xs text-ink-600">Desde</p>
+          <p class="font-display font-extrabold text-white text-2xl mt-0.5">$ 590,000 <span class="text-ink-600 text-sm font-sans font-normal">MXN</span></p>
+        </div>
+        <a href="#cotiza" class="btn-press mt-6 inline-flex items-center justify-center gap-2 border border-ink-700 hover:border-volt/60 text-white font-display font-bold text-sm px-5 py-3 rounded-xl transition-all duration-300">
+          Cotizar paquete Performance
+        </a>
+      </article>
+    </div>
+    <p class="reveal text-xs text-ink-700 mt-6 max-w-[70ch] prose-just">
+      Los rangos de precio son orientativos y dependen del estado base del
+      vehículo, ajustes de suspensión y frenos, y opciones de carga. El monto
+      definitivo se cierra al terminar el diagnóstico.
+    </p>
+  </div>
+</section>
+
+<!-- ============ GALERIA ANTES / DESPUES ============ -->
+<section id="casos" class="border-b border-ink-800 py-24 sm:py-32 scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal mb-14 max-w-[44ch]">
+      <span class="font-mono text-xs text-volt uppercase tracking-[0.2em]">04 — Casos reales</span>
+      <h2 class="font-display font-extrabold text-white text-3xl sm:text-4xl lg:text-5xl tracking-tighter leading-[1.05] mt-4">
+        Antes y después. Mismo auto, otra vida.
+      </h2>
+      <p class="text-sm text-ink-600 mt-4 leading-relaxed prose-just">
+        Arrastra el control de cada tarjeta para ver la conversión. Todos son
+        proyectos entregados por el taller.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5" id="gallery">
+      <!-- caso 1 -->
+      <figure class="reveal group rounded-3xl border border-ink-800 bg-ink-900/50 overflow-hidden">
+        <div class="ba relative aspect-[4/3] select-none" data-label-before="Combustión" data-label-after="VoltSwap">
+          <img src="https://placehold.co/800x600/1b1f22/454d54/png?text=ANTES%0AVW+Sedan+1974%0Acombustion" alt="VW Sedán 1974 antes de la conversión, con motor de combustión" class="ba-before absolute inset-0 w-full h-full object-cover" loading="lazy" />
+          <div class="ba-after-wrap absolute inset-0 overflow-hidden" style="width:50%">
+            <img src="https://placehold.co/800x600/0a3e3a/5ee0d3/png?text=DESPUES%0AVW+Sedan+1974%0A100%25+electrico" alt="El mismo VW Sedán 1974 después de la conversión a 100% eléctrico" class="absolute inset-0 h-full object-cover" style="width:100vw;max-width:none" loading="lazy" />
+          </div>
+          <div class="ba-divider absolute top-0 bottom-0 w-0.5 bg-volt" style="left:50%"></div>
+          <input type="range" min="0" max="100" value="50" class="ba-range absolute inset-0 w-full h-full opacity-0" aria-label="Comparar antes y después: VW Sedán 1974" />
+          <span class="absolute top-3 left-3 text-[10px] font-mono uppercase tracking-wider bg-ink-950/80 text-ink-600 px-2 py-1 rounded">Antes</span>
+          <span class="absolute top-3 right-3 text-[10px] font-mono uppercase tracking-wider bg-volt text-ink-950 px-2 py-1 rounded">Después</span>
+        </div>
+        <figcaption class="p-5">
+          <h3 class="font-display font-bold text-white tracking-tight">VW Sedán 1974</h3>
+          <p class="text-xs text-ink-600 mt-1">Paquete Range · 52 kWh · 285 km medidos · Dueña: Mariana Escárcega</p>
+        </figcaption>
+      </figure>
+
+      <!-- caso 2 -->
+      <figure class="reveal group rounded-3xl border border-ink-800 bg-ink-900/50 overflow-hidden" data-delay="1">
+        <div class="ba relative aspect-[4/3] select-none">
+          <img src="https://placehold.co/800x600/23282c/454d54/png?text=ANTES%0ADatsun+510+1971%0Acombustion" alt="Datsun 510 1971 antes de la conversión" class="ba-before absolute inset-0 w-full h-full object-cover" loading="lazy" />
+          <div class="ba-after-wrap absolute inset-0 overflow-hidden" style="width:50%">
+            <img src="https://placehold.co/800x600/0a3e3a/2bd4c4/png?text=DESPUES%0ADatsun+510+1971%0A100%25+electrico" alt="El mismo Datsun 510 1971 ya convertido a eléctrico" class="absolute inset-0 h-full object-cover" style="width:100vw;max-width:none" loading="lazy" />
+          </div>
+          <div class="ba-divider absolute top-0 bottom-0 w-0.5 bg-volt" style="left:50%"></div>
+          <input type="range" min="0" max="100" value="50" class="ba-range absolute inset-0 w-full h-full opacity-0" aria-label="Comparar antes y después: Datsun 510 1971" />
+          <span class="absolute top-3 left-3 text-[10px] font-mono uppercase tracking-wider bg-ink-950/80 text-ink-600 px-2 py-1 rounded">Antes</span>
+          <span class="absolute top-3 right-3 text-[10px] font-mono uppercase tracking-wider bg-volt text-ink-950 px-2 py-1 rounded">Después</span>
+        </div>
+        <figcaption class="p-5">
+          <h3 class="font-display font-bold text-white tracking-tight">Datsun 510 1971</h3>
+          <p class="text-xs text-ink-600 mt-1">Paquete Performance · 78 kWh · 398 km medidos · Dueño: Rodrigo Belmonte</p>
+        </figcaption>
+      </figure>
+
+      <!-- caso 3 -->
+      <figure class="reveal group rounded-3xl border border-ink-800 bg-ink-900/50 overflow-hidden" data-delay="2">
+        <div class="ba relative aspect-[4/3] select-none">
+          <img src="https://placehold.co/800x600/1b1f22/454d54/png?text=ANTES%0AFord+Bronco+1979%0Acombustion" alt="Ford Bronco 1979 antes de la conversión" class="ba-before absolute inset-0 w-full h-full object-cover" loading="lazy" />
+          <div class="ba-after-wrap absolute inset-0 overflow-hidden" style="width:50%">
+            <img src="https://placehold.co/800x600/0a3e3a/5ee0d3/png?text=DESPUES%0AFord+Bronco+1979%0A100%25+electrico" alt="El mismo Ford Bronco 1979 ya eléctrico" class="absolute inset-0 h-full object-cover" style="width:100vw;max-width:none" loading="lazy" />
+          </div>
+          <div class="ba-divider absolute top-0 bottom-0 w-0.5 bg-volt" style="left:50%"></div>
+          <input type="range" min="0" max="100" value="50" class="ba-range absolute inset-0 w-full h-full opacity-0" aria-label="Comparar antes y después: Ford Bronco 1979" />
+          <span class="absolute top-3 left-3 text-[10px] font-mono uppercase tracking-wider bg-ink-950/80 text-ink-600 px-2 py-1 rounded">Antes</span>
+          <span class="absolute top-3 right-3 text-[10px] font-mono uppercase tracking-wider bg-volt text-ink-950 px-2 py-1 rounded">Después</span>
+        </div>
+        <figcaption class="p-5">
+          <h3 class="font-display font-bold text-white tracking-tight">Ford Bronco 1979</h3>
+          <p class="text-xs text-ink-600 mt-1">Paquete Range · 52 kWh · 268 km medidos · Dueño: Tania Verdusco</p>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COSTOS Y TIEMPOS ============ -->
+<section id="costos" class="border-b border-ink-800 py-24 sm:py-32 scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-16">
+      <div class="reveal lg:sticky lg:top-28 lg:self-start">
+        <span class="font-mono text-xs text-volt uppercase tracking-[0.2em]">05 — Costos y tiempos</span>
+        <h2 class="font-display font-extrabold text-white text-3xl sm:text-4xl lg:text-5xl tracking-tighter leading-[1.05] mt-4">
+          Lo que cuesta y lo que tarda.
+        </h2>
+        <div class="prose-just mt-5">
+          <p class="text-base text-ink-600 leading-relaxed max-w-[48ch]">
+            Sin letras chiquitas. Estos son los rangos con los que trabajamos
+            cada paquete. El número final se firma después del diagnóstico, una
+            vez que conocemos el estado real de tu auto.
+          </p>
+        </div>
+        <ul class="mt-6 space-y-2.5 text-sm text-ink-600">
+          <li class="flex gap-2.5"><span class="text-volt mt-0.5 shrink-0">—</span> Incluye kit, mano de obra, homologación y garantía.</li>
+          <li class="flex gap-2.5"><span class="text-volt mt-0.5 shrink-0">—</span> Anticipo del 40% para iniciar el diseño del kit.</li>
+          <li class="flex gap-2.5"><span class="text-volt mt-0.5 shrink-0">—</span> Opciones de carga rápida y suspensión se cotizan aparte.</li>
+        </ul>
+      </div>
+
+      <!-- tabla sin cards: divide-y -->
+      <div class="reveal" data-delay="1">
+        <div class="rounded-3xl border border-ink-800 overflow-hidden">
+          <table class="w-full text-left">
+            <caption class="sr-only">Rango de precio y tiempo en taller por paquete de conversión</caption>
+            <thead>
+              <tr class="bg-ink-900/60 border-b border-ink-800">
+                <th scope="col" class="px-5 sm:px-6 py-4 text-xs uppercase tracking-wider text-ink-600 font-medium">Paquete</th>
+                <th scope="col" class="px-3 sm:px-6 py-4 text-xs uppercase tracking-wider text-ink-600 font-medium">Rango de precio</th>
+                <th scope="col" class="px-3 sm:px-6 py-4 text-xs uppercase tracking-wider text-ink-600 font-medium text-right">Semanas</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-ink-800">
+              <tr class="hover:bg-ink-900/40 transition-colors">
+                <th scope="row" class="px-5 sm:px-6 py-5">
+                  <span class="font-display font-bold text-white text-lg">City</span>
+                  <span class="block text-xs text-ink-600 font-normal mt-0.5">32 kWh · ~160 km</span>
+                </th>
+                <td class="px-3 sm:px-6 py-5 font-mono text-sm text-volt">$285k – $340k</td>
+                <td class="px-3 sm:px-6 py-5 font-mono text-sm text-white text-right">8 – 11</td>
+              </tr>
+              <tr class="hover:bg-ink-900/40 transition-colors bg-volt-ink/15">
+                <th scope="row" class="px-5 sm:px-6 py-5">
+                  <span class="font-display font-bold text-white text-lg">Range</span>
+                  <span class="block text-xs text-ink-600 font-normal mt-0.5">52 kWh · ~290 km</span>
+                </th>
+                <td class="px-3 sm:px-6 py-5 font-mono text-sm text-volt">$410k – $485k</td>
+                <td class="px-3 sm:px-6 py-5 font-mono text-sm text-white text-right">10 – 14</td>
+              </tr>
+              <tr class="hover:bg-ink-900/40 transition-colors">
+                <th scope="row" class="px-5 sm:px-6 py-5">
+                  <span class="font-display font-bold text-white text-lg">Performance</span>
+                  <span class="block text-xs text-ink-600 font-normal mt-0.5">78 kWh · ~410 km</span>
+                </th>
+                <td class="px-3 sm:px-6 py-5 font-mono text-sm text-volt">$590k – $710k</td>
+                <td class="px-3 sm:px-6 py-5 font-mono text-sm text-white text-right">12 – 17</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- timeline visual -->
+        <div class="mt-6 rounded-3xl border border-ink-800 bg-ink-900/40 p-6 sm:p-7">
+          <p class="text-xs uppercase tracking-wider text-ink-600 font-medium mb-4">Distribución típica de un proyecto Range</p>
+          <div class="flex h-3 rounded-full overflow-hidden bg-ink-800">
+            <div class="bg-volt/30" style="width:13%" title="Diagnóstico"></div>
+            <div class="bg-volt/50" style="width:21%" title="Diseño del kit"></div>
+            <div class="bg-volt/65" style="width:9%" title="Desmontaje"></div>
+            <div class="bg-volt/85" style="width:38%" title="Instalación eléctrica"></div>
+            <div class="bg-volt" style="width:19%" title="Pruebas y entrega"></div>
+          </div>
+          <div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-4 text-[11px] text-ink-600">
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-volt/30"></span>Diagnóstico</span>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-volt/50"></span>Diseño del kit</span>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-volt/65"></span>Desmontaje</span>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-volt/85"></span>Instalación</span>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-volt"></span>Pruebas y entrega</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIOS ============ -->
+<section class="border-b border-ink-800 py-24 sm:py-32">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal mb-14">
+      <span class="font-mono text-xs text-volt uppercase tracking-[0.2em]">06 — Testimonios</span>
+      <h2 class="font-display font-extrabold text-white text-3xl sm:text-4xl lg:text-5xl tracking-tighter leading-[1.05] mt-4 max-w-[20ch]">
+        Lo que dicen quienes ya manejan eléctrico.
+      </h2>
+    </div>
+
+    <!-- masonry-ish: tamaños distintos -->
+    <div class="grid md:grid-cols-3 gap-5 items-start">
+      <blockquote class="spotlight reveal rounded-3xl border border-ink-800 bg-ink-900/50 p-7">
+        <p class="prose-just text-white leading-relaxed">
+          <span class="text-volt font-display font-extrabold text-2xl leading-none">“</span>
+          Tenía miedo de perder el alma del auto de mi papá. No pasó. Suena
+          distinto, sí, pero sigue siendo él. La diferencia es que ahora arranca
+          siempre y no contamino la cuadra.
+        </p>
+        <footer class="mt-5 flex items-center gap-3">
+          <span class="grid place-items-center w-10 h-10 rounded-full bg-volt-ink text-volt font-display font-bold text-sm">ME</span>
+          <span>
+            <span class="block text-sm text-white font-medium">Mariana Escárcega</span>
+            <span class="block text-xs text-ink-600">VW Sedán 1974 · Coyoacán</span>
+          </span>
+        </footer>
+      </blockquote>
+
+      <blockquote class="spotlight reveal rounded-3xl border border-ink-800 bg-gradient-to-br from-volt-ink/30 to-ink-900/50 p-7 md:mt-8" data-delay="1">
+        <p class="prose-just text-white leading-relaxed">
+          <span class="text-volt font-display font-extrabold text-2xl leading-none">“</span>
+          Lo que me convenció fue el reporte por etapa. Vi cada cable, cada
+          soporte, cada prueba. No es un taller que te pide fe: te muestra la
+          ingeniería. El Datsun ahora hace 0 a 100 antes de que termines la
+          frase.
+        </p>
+        <footer class="mt-5 flex items-center gap-3">
+          <span class="grid place-items-center w-10 h-10 rounded-full bg-volt-ink text-volt font-display font-bold text-sm">RB</span>
+          <span>
+            <span class="block text-sm text-white font-medium">Rodrigo Belmonte</span>
+            <span class="block text-xs text-ink-600">Datsun 510 1971 · Polanco</span>
+          </span>
+        </footer>
+      </blockquote>
+
+      <blockquote class="spotlight reveal rounded-3xl border border-ink-800 bg-ink-900/50 p-7" data-delay="2">
+        <p class="prose-just text-white leading-relaxed">
+          <span class="text-volt font-display font-extrabold text-2xl leading-none">“</span>
+          Manejo el Bronco a la casa de campo cada fin. La autonomía que me
+          prometieron fue exactamente la que tengo. Y dejé de gastar lo que
+          gastaba en gasolina y verificaciones.
+        </p>
+        <footer class="mt-5 flex items-center gap-3">
+          <span class="grid place-items-center w-10 h-10 rounded-full bg-volt-ink text-volt font-display font-bold text-sm">TV</span>
+          <span>
+            <span class="block text-sm text-white font-medium">Tania Verdusco</span>
+            <span class="block text-xs text-ink-600">Ford Bronco 1979 · Valle de Bravo</span>
+          </span>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="border-b border-ink-800 py-24 sm:py-32 scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-16">
+      <div class="reveal lg:sticky lg:top-28 lg:self-start">
+        <span class="font-mono text-xs text-volt uppercase tracking-[0.2em]">07 — Preguntas frecuentes</span>
+        <h2 class="font-display font-extrabold text-white text-3xl sm:text-4xl lg:text-5xl tracking-tighter leading-[1.05] mt-4">
+          Lo que todos preguntan antes de decidir.
+        </h2>
+        <p class="text-sm text-ink-600 mt-5 leading-relaxed prose-just max-w-[44ch]">
+          Si tu duda no está aquí, escríbenos. Respondemos con la misma claridad
+          técnica con la que trabajamos.
+        </p>
+      </div>
+
+      <div class="reveal divide-y divide-ink-800 border-y border-ink-800" data-delay="1">
+        <details class="group py-5">
+          <summary class="flex items-start justify-between gap-4 cursor-pointer">
+            <h3 class="font-display font-bold text-white text-lg tracking-tight">¿Qué garantía tiene la conversión?</h3>
+            <span class="faq-chevron shrink-0 mt-1 text-volt text-xl leading-none">+</span>
+          </summary>
+          <div class="prose-just pt-3">
+            <p class="text-sm text-ink-600 leading-relaxed max-w-[62ch]">
+              El paquete de baterías tiene 8 años o 160,000 km de garantía. El
+              motor, controlador y la mano de obra tienen 3 años. Toda la
+              instalación de alto voltaje se entrega con su certificado de
+              prueba y queda registrada en tu reporte final.
+            </p>
+          </div>
+        </details>
+
+        <details class="group py-5">
+          <summary class="flex items-start justify-between gap-4 cursor-pointer">
+            <h3 class="font-display font-bold text-white text-lg tracking-tight">¿Es legal? ¿Cómo funciona la homologación?</h3>
+            <span class="faq-chevron shrink-0 mt-1 text-volt text-xl leading-none">+</span>
+          </summary>
+          <div class="prose-just pt-3">
+            <p class="text-sm text-ink-600 leading-relaxed max-w-[62ch]">
+              Sí. La conversión a eléctrico es una modificación legal y nosotros
+              gestionamos el trámite. Al terminar, tu tarjeta de circulación se
+              actualiza para reflejar el cambio de tipo de combustible y, donde
+              aplica, el auto queda exento de verificación de emisiones. Te
+              acompañamos hasta que el papeleo está cerrado.
+            </p>
+          </div>
+        </details>
+
+        <details class="group py-5">
+          <summary class="flex items-start justify-between gap-4 cursor-pointer">
+            <h3 class="font-display font-bold text-white text-lg tracking-tight">¿Cómo cambia el mantenimiento?</h3>
+            <span class="faq-chevron shrink-0 mt-1 text-volt text-xl leading-none">+</span>
+          </summary>
+          <div class="prose-just pt-3">
+            <p class="text-sm text-ink-600 leading-relaxed max-w-[62ch]">
+              Se simplifica mucho. Desaparecen aceite, filtros, bujías, banda de
+              tiempo y afinaciones. Queda el mantenimiento de frenos —que además
+              se desgastan menos por el frenado regenerativo—, llantas,
+              suspensión y una revisión anual del sistema eléctrico y de
+              refrigeración de la batería.
+            </p>
+          </div>
+        </details>
+
+        <details class="group py-5">
+          <summary class="flex items-start justify-between gap-4 cursor-pointer">
+            <h3 class="font-display font-bold text-white text-lg tracking-tight">¿Y si necesito repuestos más adelante?</h3>
+            <span class="faq-chevron shrink-0 mt-1 text-volt text-xl leading-none">+</span>
+          </summary>
+          <div class="prose-just pt-3">
+            <p class="text-sm text-ink-600 leading-relaxed max-w-[62ch]">
+              Trabajamos con componentes de proveedores establecidos, no piezas
+              a la medida imposibles de reemplazar. Mantenemos en inventario los
+              consumibles de cada conversión que entregamos y conservamos el
+              expediente técnico de tu auto. Si surge algo, sabemos exactamente
+              qué lleva tu vehículo.
+            </p>
+          </div>
+        </details>
+
+        <details class="group py-5">
+          <summary class="flex items-start justify-between gap-4 cursor-pointer">
+            <h3 class="font-display font-bold text-white text-lg tracking-tight">¿Cualquier auto se puede convertir?</h3>
+            <span class="faq-chevron shrink-0 mt-1 text-volt text-xl leading-none">+</span>
+          </summary>
+          <div class="prose-just pt-3">
+            <p class="text-sm text-ink-600 leading-relaxed max-w-[62ch]">
+              Casi cualquiera, siempre que el chasis y la estructura estén
+              sanos. El diagnóstico existe justamente para confirmarlo: si tu
+              auto no es buen candidato, te lo decimos antes de que gastes un
+              peso. Conservar uno que ya está corroído cuesta más de lo que
+              vale.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA / COTIZA — formulario con estados ============ -->
+<section id="cotiza" class="border-b border-ink-800 py-24 sm:py-32 scroll-mt-20 relative overflow-hidden">
+  <div class="absolute -top-20 right-0 w-[30rem] h-[30rem] rounded-full bg-volt/10 blur-[120px]" aria-hidden="true"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <div class="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-start">
+      <div class="reveal">
+        <span class="font-mono text-xs text-volt uppercase tracking-[0.2em]">Empieza aquí</span>
+        <h2 class="font-display font-extrabold text-white text-3xl sm:text-4xl lg:text-5xl tracking-tighter leading-[1.05] mt-4">
+          Cotiza tu conversión.
+        </h2>
+        <div class="prose-just mt-5">
+          <p class="text-base text-ink-600 leading-relaxed max-w-[48ch]">
+            Cuéntanos sobre tu auto. Te respondemos en menos de dos días hábiles
+            con un rango de costo, el paquete que mejor le queda y la fecha más
+            próxima de diagnóstico. Sin compromiso.
+          </p>
+        </div>
+        <ul class="mt-7 space-y-3 text-sm">
+          <li class="flex items-center gap-3 text-ink-600"><span class="grid place-items-center w-6 h-6 rounded-full bg-volt-ink text-volt shrink-0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span> Respuesta con rango de costo en 48 h</li>
+          <li class="flex items-center gap-3 text-ink-600"><span class="grid place-items-center w-6 h-6 rounded-full bg-volt-ink text-volt shrink-0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span> Diagnóstico presencial sin costo de cotización</li>
+          <li class="flex items-center gap-3 text-ink-600"><span class="grid place-items-center w-6 h-6 rounded-full bg-volt-ink text-volt shrink-0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span> Te atiende un ingeniero, no un vendedor</li>
+        </ul>
+      </div>
+
+      <!-- Formulario -->
+      <form id="quoteForm" class="reveal rounded-3xl border border-ink-800 bg-ink-900/60 p-6 sm:p-8" data-delay="1" novalidate>
+        <div id="formFields" class="grid gap-5">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div class="grid gap-2">
+              <label for="nombre" class="text-sm font-medium text-white">Nombre</label>
+              <input id="nombre" name="nombre" type="text" required class="bg-ink-950 border border-ink-700 rounded-xl px-4 py-3 text-sm text-white placeholder-ink-600 focus:border-volt transition-colors" placeholder="Tu nombre" />
+              <p class="hidden text-xs text-volt-soft" data-error-for="nombre">Necesitamos tu nombre para responderte.</p>
+            </div>
+            <div class="grid gap-2">
+              <label for="contacto" class="text-sm font-medium text-white">Correo o teléfono</label>
+              <input id="contacto" name="contacto" type="text" required class="bg-ink-950 border border-ink-700 rounded-xl px-4 py-3 text-sm text-white placeholder-ink-600 focus:border-volt transition-colors" placeholder="correo@ejemplo.com" />
+              <p class="hidden text-xs text-volt-soft" data-error-for="contacto">Déjanos un correo o teléfono válido.</p>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div class="grid gap-2">
+              <label for="auto" class="text-sm font-medium text-white">Auto a convertir</label>
+              <input id="auto" name="auto" type="text" required class="bg-ink-950 border border-ink-700 rounded-xl px-4 py-3 text-sm text-white placeholder-ink-600 focus:border-volt transition-colors" placeholder="Marca, modelo y año" />
+              <p class="text-xs text-ink-700">Ej. Renault 4 1985, VW Combi 1979.</p>
+              <p class="hidden text-xs text-volt-soft" data-error-for="auto">Dinos qué auto quieres convertir.</p>
+            </div>
+            <div class="grid gap-2">
+              <label for="paquete" class="text-sm font-medium text-white">Paquete de interés</label>
+              <select id="paquete" name="paquete" class="bg-ink-950 border border-ink-700 rounded-xl px-4 py-3 text-sm text-white focus:border-volt transition-colors">
+                <option value="sin-decidir">Aún no lo decido</option>
+                <option value="city">City — 32 kWh</option>
+                <option value="range">Range — 52 kWh</option>
+                <option value="performance">Performance — 78 kWh</option>
+              </select>
+              <p class="text-xs text-ink-700">Si tienes dudas, lo definimos juntos.</p>
+            </div>
+          </div>
+
+          <div class="grid gap-2">
+            <label for="mensaje" class="text-sm font-medium text-white">Cuéntanos del proyecto <span class="text-ink-600 font-normal">(opcional)</span></label>
+            <textarea id="mensaje" name="mensaje" rows="3" class="bg-ink-950 border border-ink-700 rounded-xl px-4 py-3 text-sm text-white placeholder-ink-600 focus:border-volt transition-colors resize-none" placeholder="Uso que le das, autonomía que necesitas, plazos..."></textarea>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn-press inline-flex items-center justify-center gap-2 bg-volt hover:bg-volt-soft text-ink-950 font-display font-bold px-6 py-3.5 rounded-xl transition-all duration-300">
+            <span data-btn-label>Enviar y recibir cotización</span>
+            <svg data-btn-spinner class="hidden animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9" stroke-linecap="round"/></svg>
+          </button>
+          <p class="text-xs text-ink-700 text-center">Tus datos solo se usan para responder tu cotización.</p>
+        </div>
+
+        <!-- success state -->
+        <div id="formSuccess" class="hidden text-center py-6">
+          <span class="grid place-items-center w-14 h-14 rounded-2xl bg-volt text-ink-950 mx-auto mb-5">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          </span>
+          <h3 class="font-display font-extrabold text-white text-xl tracking-tight">Solicitud recibida</h3>
+          <p class="text-sm text-ink-600 mt-2 max-w-[40ch] mx-auto leading-relaxed">
+            Gracias. Un ingeniero del taller revisará tu auto y te escribirá con
+            el rango de costo en menos de 48 horas hábiles.
+          </p>
+          <button type="button" id="resetForm" class="btn-press mt-6 border border-ink-700 hover:border-volt/60 text-white font-display font-bold text-sm px-5 py-2.5 rounded-xl transition-all duration-300">
+            Enviar otra solicitud
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-ink-950 pt-20 pb-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-[1.4fr_1fr_1fr] gap-10 lg:gap-16 pb-14 border-b border-ink-800">
+      <!-- marca + ubicacion -->
+      <div>
+        <a href="#contenido" class="flex items-center gap-2.5 mb-5">
+          <span class="grid place-items-center w-9 h-9 rounded-lg bg-volt text-ink-950">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 4.5 13.5H11l-1 8.5L18.5 10.5H12l1-8.5Z"/></svg>
+          </span>
+          <span class="font-display font-extrabold text-lg tracking-tight text-white">Volt<span class="text-volt">Swap</span></span>
+        </a>
+        <p class="text-sm text-ink-600 leading-relaxed max-w-[42ch] prose-just">
+          Taller de electrificación automotriz. Convertimos autos de combustión
+          interna a 100% eléctricos con ingeniería verificable y trato cercano.
+        </p>
+        <div class="mt-5 flex items-start gap-3">
+          <svg class="text-volt mt-0.5 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <address class="not-italic text-sm text-ink-600 leading-relaxed">
+            Calle Talleres 148, Nave 3<br />
+            Col. Granjas México, Iztacalco<br />
+            08400, Ciudad de México
+          </address>
+        </div>
+      </div>
+
+      <!-- horarios -->
+      <div>
+        <h3 class="font-display font-bold text-white text-sm tracking-tight mb-4">Horarios</h3>
+        <dl class="text-sm space-y-2.5">
+          <div class="flex justify-between gap-4"><dt class="text-ink-600">Lunes a viernes</dt><dd class="font-mono text-white">9:00 – 18:30</dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-ink-600">Sábado</dt><dd class="font-mono text-white">9:00 – 14:00</dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-ink-600">Domingo</dt><dd class="font-mono text-ink-700">Cerrado</dd></div>
+        </dl>
+        <p class="text-xs text-ink-700 mt-4 leading-relaxed">Diagnósticos solo con cita previa.</p>
+      </div>
+
+      <!-- contacto -->
+      <div>
+        <h3 class="font-display font-bold text-white text-sm tracking-tight mb-4">Contacto</h3>
+        <ul class="text-sm space-y-3">
+          <li>
+            <a href="tel:+525584719263" class="group flex items-center gap-2.5 text-ink-600 hover:text-white transition-colors">
+              <svg class="text-volt shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+              <span class="font-mono">+52 55 8471 9263</span>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:hola@voltswap.mx" class="group flex items-center gap-2.5 text-ink-600 hover:text-white transition-colors">
+              <svg class="text-volt shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7L22 6"/></svg>
+              <span class="font-mono">hola@voltswap.mx</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://wa.me/525584719263" class="group flex items-center gap-2.5 text-ink-600 hover:text-white transition-colors">
+              <svg class="text-volt shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5Z"/></svg>
+              <span>WhatsApp del taller</span>
+            </a>
+          </li>
+        </ul>
+        <a href="#cotiza" class="btn-press inline-flex items-center gap-2 mt-6 bg-ink-900 border border-ink-700 hover:border-volt/60 text-white font-display font-bold text-sm px-4 py-2.5 rounded-xl transition-all duration-300">
+          Cotiza tu conversión
+        </a>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row justify-between gap-3 pt-8 text-xs text-ink-700">
+      <p>© 2026 VoltSwap. Todos los derechos reservados.</p>
+      <p class="flex items-center gap-1.5">
+        <span class="pulse-dot w-1.5 h-1.5 rounded-full bg-volt" aria-hidden="true"></span>
+        Agenda de diagnósticos abierta
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ---- Mobile menu ----
+  var menuBtn = document.getElementById('menuBtn');
+  var mobileMenu = document.getElementById('mobileMenu');
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', function () {
+      var open = mobileMenu.classList.toggle('hidden') === false;
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    });
+    mobileMenu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        mobileMenu.classList.add('hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // ---- Scroll reveal (IntersectionObserver, no scroll listener) ----
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reveals = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    reveals.forEach(function (el) { el.classList.add('is-in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach(function (el) {
+      if (!el.classList.contains('is-in')) io.observe(el);
+    });
+  }
+
+  // ---- Spotlight cards: track pointer ----
+  document.querySelectorAll('.spotlight').forEach(function (card) {
+    card.addEventListener('pointermove', function (e) {
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // ---- Before/After sliders ----
+  document.querySelectorAll('.ba').forEach(function (ba) {
+    var range = ba.querySelector('.ba-range');
+    var afterWrap = ba.querySelector('.ba-after-wrap');
+    var divider = ba.querySelector('.ba-divider');
+    if (!range || !afterWrap || !divider) return;
+    function sync() {
+      var v = range.value;
+      afterWrap.style.width = v + '%';
+      divider.style.left = v + '%';
+    }
+    range.addEventListener('input', sync);
+    sync();
+  });
+
+  // ---- Quote form with loading + error + success states ----
+  var form = document.getElementById('quoteForm');
+  if (form) {
+    var fields = document.getElementById('formFields');
+    var success = document.getElementById('formSuccess');
+    var submitBtn = document.getElementById('submitBtn');
+    var btnLabel = submitBtn.querySelector('[data-btn-label]');
+    var btnSpinner = submitBtn.querySelector('[data-btn-spinner]');
+    var required = ['nombre', 'contacto', 'auto'];
+
+    function showError(name, show) {
+      var input = document.getElementById(name);
+      var msg = form.querySelector('[data-error-for="' + name + '"]');
+      if (!input || !msg) return;
+      if (show) {
+        msg.classList.remove('hidden');
+        input.classList.add('border-volt-soft');
+        input.setAttribute('aria-invalid', 'true');
+      } else {
+        msg.classList.add('hidden');
+        input.classList.remove('border-volt-soft');
+        input.removeAttribute('aria-invalid');
+      }
+    }
+
+    required.forEach(function (name) {
+      var input = document.getElementById(name);
+      if (input) input.addEventListener('input', function () { showError(name, false); });
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var valid = true;
+      required.forEach(function (name) {
+        var input = document.getElementById(name);
+        var empty = !input || !input.value.trim();
+        showError(name, empty);
+        if (empty && valid) { valid = false; input && input.focus(); }
+      });
+      if (!valid) return;
+
+      // loading state
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-70', 'cursor-wait');
+      btnLabel.textContent = 'Enviando...';
+      btnSpinner.classList.remove('hidden');
+
+      window.setTimeout(function () {
+        fields.classList.add('hidden');
+        success.classList.remove('hidden');
+        success.setAttribute('tabindex', '-1');
+        success.focus();
+      }, 1100);
+    });
+
+    var resetBtn = document.getElementById('resetForm');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        form.reset();
+        success.classList.add('hidden');
+        fields.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-70', 'cursor-wait');
+        btnLabel.textContent = 'Enviar y recibir cotización';
+        btnSpinner.classList.add('hidden');
+      });
+    }
+  }
+})();
+</script>
+
+</body>
+</html>

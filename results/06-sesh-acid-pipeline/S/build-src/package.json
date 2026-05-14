@@ -1,0 +1,9 @@
+{
+  "name": "voltswap-s",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VoltSwap — static build mirror for karpathy_score.mjs (sesh-acid-pipeline Fase 3). The real deliverable is ../index.html.",
+  "scripts": {
+    "build": "echo 'Static HTML — no build step. See ../index.html'"
+  }
+}

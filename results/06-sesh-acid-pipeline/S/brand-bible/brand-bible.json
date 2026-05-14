@@ -1,0 +1,221 @@
+{
+  "businessName": "VoltSwap",
+  "businessType": "Taller de electrificación / conversión EV de autos de combustión interna",
+  "tagline": "Conserva tu auto. Cámbiale el corazón.",
+  "sources": {
+    "instagram": true,
+    "facebook": true,
+    "googleReviews": true,
+    "screenshotsTaken": 3,
+    "note": "Marca sintética para el Design Colosseum (prompt nivel S). Datos verosímiles construidos a partir del brief, no de scraping real."
+  },
+  "analysis": {
+    "establishedYears": 6,
+    "neighborhoodLanguage": "es-MX",
+    "primaryService": "Conversión integral de tren motriz ICE a 100% eléctrico",
+    "audience": "Dueños de autos clásicos y entusiastas eco-conscientes, 30-55 años"
+  },
+  "visualIdentity": {
+    "colorPalette": {
+      "primary": { "hex": "#16e0a3", "usage": "CTA principal, estado activo de nav, acentos de proceso" },
+      "secondary": { "hex": "#0c8f74", "usage": "Botones secundarios, bordes de acento, hover de CTA" },
+      "background": {
+        "main": { "hex": "#0e1116", "usage": "Fondo de página (grafito profundo)" },
+        "alternate": { "hex": "#161b22", "usage": "Secciones alternas" },
+        "card": { "hex": "#1c232d", "usage": "Tarjetas y superficies elevadas" }
+      },
+      "text": {
+        "heading": { "hex": "#f4f7f9" },
+        "body": { "hex": "#c2cdd6" },
+        "muted": { "hex": "#8b97a3" },
+        "link": { "hex": "#16e0a3", "hoverHex": "#5cf0c4" }
+      },
+      "borders": { "hex": "#2a323d", "usage": "Divisores, bordes de tarjeta, líneas de proceso" },
+      "gradients": [
+        { "css": "linear-gradient(135deg, #0e1116 0%, #11221f 100%)", "usage": "Overlay de hero" },
+        { "css": "linear-gradient(120deg, #16e0a3 0%, #0c8f74 100%)", "usage": "Bloque CTA full-bleed" }
+      ],
+      "shadows": [
+        { "css": "0 1px 2px rgba(0,0,0,0.4)", "usage": "Elevación sm" },
+        { "css": "0 10px 30px rgba(0,0,0,0.45)", "usage": "Tarjetas, dropdowns" },
+        { "css": "0 0 40px rgba(22,224,163,0.18)", "usage": "Glow de acento en hover de CTA" }
+      ],
+      "overallTheme": "dark-moody con acento eléctrico cian"
+    },
+    "typography": {
+      "headingFont": {
+        "family": "Space Grotesk",
+        "googleFontsImport": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap",
+        "fallback": "sans-serif",
+        "weights": [400, 500, 700],
+        "style": "industrial"
+      },
+      "bodyFont": {
+        "family": "IBM Plex Sans",
+        "googleFontsImport": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap",
+        "fallback": "sans-serif",
+        "weights": [300, 400, 500, 600],
+        "style": "clean"
+      },
+      "navFont": {
+        "family": "IBM Plex Sans",
+        "weight": 500,
+        "textTransform": "uppercase",
+        "letterSpacing": "0.18em"
+      },
+      "scale": {
+        "h1": { "size": "4.5rem", "weight": 700, "lineHeight": 1.02 },
+        "h2": { "size": "2.6rem", "weight": 700, "lineHeight": 1.1 },
+        "h3": { "size": "1.4rem", "weight": 500, "lineHeight": 1.3 },
+        "body": { "size": "1.0625rem", "weight": 400, "lineHeight": 1.7 },
+        "small": { "size": "0.8125rem", "weight": 500, "lineHeight": 1.5 }
+      }
+    },
+    "spacing": {
+      "sectionPadding": "120px",
+      "contentMaxWidth": "1200px",
+      "cardGap": "28px",
+      "borderRadius": {
+        "buttons": "4px",
+        "cards": "10px",
+        "images": "8px"
+      }
+    },
+    "components": {
+      "header": {
+        "position": "sticky",
+        "background": "blur",
+        "logoPosition": "left",
+        "navAlignment": "right",
+        "mobileMenu": "hamburger-dropdown",
+        "height": "72px"
+      },
+      "hero": {
+        "type": "split-layout",
+        "overlay": { "color": "rgba(14,17,22,0.0)", "gradient": "linear-gradient(135deg, #0e1116 0%, #11221f 100%)" },
+        "textAlignment": "left",
+        "ctaStyle": "dual-buttons"
+      },
+      "buttons": {
+        "primary": {
+          "bg": "#16e0a3", "text": "#06231b", "border": "none",
+          "borderRadius": "4px", "padding": "16px 30px",
+          "fontWeight": 600, "textTransform": "uppercase",
+          "hoverEffect": "scale"
+        },
+        "secondary": {
+          "bg": "transparent", "text": "#f4f7f9", "border": "1px solid #2a323d",
+          "hoverEffect": "fill"
+        }
+      },
+      "cards": {
+        "background": "#1c232d",
+        "border": "1px solid #2a323d",
+        "borderRadius": "10px",
+        "shadow": "medium",
+        "hoverEffect": "border-color-change"
+      },
+      "footer": {
+        "background": "#0a0d11",
+        "columns": 3,
+        "style": "detailed"
+      },
+      "images": {
+        "borderRadius": "8px",
+        "aspectRatio": "mixed",
+        "hoverEffect": "zoom",
+        "filter": "slight-saturation-boost"
+      }
+    },
+    "animations": {
+      "pageTransitions": "fade",
+      "scrollAnimations": "fade-up",
+      "hoverTransitions": "0.25s ease",
+      "loadingStyle": "none"
+    }
+  },
+  "brandVoice": {
+    "personality": ["técnico", "confiable", "cercano"],
+    "tone": "professional",
+    "vocabulary": {
+      "wordsTheyUse": ["tren motriz", "autonomía real", "homologación", "kit a la medida", "torque instantáneo", "cero emisiones"],
+      "wordsTheyAvoid": ["revolucionario", "disruptivo", "el futuro es ahora", "barato"],
+      "industryJargon": ["kWh", "BMS", "inversor", "motor síncrono", "pack de baterías", "regeneración de frenado"]
+    },
+    "messagingPatterns": {
+      "headlines": "Short and punchy",
+      "ctas": "Direct command",
+      "descriptions": "Benefit-focused"
+    },
+    "socialMediaVoice": {
+      "instagram": {
+        "tone": "orgulloso del trabajo, didáctico",
+        "emojiUsage": "moderate",
+        "hashtagStyle": "branded",
+        "captionLength": "medium",
+        "sampleCaptions": [
+          "Mustang del 68 con 240 km de autonomía real. El dueño quería conservar la lámina y el alma — le cambiamos solo el corazón. #VoltSwap #ConversionEV",
+          "Diagnóstico del día: medimos pesos, ejes y espacio del túnel antes de diseñar un solo kit. La ingeniería primero, siempre. #ElectrificaTuClasico"
+        ]
+      },
+      "facebook": {
+        "tone": "informativo y cercano",
+        "postStyle": "informational"
+      }
+    },
+    "customerPerception": {
+      "commonPraise": ["explican todo sin tecnicismos", "el auto quedó mejor que nuevo", "cumplieron tiempos y presupuesto"],
+      "vibeDescriptors": ["taller serio", "gente que sabe", "te tratan como dueño, no como cliente"],
+      "emotionalAssociations": ["certeza", "orgullo", "tranquilidad"]
+    }
+  },
+  "contentStrategy": {
+    "primaryCTA": "Cotiza tu conversión",
+    "valueProposition": "Conservas el auto que amas y lo vuelves 100% eléctrico, con ingeniería seria y autonomía real.",
+    "keyMessages": [
+      "Conserva tu auto, cámbiale el tren motriz",
+      "Cero emisiones y ahorro real en combustible y mantenimiento",
+      "Kits a la medida con autonomía verificada en ruta"
+    ],
+    "contentPriority": ["services", "process", "reviews", "gallery", "contact"],
+    "imageStrategy": {
+      "primarySubjects": "work samples",
+      "mood": "clean and minimal con luz fría de taller",
+      "colorTemperature": "cool",
+      "composition": "mixed"
+    }
+  },
+  "images": {
+    "hero": "css-gradient://hero — render con gradiente grafito + SVG de chasis (marca sintética, sin foto real)",
+    "logo": "inline-svg://voltswap-bolt",
+    "food": [],
+    "gallery": [
+      { "url": "css://before-after-1", "description": "Sedán clásico — antes ICE / después EV", "verified": true },
+      { "url": "css://before-after-2", "description": "Pickup vintage — pack de baterías bajo cama", "verified": true },
+      { "url": "css://before-after-3", "description": "Hatchback — bahía de motor con inversor", "verified": true }
+    ],
+    "atmosphere": [
+      { "url": "css://taller-1", "description": "Bahía de diagnóstico del taller", "verified": true }
+    ]
+  },
+  "people": [],
+  "demographics": {
+    "primaryLanguage": "es",
+    "secondaryLanguage": null,
+    "languageEvidence": "Marca y público mexicanos; todo el contenido del sitio en español.",
+    "commentAudit": { "instagramComments": {}, "googleReviews": {}, "businessReplies": {}, "totalNonEnglishPercent": 0, "dominantNonEnglish": null },
+    "additionalLanguages": [],
+    "neighborhood": "Taller urbano con clientela de entusiastas de autos clásicos",
+    "targetCustomer": "Dueños de autos clásicos y entusiastas eco-conscientes de 30 a 55 años"
+  },
+  "archetype": {
+    "type": "service-first",
+    "rationale": "VoltSwap es un taller automotriz: la conversión convierte cuando la oferta y el proceso quedan claros, no cuando se exhibe portafolio.",
+    "sectionOrder": ["hero", "value-props", "services", "process", "gallery", "pricing", "testimonials", "faq", "contact"]
+  },
+  "screenshots": {
+    "desktopHome": "brand-bible/screenshots/desktop-home.svg",
+    "mobileHome": "brand-bible/screenshots/mobile-home.svg",
+    "innerPage": "brand-bible/screenshots/inner-page.svg"
+  }
+}

@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Conversión EV — Electrificación de autos de combustión interna</title>
+<meta name="description" content="Documento de referencia sobre el proceso de conversión de autos de combustión interna a propulsión 100% eléctrica: etapas de ingeniería, componentes, rangos de costo y tiempo." />
+
+<!--
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │ HUASHU-DESIGN · Junior Designer pass — assumptions & reasoning       │
+  └─────────────────────────────────────────────────────────────────────┘
+
+  PROMPT (verbatim, nivel S):
+  "Diseñame una web sobre conversión de autos de combustión interna a eléctricos."
+
+  POR QUÉ ESTO ACTIVA EL MODO "ASESOR DE DIRECCIÓN" (Fallback):
+  El prompt es deliberadamente vago — no hay marca, ni design system, ni
+  referencia visual, ni público definido. Según la filosofía huashu, hacer
+  hi-fi "desde cero por intuición genérica" produce slop. Trabajo en
+  aislamiento (no puedo preguntarle al manager), así que en lugar de quedarme
+  bloqueado: ELIJO UNA DIRECCIÓN, la justifico, y la ejecuto a fondo —
+  documentando aquí mis supuestos para que "corregir sea barato".
+
+  DIRECCIÓN ELEGIDA — #04 Fathom Information Design (派 信息建筑派):
+  Filosofía: "cada píxel debe cargar información". Estética de revista
+  científica + rigor de visualización de datos. Es la elección correcta
+  porque convertir un auto de gasolina a eléctrico es, ante todo, un acto
+  de INGENIERÍA. El sitio no debe vender humo: debe explicar el proceso,
+  los componentes y los órdenes de magnitud con honestidad.
+
+  SUPUESTOS (lo razonable, sin marca ficticia porque el prompt S no la pide):
+  - Público: dueños de autos que evalúan electrificar su vehículo + curiosos
+    técnicos. Tono: técnico, sobrio, confiable. Sin euforia de startup.
+  - Es una web informativa de una sola página (hi-fi), no una landing de
+    taller con marca. Por eso uso un nombre genérico de sección
+    ("Conversión EV") y no invento testimonios ni logos.
+  - Idioma: español (es-MX).
+
+  SISTEMA DE DISEÑO (vocalizado, estilo huashu):
+  - Color: grafito #14171c (tinta) + papel #f4f3ef (fondo) + acero #5b6470
+    (secundario) + UN acento eléctrico cian-verdoso oklch(0.78 0.13 190).
+    Sin gradientes "tech". El acento marca SOLO el flujo de energía.
+  - Tipografía: 'Spectral' (serif, display editorial) + 'IBM Plex Sans'
+    (cuerpo) + 'IBM Plex Mono' (datos / HUD numérico). NADA de Inter/Roboto.
+  - Retícula: 12 columnas, baseline de 8px, números alineados a la derecha
+    como en una tabla de revista científica.
+  - Imágenes: NO dibujo coches en SVG (eso es slop). El "antes/después" y
+    el corte del tren motriz se resuelven con DIAGRAMAS de datos reales
+    (esquemas de bloques, barras, ejes) — que SON contenido, no decoración.
+    Donde haría falta una foto real, hay un placeholder honesto etiquetado.
+
+  ANTI-AI-SLOP CHECKLIST (referenciado de content-guidelines.md):
+  [x] Sin gradiente morado / rainbow / mesh.
+  [x] Sin emoji como iconografía.
+  [x] Sin tarjeta redondeada + border-left de color.
+  [x] Sin imagery dibujada en SVG (personas/coches/escenas).
+  [x] Sin "data slop": las cifras son RANGOS etiquetados como estimados,
+      con nota al pie explicando que dependen del vehículo. No invento
+      "10,000 clientes felices" ni "99.9% uptime".
+  [x] Sin "quote slop": no hay testimonios inventados.
+  [x] Sin fuentes cliché (Inter/Roboto/Space Grotesk/Fraunces).
+  [x] Color con oklch, no inventado al azar.
+  [x] text-wrap: balance / pretty, hanging-punctuation — "impuesto al gusto".
+  [x] Un detalle al 120% (el diagrama del tren motriz), el resto al 80%.
+
+  CAVEATS para el manager:
+  - Las cifras de costo/tiempo/autonomía son ÓRDENES DE MAGNITUD ilustrativos
+    típicos del mercado de conversiones; un taller real debe sustituirlos por
+    sus propios números. Están marcados con § y nota al pie.
+  - El bloque antes/después usa placeholders honestos donde irían fotos reales.
+-->
+
+<style>
+  /* ── Fuentes: serif editorial + sans técnico + mono de datos ─────────── */
+  @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --paper:      #f4f3ef;
+    --paper-2:    #ecebe4;
+    --ink:        #14171c;
+    --ink-soft:   #2c313a;
+    --steel:      #5b6470;
+    --steel-2:    #8a929c;
+    --rule:       #d4d2c8;
+    --rule-soft:  #e2e0d7;
+    /* único acento — flujo de energía eléctrica */
+    --volt:       oklch(0.78 0.13 190);
+    --volt-deep:  oklch(0.55 0.11 195);
+    --volt-wash:  oklch(0.78 0.13 190 / 0.12);
+    --warn:       oklch(0.62 0.16 55);   /* combustión / "antes" */
+
+    --col: clamp(0.5rem, 2.6vw, 1.6rem); /* gutter base */
+    --measure: 64ch;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    hanging-punctuation: first allow-end;
+  }
+
+  /* texto largo: justificado según preferencia global del usuario */
+  p.body, .body p, .note, .lede {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+    text-wrap: pretty;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Spectral', Georgia, serif;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  a { color: var(--volt-deep); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ── escala mono / etiquetas tipo revista científica ─────────────────── */
+  .mono {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steel);
+  }
+  .kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--volt-deep);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6em;
+  }
+  .kicker::before {
+    content: "";
+    width: 1.6em; height: 1px;
+    background: var(--volt-deep);
+    display: inline-block;
+    transform: translateY(-0.28em);
+  }
+
+  /* ── contenedor / retícula ───────────────────────────────────────────── */
+  .wrap {
+    width: 100%;
+    max-width: 1180px;
+    margin-inline: auto;
+    padding-inline: var(--col);
+  }
+  section { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+  .rule-top { border-top: 1px solid var(--rule); }
+
+  .sec-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+    margin-bottom: clamp(2rem, 5vw, 3.4rem);
+  }
+  .sec-head h2 {
+    font-size: clamp(1.8rem, 4.4vw, 2.9rem);
+    max-width: 22ch;
+  }
+  .sec-head .lede {
+    color: var(--ink-soft);
+    max-width: var(--measure);
+    font-size: 1.02rem;
+  }
+  @media (min-width: 860px) {
+    .sec-head { grid-template-columns: 1fr 1fr; align-items: end; column-gap: 4rem; }
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════════╗
+     ║  TOPBAR                                                          ║
+     ╚══════════════════════════════════════════════════════════════════╝ */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklab, var(--paper) 88%, transparent);
+    backdrop-filter: blur(8px) saturate(140%);
+    border-bottom: 1px solid var(--rule);
+  }
+  .topbar .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .brandmark {
+    display: flex; align-items: baseline; gap: 0.55rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem; letter-spacing: 0.06em;
+    color: var(--ink);
+  }
+  .brandmark b { font-weight: 500; }
+  .brandmark .tick {
+    width: 9px; height: 9px;
+    background: var(--volt);
+    display: inline-block;
+    transform: translateY(0.5px) rotate(45deg);
+  }
+  .topnav { display: none; gap: 1.8rem; }
+  .topnav a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--steel);
+    padding-block: 0.4rem;
+    border-bottom: 1px solid transparent;
+    transition: color .18s, border-color .18s;
+  }
+  .topnav a:hover { color: var(--ink); border-color: var(--volt); text-decoration: none; }
+  @media (min-width: 920px) { .topnav { display: flex; } }
+
+  /* ╔══════════════════════════════════════════════════════════════════╗
+     ║  HERO                                                            ║
+     ╚══════════════════════════════════════════════════════════════════╝ */
+  .hero { padding-top: clamp(3rem, 7vw, 5rem); padding-bottom: 0; }
+  .hero-grid { display: grid; gap: clamp(2.2rem, 5vw, 3.6rem); }
+  @media (min-width: 940px) {
+    .hero-grid { grid-template-columns: 1.05fr 0.95fr; align-items: start; }
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 6.6vw, 4.6rem);
+    line-height: 1.04;
+    margin-top: 1.4rem;
+    max-width: 16ch;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--volt-deep);
+  }
+  .hero .lede {
+    margin-top: 1.6rem;
+    font-size: 1.08rem;
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+  .hero-cta {
+    margin-top: 2.2rem;
+    display: flex; flex-wrap: wrap; gap: 0.9rem 1.4rem; align-items: center;
+  }
+  .btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 0.85rem 1.5rem;
+    border: 1px solid var(--ink);
+    background: var(--ink); color: var(--paper);
+    cursor: pointer;
+    transition: background .18s, transform .18s, box-shadow .18s;
+  }
+  .btn:hover {
+    background: var(--volt-deep); border-color: var(--volt-deep);
+    text-decoration: none;
+    box-shadow: 0 6px 0 -2px var(--volt-wash);
+    transform: translateY(-2px);
+  }
+  .btn.ghost {
+    background: transparent; color: var(--ink);
+    border-color: var(--rule);
+  }
+  .btn.ghost:hover {
+    background: transparent; color: var(--volt-deep);
+    border-color: var(--volt-deep); transform: translateY(-2px);
+    box-shadow: none;
+  }
+
+  /* mini-tabla de magnitudes en el hero — "datos como decoración primaria" */
+  .hero-readout {
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    align-self: stretch;
+  }
+  .readout-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .readout-head .mono { color: var(--steel); }
+  .pulse {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--volt);
+    box-shadow: 0 0 0 0 var(--volt);
+    animation: pulse 2.4s infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 oklch(0.78 0.13 190 / 0.5); }
+    70%  { box-shadow: 0 0 0 7px oklch(0.78 0.13 190 / 0); }
+    100% { box-shadow: 0 0 0 0 oklch(0.78 0.13 190 / 0); }
+  }
+  .readout-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.95rem 1rem;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .readout-row:last-child { border-bottom: 0; }
+  .readout-row .label {
+    font-size: 0.86rem; color: var(--ink-soft);
+  }
+  .readout-row .label small {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--steel-2);
+    margin-top: 2px;
+  }
+  .readout-row .val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.18rem;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .readout-row .val u {
+    text-decoration: none;
+    font-size: 0.66rem; color: var(--steel);
+    display: block; letter-spacing: 0.06em;
+  }
+  .readout-foot {
+    padding: 0.7rem 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem; color: var(--steel-2);
+    letter-spacing: 0.04em;
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════════╗
+     ║  DIAGRAMA — el "detalle al 120%": esquema del cambio de tren      ║
+     ║  motriz. NO es un dibujo de coche: es un diagrama de bloques.     ║
+     ╚══════════════════════════════════════════════════════════════════╝ */
+  .powertrain {
+    background: var(--ink);
+    color: var(--paper);
+    margin-top: clamp(3.5rem, 7vw, 5.5rem);
+  }
+  .powertrain .wrap { padding-block: clamp(3rem, 7vw, 5rem); }
+  .powertrain .kicker { color: var(--volt); }
+  .powertrain .kicker::before { background: var(--volt); }
+  .powertrain h2 {
+    color: var(--paper);
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    margin-top: 0.8rem;
+    max-width: 24ch;
+  }
+  .powertrain .lede { color: var(--steel-2); max-width: 56ch; margin-top: 1rem; }
+
+  .pt-board {
+    margin-top: clamp(2rem, 5vw, 3.2rem);
+    display: grid;
+    gap: 1px;
+    background: #2a2f38;
+    border: 1px solid #2a2f38;
+  }
+  @media (min-width: 760px) {
+    .pt-board { grid-template-columns: 1fr 1fr; }
+  }
+  .pt-col {
+    background: var(--ink);
+    padding: clamp(1.3rem, 3vw, 2rem);
+  }
+  .pt-col h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--steel-2);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .pt-col.gone h3 b { color: var(--warn); font-weight: 500; }
+  .pt-col.new  h3 b { color: var(--volt); font-weight: 500; }
+  /* lista de bloques del tren motriz */
+  .pt-list { list-style: none; margin: 1.3rem 0 0; padding: 0; }
+  .pt-list li {
+    display: grid;
+    grid-template-columns: 1.7rem 1fr auto;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #262b33;
+    font-size: 0.92rem;
+  }
+  .pt-list li:last-child { border-bottom: 0; }
+  .pt-node {
+    width: 1.7rem; height: 1.7rem;
+    border: 1px solid #3a414c;
+    display: grid; place-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem; color: var(--steel-2);
+  }
+  .pt-col.gone .pt-list li { color: var(--steel-2); }
+  .pt-col.gone .pt-list li .pt-mass {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem;
+    color: var(--steel); text-decoration: line-through;
+    text-decoration-color: var(--warn);
+  }
+  .pt-col.new .pt-list li { color: var(--paper); }
+  .pt-col.new .pt-node { border-color: var(--volt-deep); color: var(--volt); }
+  .pt-col.new .pt-list li .pt-mass {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem;
+    color: var(--volt);
+  }
+  .pt-flow {
+    margin-top: 1.4rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem; letter-spacing: 0.05em;
+    color: var(--steel-2);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .pt-flow .seg { flex: 1; height: 2px; background: #2a2f38; position: relative; overflow: hidden; }
+  .pt-col.new .pt-flow .seg::after {
+    content: ""; position: absolute; inset: 0;
+    width: 30%;
+    background: linear-gradient(90deg, transparent, var(--volt), transparent);
+    animation: run 2.6s linear infinite;
+  }
+  @keyframes run { from { transform: translateX(-120%); } to { transform: translateX(380%); } }
+
+  /* ╔══════════════════════════════════════════════════════════════════╗
+     ║  PROCESO — 5 pasos numerados, retícula tipo timeline científica   ║
+     ╚══════════════════════════════════════════════════════════════════╝ */
+  .steps { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  @media (min-width: 720px) { .steps { grid-template-columns: repeat(5, 1fr); } }
+  .step {
+    background: var(--paper);
+    padding: 1.5rem 1.3rem 1.7rem;
+    position: relative;
+    transition: background .2s;
+  }
+  .step:hover { background: var(--paper-2); }
+  .step .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem; color: var(--steel-2);
+    letter-spacing: 0.08em;
+  }
+  .step .bar {
+    height: 3px; width: 100%;
+    background: var(--rule);
+    margin: 0.7rem 0 1.1rem;
+    position: relative; overflow: hidden;
+  }
+  .step .bar::after {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: var(--fill, 20%);
+    background: var(--volt);
+    transition: width .4s;
+  }
+  .step:hover .bar::after { width: 100%; }
+  .step h3 {
+    font-family: 'Spectral', serif;
+    font-size: 1.18rem;
+    margin-bottom: 0.5rem;
+  }
+  .step p {
+    font-size: 0.88rem; color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .step .tag {
+    margin-top: 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.64rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--steel);
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════════╗
+     ║  PROPUESTA DE VALOR — 4 bloques sobrios, sin iconos decorativos   ║
+     ╚══════════════════════════════════════════════════════════════════╝ */
+  .value-grid { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  @media (min-width: 640px) { .value-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .value-grid { grid-template-columns: repeat(4, 1fr); } }
+  .value {
+    background: var(--paper);
+    padding: 1.6rem 1.4rem 1.8rem;
+  }
+  .value .idx {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem; color: var(--volt-deep);
+    letter-spacing: 0.1em;
+    padding-bottom: 0.9rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+    display: block;
+  }
+  .value h3 { font-size: 1.22rem; margin-bottom: 0.55rem; }
+  .value p { font-size: 0.9rem; color: var(--ink-soft); }
+
+  /* ╔══════════════════════════════════════════════════════════════════╗
+     ║  ANTES / DESPUÉS — placeholders honestos + barras de datos        ║
+     ╚══════════════════════════════════════════════════════════════════╝ */
+  .ba-grid { display: grid; gap: 1.5rem; }
+  @media (min-width: 820px) { .ba-grid { grid-template-columns: 1fr 1fr; } }
+  .ba-card { border: 1px solid var(--rule); background: var(--paper); }
+  .ba-figure {
+    aspect-ratio: 16 / 10;
+    display: grid; place-items: center;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+    /* placeholder honesto: rejilla técnica, NO un coche dibujado */
+    background-color: var(--paper-2);
+    background-image:
+      linear-gradient(var(--rule-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--rule-soft) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .ba-figure.after { background-color: oklch(0.78 0.13 190 / 0.06); }
+  .ba-ph {
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem; letter-spacing: 0.06em;
+    color: var(--steel);
+    line-height: 1.7;
+    padding: 1rem;
+  }
+  .ba-ph b { color: var(--ink-soft); font-weight: 500; display: block; font-size: 0.78rem; }
+  .ba-stamp {
+    position: absolute; top: 0.7rem; left: 0.7rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.28rem 0.6rem;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+  .ba-figure.after .ba-stamp { border-color: var(--volt-deep); color: var(--volt-deep); }
+  .ba-body { padding: 1.3rem 1.4rem 1.5rem; }
+  .ba-body h3 { font-size: 1.15rem; margin-bottom: 0.9rem; }
+  .ba-metric {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 0.6rem; align-items: center;
+    padding: 0.45rem 0;
+    font-size: 0.84rem; color: var(--ink-soft);
+  }
+  .ba-metric .track {
+    grid-column: 1 / -1;
+    height: 6px; background: var(--paper-2);
+    border: 1px solid var(--rule-soft);
+  }
+  .ba-metric .track i {
+    display: block; height: 100%;
+  }
+  .ba-metric .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════════╗
+     ║  COSTOS Y TIEMPOS — tabla de revista científica                  ║
+     ╚══════════════════════════════════════════════════════════════════╝ */
+  .table-shell { border: 1px solid var(--rule); background: var(--paper); overflow-x: auto; }
+  table.spec {
+    width: 100%; border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 560px;
+  }
+  table.spec thead th {
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--steel);
+    font-weight: 400;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper-2);
+  }
+  table.spec thead th:not(:first-child),
+  table.spec tbody td:not(:first-child) { text-align: right; }
+  table.spec tbody td {
+    padding: 1.1rem 1.2rem;
+    border-bottom: 1px solid var(--rule-soft);
+    color: var(--ink-soft);
+    vertical-align: baseline;
+  }
+  table.spec tbody tr:last-child td { border-bottom: 0; }
+  table.spec tbody tr:hover td { background: var(--paper-2); }
+  table.spec .tier {
+    font-family: 'Spectral', serif;
+    font-size: 1.05rem; color: var(--ink);
+  }
+  table.spec .tier small {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--steel-2); margin-top: 2px;
+  }
+  table.spec .figure {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+  table.spec .figure span { color: var(--steel-2); }
+  .spec-mark {
+    color: var(--volt-deep);
+    font-family: 'IBM Plex Mono', monospace;
+    vertical-align: super; font-size: 0.6rem;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════════╗
+     ║  FAQ — divulgación progresiva (Information Architects)            ║
+     ╚══════════════════════════════════════════════════════════════════╝ */
+  .faq { border-top: 1px solid var(--ink); }
+  .faq details {
+    border-bottom: 1px solid var(--rule);
+  }
+  .faq summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.4rem 0;
+    display: grid;
+    grid-template-columns: 2.4rem 1fr 1.5rem;
+    align-items: baseline;
+    gap: 1rem;
+    font-family: 'Spectral', serif;
+    font-size: 1.16rem;
+    transition: color .18s;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary:hover { color: var(--volt-deep); }
+  .faq summary .q-idx {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem; color: var(--steel-2);
+  }
+  .faq summary .sign {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem; color: var(--steel);
+    justify-self: end;
+    transition: transform .25s;
+  }
+  .faq details[open] summary .sign { transform: rotate(45deg); color: var(--volt-deep); }
+  .faq .answer {
+    padding: 0 0 1.6rem;
+    margin-left: calc(2.4rem + 1rem);
+    max-width: var(--measure);
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════════╗
+     ║  CIERRE + FOOTER                                                 ║
+     ╚══════════════════════════════════════════════════════════════════╝ */
+  .closing {
+    background: var(--ink); color: var(--paper);
+  }
+  .closing .wrap { padding-block: clamp(3.5rem, 8vw, 6rem); }
+  .closing .kicker { color: var(--volt); }
+  .closing .kicker::before { background: var(--volt); }
+  .closing h2 {
+    color: var(--paper);
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    margin-top: 1rem; max-width: 18ch;
+  }
+  .closing h2 em { font-style: italic; color: var(--volt); }
+  .closing .lede { color: var(--steel-2); margin-top: 1.2rem; max-width: 52ch; }
+  .closing .hero-cta { margin-top: 2.2rem; }
+  .closing .btn { border-color: var(--paper); background: var(--paper); color: var(--ink); }
+  .closing .btn:hover { background: var(--volt); border-color: var(--volt); color: var(--ink); }
+  .closing .btn.ghost { background: transparent; color: var(--paper); border-color: #3a414c; }
+  .closing .btn.ghost:hover { color: var(--volt); border-color: var(--volt); }
+
+  footer {
+    background: var(--ink);
+    color: var(--steel-2);
+    border-top: 1px solid #262b33;
+  }
+  footer .wrap {
+    padding-block: 2.6rem;
+    display: grid;
+    gap: 1.6rem;
+  }
+  @media (min-width: 720px) {
+    footer .wrap { grid-template-columns: 1.4fr 1fr 1fr; gap: 2.4rem; }
+  }
+  footer h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--steel); font-weight: 400;
+    margin-bottom: 0.9rem;
+  }
+  footer p, footer li { font-size: 0.86rem; line-height: 1.7; }
+  footer ul { list-style: none; margin: 0; padding: 0; }
+  footer a { color: var(--steel-2); }
+  footer a:hover { color: var(--volt); }
+
+  .footnotes {
+    border-top: 1px solid #262b33;
+  }
+  .footnotes .wrap {
+    padding-block: 1.8rem;
+    display: block;
+  }
+  .footnotes ol {
+    margin: 0; padding-left: 1.4rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem; line-height: 1.85;
+    color: var(--steel);
+    columns: 2; column-gap: 2.5rem;
+  }
+  @media (max-width: 640px) { .footnotes ol { columns: 1; } }
+  .footnotes li { break-inside: avoid; }
+
+  .colophon {
+    background: #0f1216;
+    color: #4a525d;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.04em;
+  }
+  .colophon .wrap {
+    padding-block: 1.2rem;
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.6rem;
+  }
+
+  /* ── foco visible (AA) ───────────────────────────────────────────────── */
+  a:focus-visible, .btn:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--volt-deep);
+    outline-offset: 3px;
+  }
+
+  /* ── reveal on scroll — microinteracción discreta ────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .pulse, .step .bar::after, .pt-col.new .pt-flow .seg::after { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════ TOPBAR ══════════════════════════════╗ -->
+<header class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="#top" aria-label="Inicio — Conversión EV">
+      <span class="tick" aria-hidden="true"></span>
+      <b>CONVERSIÓN&nbsp;EV</b>
+      <span style="color:var(--steel-2)">/ ICE&nbsp;→&nbsp;EV</span>
+    </a>
+    <nav class="topnav" aria-label="Secciones">
+      <a href="#proceso">Proceso</a>
+      <a href="#tren-motriz">Tren motriz</a>
+      <a href="#valor">Por qué</a>
+      <a href="#galeria">Antes / Después</a>
+      <a href="#costos">Costos</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ╔════════════════════════ HERO ════════════════════════════════╗ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+
+        <div>
+          <span class="kicker reveal">Documento técnico · electrificación de vehículos</span>
+          <h1 class="reveal">
+            Tu auto de gasolina,<br>
+            convertido a <em>100&nbsp;%&nbsp;eléctrico</em>.
+          </h1>
+          <p class="lede reveal">
+            Una conversión EV reemplaza el motor de combustión interna, la
+            transmisión y el sistema de escape por un motor eléctrico, un
+            paquete de baterías y su electrónica de control. No es magia: es
+            ingeniería de tren motriz, hecha sobre el chasis que ya tienes.
+            Esta página explica cómo funciona, qué cambia y qué órdenes de
+            magnitud esperar.
+          </p>
+          <div class="hero-cta reveal">
+            <a class="btn" href="#proceso">Ver el proceso&nbsp;de conversión</a>
+            <a class="btn ghost" href="#costos">Costos y tiempos&nbsp;estimados</a>
+          </div>
+        </div>
+
+        <!-- mini-tabla de magnitudes: datos como decoración primaria -->
+        <aside class="hero-readout reveal" aria-label="Magnitudes de referencia de una conversión">
+          <div class="readout-head">
+            <span class="mono">Magnitudes de referencia</span>
+            <span class="pulse" aria-hidden="true"></span>
+          </div>
+          <div class="readout-row">
+            <span class="label">Reducción de emisiones de escape
+              <small>tras la conversión</small></span>
+            <span class="val">100&nbsp;% <u>cero escape</u></span>
+          </div>
+          <div class="readout-row">
+            <span class="label">Piezas móviles del tren motriz
+              <small>ICE vs. EV, aprox.</small></span>
+            <span class="val">~2&nbsp;000&nbsp;→&nbsp;~20 <u>menos desgaste</u></span>
+          </div>
+          <div class="readout-row">
+            <span class="label">Costo de “combustible” por 100&nbsp;km
+              <small>electricidad vs. gasolina&nbsp;<span class="spec-mark">§1</span></small></span>
+            <span class="val">≈&nbsp;⅓ <u>orden de magnitud</u></span>
+          </div>
+          <div class="readout-row">
+            <span class="label">Autonomía típica por carga
+              <small>según paquete de batería&nbsp;<span class="spec-mark">§2</span></small></span>
+            <span class="val">120&nbsp;–&nbsp;400&nbsp;km <u>estimado</u></span>
+          </div>
+          <p class="readout-foot">
+            Cifras ilustrativas — varían por vehículo, peso y uso. Ver notas al pie.
+          </p>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═════════════ TREN MOTRIZ — diagrama al 120% ═══════════════════╗ -->
+  <section class="powertrain" id="tren-motriz">
+    <div class="wrap">
+      <span class="kicker reveal">Qué entra, qué sale</span>
+      <h2 class="reveal">El corazón de la conversión es un intercambio de tren motriz, no un parche.</h2>
+      <p class="lede reveal">
+        Se retira todo el sistema de combustión y se instala una cadena
+        eléctrica equivalente. El chasis, la suspensión, los frenos y la
+        carrocería —lo que da carácter al auto— permanecen. Abajo, el
+        intercambio como diagrama de bloques.
+      </p>
+
+      <div class="pt-board reveal">
+
+        <!-- columna: lo que se retira -->
+        <div class="pt-col gone">
+          <h3><b>Se retira</b> — sistema de combustión interna</h3>
+          <ul class="pt-list">
+            <li><span class="pt-node" aria-hidden="true">01</span>
+                <span>Motor de combustión interna</span>
+                <span class="pt-mass">~150&nbsp;kg</span></li>
+            <li><span class="pt-node" aria-hidden="true">02</span>
+                <span>Transmisión y embrague</span>
+                <span class="pt-mass">~70&nbsp;kg</span></li>
+            <li><span class="pt-node" aria-hidden="true">03</span>
+                <span>Tanque, líneas y bomba de combustible</span>
+                <span class="pt-mass">~25&nbsp;kg</span></li>
+            <li><span class="pt-node" aria-hidden="true">04</span>
+                <span>Escape, catalizador y silenciador</span>
+                <span class="pt-mass">~30&nbsp;kg</span></li>
+            <li><span class="pt-node" aria-hidden="true">05</span>
+                <span>Radiador, alternador y arranque</span>
+                <span class="pt-mass">~20&nbsp;kg</span></li>
+          </ul>
+          <div class="pt-flow" aria-hidden="true">
+            <span>FLUJO&nbsp;DE&nbsp;ENERGÍA</span>
+            <span class="seg"></span>
+            <span>QUÍMICA → CALOR → MOVIMIENTO</span>
+          </div>
+        </div>
+
+        <!-- columna: lo que se instala -->
+        <div class="pt-col new">
+          <h3><b>Se instala</b> — cadena de tracción eléctrica</h3>
+          <ul class="pt-list">
+            <li><span class="pt-node" aria-hidden="true">01</span>
+                <span>Motor eléctrico + acople al diferencial</span>
+                <span class="pt-mass">~75&nbsp;kg</span></li>
+            <li><span class="pt-node" aria-hidden="true">02</span>
+                <span>Paquete de baterías (módulos + BMS)</span>
+                <span class="pt-mass">var. por kWh</span></li>
+            <li><span class="pt-node" aria-hidden="true">03</span>
+                <span>Inversor y controlador de potencia</span>
+                <span class="pt-mass">~15&nbsp;kg</span></li>
+            <li><span class="pt-node" aria-hidden="true">04</span>
+                <span>Cargador a bordo + puerto de carga</span>
+                <span class="pt-mass">~10&nbsp;kg</span></li>
+            <li><span class="pt-node" aria-hidden="true">05</span>
+                <span>DC-DC, gestión térmica y cableado HV</span>
+                <span class="pt-mass">~20&nbsp;kg</span></li>
+          </ul>
+          <div class="pt-flow" aria-hidden="true">
+            <span>FLUJO&nbsp;DE&nbsp;ENERGÍA</span>
+            <span class="seg"></span>
+            <span>ELÉCTRICA → MOVIMIENTO</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══════════════ PROCESO — 5 pasos ══════════════════════════════╗ -->
+  <section id="proceso" class="rule-top">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="reveal">El proceso de conversión, en cinco etapas verificables.</h2>
+        <p class="lede reveal">
+          Cada etapa cierra con un entregable concreto antes de pasar a la
+          siguiente. La conversión no avanza por entusiasmo: avanza por
+          mediciones que se firman.
+        </p>
+      </div>
+
+      <div class="steps reveal">
+        <article class="step" style="--fill:20%">
+          <span class="num">ETAPA 01</span>
+          <div class="bar" aria-hidden="true"></div>
+          <h3>Diagnóstico</h3>
+          <p>Inspección del chasis, pesaje por eje y evaluación de frenos y
+             suspensión. Define si el vehículo es buen candidato.</p>
+          <span class="tag">Entregable · informe de viabilidad</span>
+        </article>
+        <article class="step" style="--fill:40%">
+          <span class="num">ETAPA 02</span>
+          <div class="bar" aria-hidden="true"></div>
+          <h3>Diseño del kit</h3>
+          <p>Selección de motor, capacidad de batería y ubicación de módulos.
+             Cálculo de distribución de peso y autonomía objetivo.</p>
+          <span class="tag">Entregable · ficha técnica del kit</span>
+        </article>
+        <article class="step" style="--fill:60%">
+          <span class="num">ETAPA 03</span>
+          <div class="bar" aria-hidden="true"></div>
+          <h3>Desmontaje</h3>
+          <p>Retiro completo del tren motriz de combustión: motor, transmisión,
+             tanque, escape y sistemas auxiliares.</p>
+          <span class="tag">Entregable · chasis listo</span>
+        </article>
+        <article class="step" style="--fill:80%">
+          <span class="num">ETAPA 04</span>
+          <div class="bar" aria-hidden="true"></div>
+          <h3>Instalación eléctrica</h3>
+          <p>Montaje de motor, paquete de baterías, inversor y cableado de alta
+             tensión. Integración con frenos y dirección.</p>
+          <span class="tag">Entregable · sistema energizado</span>
+        </article>
+        <article class="step" style="--fill:100%">
+          <span class="num">ETAPA 05</span>
+          <div class="bar" aria-hidden="true"></div>
+          <h3>Pruebas y entrega</h3>
+          <p>Calibración del controlador, pruebas de ruta, verificación de
+             seguridad y trámites de homologación.</p>
+          <span class="tag">Entregable · vehículo homologado</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══════════════ PROPUESTA DE VALOR ═════════════════════════════╗ -->
+  <section id="valor" class="rule-top">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="reveal">Por qué convertir, en vez de comprar otro auto.</h2>
+        <p class="lede reveal">
+          Una conversión no compite con un EV de fábrica en precio de lista.
+          Compite en algo distinto: conservar un vehículo que ya conoces,
+          confías y —a veces— amas, y volverlo limpio.
+        </p>
+      </div>
+
+      <div class="value-grid reveal">
+        <article class="value">
+          <span class="idx">V·01</span>
+          <h3>Conservas tu auto</h3>
+          <p>El chasis, el carácter y la historia del vehículo permanecen.
+             Especialmente valioso en autos clásicos o de edición limitada.</p>
+        </article>
+        <article class="value">
+          <span class="idx">V·02</span>
+          <h3>Cero emisiones de escape</h3>
+          <p>Sin combustión no hay tubo de escape. La huella local de
+             contaminación del vehículo pasa a cero.</p>
+        </article>
+        <article class="value">
+          <span class="idx">V·03</span>
+          <h3>Menos costo de operación</h3>
+          <p>Electricidad más barata que gasolina por kilómetro, y un tren
+             motriz con muchas menos piezas que mantener.<span class="spec-mark">§1</span></p>
+        </article>
+        <article class="value">
+          <span class="idx">V·04</span>
+          <h3>Autonomía dimensionada</h3>
+          <p>El paquete de batería se elige según tu uso real: ciudad,
+             carretera o desempeño. No pagas kWh que no necesitas.<span class="spec-mark">§2</span></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══════════════ ANTES / DESPUÉS ════════════════════════════════╗ -->
+  <section id="galeria" class="rule-top">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="reveal">Antes y después: el mismo auto, otro tren motriz.</h2>
+        <p class="lede reveal">
+          Lo que cambia no es la silueta — es lo que vive bajo el cofre y el
+          piso. Aquí irían fotografías reales de casos de conversión; por
+          ahora se muestran como marcadores honestos, acompañados de las
+          métricas que sí cambian.
+        </p>
+      </div>
+
+      <div class="ba-grid reveal">
+
+        <figure class="ba-card">
+          <div class="ba-figure before">
+            <span class="ba-stamp">Antes · ICE</span>
+            <div class="ba-ph">
+              <b>Fotografía del vehículo de combustión</b>
+              vano motor original · 1600×1000
+            </div>
+          </div>
+          <figcaption class="ba-body">
+            <h3>Configuración de combustión interna</h3>
+            <div class="ba-metric">
+              <span>Emisiones de escape</span>
+              <span class="num">alto</span>
+              <span class="track"><i style="width:88%;background:var(--warn)"></i></span>
+            </div>
+            <div class="ba-metric">
+              <span>Piezas móviles del tren motriz</span>
+              <span class="num">~2&nbsp;000</span>
+              <span class="track"><i style="width:95%;background:var(--warn)"></i></span>
+            </div>
+            <div class="ba-metric">
+              <span>Ruido y vibración en marcha</span>
+              <span class="num">alto</span>
+              <span class="track"><i style="width:78%;background:var(--warn)"></i></span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="ba-card">
+          <div class="ba-figure after">
+            <span class="ba-stamp">Después · EV</span>
+            <div class="ba-ph">
+              <b>Fotografía del vehículo convertido</b>
+              motor eléctrico + paquete · 1600×1000
+            </div>
+          </div>
+          <figcaption class="ba-body">
+            <h3>Configuración 100&nbsp;% eléctrica</h3>
+            <div class="ba-metric">
+              <span>Emisiones de escape</span>
+              <span class="num">cero</span>
+              <span class="track"><i style="width:4%;background:var(--volt-deep)"></i></span>
+            </div>
+            <div class="ba-metric">
+              <span>Piezas móviles del tren motriz</span>
+              <span class="num">~20</span>
+              <span class="track"><i style="width:8%;background:var(--volt-deep)"></i></span>
+            </div>
+            <div class="ba-metric">
+              <span>Ruido y vibración en marcha</span>
+              <span class="num">bajo</span>
+              <span class="track"><i style="width:16%;background:var(--volt-deep)"></i></span>
+            </div>
+          </figcaption>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══════════════ COSTOS Y TIEMPOS ═══════════════════════════════╗ -->
+  <section id="costos" class="rule-top">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="reveal">Costos y tiempos por nivel de conversión.</h2>
+        <p class="lede reveal">
+          Tres configuraciones según capacidad de batería y autonomía. Los
+          rangos son estimaciones de orden de magnitud para una conversión
+          típica de auto de pasajeros — el número final depende del vehículo,
+          el motor elegido y la disponibilidad de repuestos.<span class="spec-mark">§3</span>
+        </p>
+      </div>
+
+      <div class="table-shell reveal">
+        <table class="spec">
+          <thead>
+            <tr>
+              <th scope="col">Nivel de conversión</th>
+              <th scope="col">Batería</th>
+              <th scope="col">Autonomía estimada<span class="spec-mark">§2</span></th>
+              <th scope="col">Tiempo en taller</th>
+              <th scope="col">Rango de costo<span class="spec-mark">§3</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tier">Ciudad <small>uso urbano diario</small></td>
+              <td class="figure">20&ndash;30&nbsp;<span>kWh</span></td>
+              <td class="figure">120&ndash;180&nbsp;<span>km</span></td>
+              <td class="figure">6&ndash;9&nbsp;<span>sem</span></td>
+              <td class="figure">$$ <span>· entrada</span></td>
+            </tr>
+            <tr>
+              <td class="tier">Rango <small>ciudad + carretera</small></td>
+              <td class="figure">40&ndash;55&nbsp;<span>kWh</span></td>
+              <td class="figure">220&ndash;300&nbsp;<span>km</span></td>
+              <td class="figure">9&ndash;13&nbsp;<span>sem</span></td>
+              <td class="figure">$$$ <span>· medio</span></td>
+            </tr>
+            <tr>
+              <td class="tier">Desempeño <small>autonomía y potencia</small></td>
+              <td class="figure">60&ndash;85&nbsp;<span>kWh</span></td>
+              <td class="figure">320&ndash;420&nbsp;<span>km</span></td>
+              <td class="figure">12&ndash;18&nbsp;<span>sem</span></td>
+              <td class="figure">$$$$ <span>· alto</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top:1rem;font-size:0.82rem;color:var(--steel);max-width:var(--measure);">
+        El costo se expresa como escala relativa, no como precio cerrado: una
+        cotización seria solo es posible tras la etapa de diagnóstico.
+      </p>
+    </div>
+  </section>
+
+  <!-- ╔═══════════════ FAQ ════════════════════════════════════════════╗ -->
+  <section id="faq" class="rule-top">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="reveal">Preguntas frecuentes.</h2>
+        <p class="lede reveal">
+          Las dudas que aparecen siempre antes de decidir una conversión:
+          legalidad, garantía, mantenimiento y repuestos.
+        </p>
+      </div>
+
+      <div class="faq reveal">
+        <details>
+          <summary>
+            <span class="q-idx">Q1</span>
+            <span>¿Es legal circular con un auto convertido a eléctrico?</span>
+            <span class="sign" aria-hidden="true">+</span>
+          </summary>
+          <p class="answer">
+            La conversión requiere homologación: una verificación oficial de
+            que el vehículo modificado cumple las normas de seguridad y de
+            registro vehicular de tu jurisdicción. El proceso, los requisitos
+            y los plazos varían por país y estado, y deben confirmarse con la
+            autoridad de tránsito local antes de iniciar el proyecto.
+          </p>
+        </details>
+        <details>
+          <summary>
+            <span class="q-idx">Q2</span>
+            <span>¿Qué cubre la garantía de una conversión?</span>
+            <span class="sign" aria-hidden="true">+</span>
+          </summary>
+          <p class="answer">
+            Una conversión bien hecha distingue dos garantías: la de los
+            componentes (motor, baterías, inversor — según el fabricante de
+            cada pieza) y la de la instalación e integración (mano de obra y
+            ensamble — según el taller). Conviene exigir ambas por escrito y
+            entender qué excluye cada una.
+          </p>
+        </details>
+        <details>
+          <summary>
+            <span class="q-idx">Q3</span>
+            <span>¿Cómo cambia el mantenimiento después de convertir?</span>
+            <span class="sign" aria-hidden="true">+</span>
+          </summary>
+          <p class="answer">
+            Desaparecen cambios de aceite, bujías, filtros, banda de
+            distribución y servicios de escape. Aparecen revisiones nuevas:
+            estado del paquete de baterías, refrigeración del motor y la
+            electrónica, y actualizaciones del controlador. En conjunto, el
+            tren motriz eléctrico tiene muchas menos piezas de desgaste.
+          </p>
+        </details>
+        <details>
+          <summary>
+            <span class="q-idx">Q4</span>
+            <span>¿Y los repuestos? ¿Quedo atado a un solo proveedor?</span>
+            <span class="sign" aria-hidden="true">+</span>
+          </summary>
+          <p class="answer">
+            Depende del kit. Los componentes de tracción eléctrica
+            estandarizados (motores, inversores, módulos de batería de
+            formatos comunes) son sustituibles entre proveedores; los
+            adaptadores y soportes diseñados a medida para tu modelo son
+            específicos. Pregunta desde el diseño del kit qué piezas son
+            estándar y cuáles propietarias.
+          </p>
+        </details>
+        <details>
+          <summary>
+            <span class="q-idx">Q5</span>
+            <span>¿Cualquier auto puede convertirse?</span>
+            <span class="sign" aria-hidden="true">+</span>
+          </summary>
+          <p class="answer">
+            Técnicamente casi cualquiera, pero no todos son buenos
+            candidatos. Pesan a favor: chasis sano sin corrosión estructural,
+            espacio suficiente para los módulos de batería y frenos en buen
+            estado. La etapa de diagnóstico existe precisamente para responder
+            esto antes de comprometer presupuesto.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══════════════ CIERRE ═════════════════════════════════════════╗ -->
+  <section class="closing">
+    <div class="wrap">
+      <span class="kicker">Siguiente paso</span>
+      <h2>El primer paso no es comprar baterías. Es <em>medir tu auto</em>.</h2>
+      <p class="lede">
+        Una conversión responsable empieza por un diagnóstico: saber si tu
+        vehículo es buen candidato, qué autonomía es realista y qué rango de
+        inversión implica. Todo lo demás se diseña a partir de ahí.
+      </p>
+      <div class="hero-cta">
+        <a class="btn" href="#proceso">Revisar el proceso completo</a>
+        <a class="btn ghost" href="#faq">Leer preguntas frecuentes</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ╔═══════════════════════════ FOOTER ════════════════════════════════╗ -->
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brandmark" href="#top" style="margin-bottom:0.9rem">
+        <span class="tick" aria-hidden="true"></span>
+        <b style="color:var(--paper)">CONVERSIÓN&nbsp;EV</b>
+      </a>
+      <p style="max-width:38ch">
+        Documento de referencia sobre la electrificación de autos de
+        combustión interna. Material informativo y educativo — no sustituye
+        la asesoría de un taller certificado ni de la autoridad de tránsito.
+      </p>
+    </div>
+    <div>
+      <h4>Secciones</h4>
+      <ul>
+        <li><a href="#tren-motriz">Tren motriz</a></li>
+        <li><a href="#proceso">Proceso de conversión</a></li>
+        <li><a href="#valor">Propuesta de valor</a></li>
+        <li><a href="#galeria">Antes / Después</a></li>
+        <li><a href="#costos">Costos y tiempos</a></li>
+        <li><a href="#faq">Preguntas frecuentes</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Antes de empezar</h4>
+      <ul>
+        <li>Verifica la homologación en tu jurisdicción</li>
+        <li>Solicita un diagnóstico de viabilidad</li>
+        <li>Pide garantías por escrito (componentes + instalación)</li>
+        <li>Confirma qué repuestos son estándar</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- notas al pie — sistema de citación integrado, estilo Fathom -->
+  <div class="footnotes">
+    <div class="wrap">
+      <ol>
+        <li id="fn1">§1 — Comparación de costo energético por kilómetro: depende
+          del precio local de la electricidad y la gasolina, del consumo del
+          vehículo y del estilo de manejo. El valor «≈ ⅓» es un orden de
+          magnitud frecuente, no una garantía.</li>
+        <li id="fn2">§2 — Autonomía estimada: calculada para conducción mixta
+          con el paquete de batería indicado. Disminuye con peso adicional,
+          clima frío, velocidad sostenida en carretera y envejecimiento de la
+          batería.</li>
+        <li id="fn3">§3 — Rango de costo: expresado como escala relativa
+          ($–$$$$). Una cotización cerrada solo es posible tras el diagnóstico,
+          ya que depende del modelo, el motor y los repuestos disponibles.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <div class="wrap">
+      <span>Conversión EV · documento técnico informativo</span>
+      <span>Hecho con huashu-design — estilo Fathom Information Design · es-MX</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll — microinteracción discreta, respeta prefers-reduced-motion.
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach(function (e) { e.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+
+  // FAQ — acordeón exclusivo (abrir uno cierra el resto).
+  (function () {
+    var all = document.querySelectorAll('.faq details');
+    all.forEach(function (d) {
+      d.addEventListener('toggle', function () {
+        if (d.open) {
+          all.forEach(function (o) { if (o !== d) o.open = false; });
+        }
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

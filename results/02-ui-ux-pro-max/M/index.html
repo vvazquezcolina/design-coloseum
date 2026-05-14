@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VoltSwap — Convierte tu auto de combustión a 100% eléctrico</title>
+<meta name="description" content="VoltSwap es el taller especializado que convierte autos de combustión interna a 100% eléctricos. Proceso certificado, garantía y financiamiento." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     VoltSwap — UI/UX Pro Max
+     Style: Soft UI Evolution + Swiss Modernism 2.0 (hybrid)
+     Palette: EV/Charging Ecosystem (electric cyan + eco green)
+     Type: Modern Professional (Poppins + Open Sans)
+     ============================================================ */
+
+  :root {
+    /* --- Semantic color tokens (EV/Charging Ecosystem) --- */
+    --color-primary: #0891B2;
+    --color-primary-dark: #0E7490;
+    --color-on-primary: #FFFFFF;
+    --color-secondary: #22D3EE;
+    --color-accent: #16A34A;       /* WCAG-adjusted eco green */
+    --color-accent-dark: #15803D;
+    --color-on-accent: #FFFFFF;
+    --color-background: #ECFEFF;
+    --color-surface: #FFFFFF;
+    --color-foreground: #164E63;
+    --color-on-surface: #164E63;
+    --color-muted: #E8F1F6;
+    --color-muted-foreground: #5A7484;
+    --color-border: #A5F3FC;
+    --color-border-soft: #D5EEF4;
+    --color-destructive: #DC2626;
+    --color-ink: #0B2530;
+
+    /* --- Spacing scale (8px rhythm) --- */
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2rem;
+    --space-5: 3rem;
+    --space-6: 4rem;
+    --space-7: 6rem;
+
+    /* --- Radius / shadow (Soft UI Evolution) --- */
+    --radius-sm: 8px;
+    --radius: 14px;
+    --radius-lg: 22px;
+    --shadow-soft: 0 2px 4px rgba(13, 71, 90, 0.06), 0 8px 24px rgba(13, 71, 90, 0.08);
+    --shadow-soft-lg: 0 4px 8px rgba(13, 71, 90, 0.08), 0 18px 48px rgba(13, 71, 90, 0.14);
+    --shadow-ring: 0 0 0 4px rgba(8, 145, 178, 0.18);
+
+    /* --- Type scale --- */
+    --fs-xs: 0.8125rem;
+    --fs-sm: 0.9375rem;
+    --fs-base: 1.0625rem;
+    --fs-lg: 1.25rem;
+    --fs-xl: 1.6rem;
+    --fs-2xl: 2.2rem;
+    --fs-3xl: 3rem;
+    --fs-4xl: 3.75rem;
+
+    --container: 1180px;
+    --duration: 240ms;
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    font-family: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--fs-base);
+    line-height: 1.65;
+    color: var(--color-foreground);
+    background: var(--color-background);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Poppins", system-ui, sans-serif;
+    color: var(--color-ink);
+    line-height: 1.18;
+    margin: 0 0 var(--space-2);
+    letter-spacing: -0.015em;
+  }
+
+  h2 { font-size: var(--fs-2xl); font-weight: 700; }
+  h3 { font-size: var(--fs-xl); font-weight: 600; }
+  h4 { font-size: var(--fs-lg); font-weight: 600; }
+
+  p { margin: 0 0 var(--space-2); }
+
+  a { color: var(--color-primary-dark); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  img { max-width: 100%; display: block; }
+
+  ::selection { background: var(--color-secondary); color: var(--color-ink); }
+
+  /* --- Focus visibility (Accessibility — Priority 1) --- */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* --- Layout helpers --- */
+  .container {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--space-3);
+  }
+
+  .section { padding-block: var(--space-7); }
+  .section--muted { background: var(--color-muted); }
+  .section--ink {
+    background: linear-gradient(160deg, #0B2530 0%, #103A4A 60%, #0E7490 130%);
+    color: #DBF4FA;
+  }
+  .section--ink h2 { color: #FFFFFF; }
+
+  .section-head {
+    max-width: 640px;
+    margin: 0 auto var(--space-5);
+    text-align: center;
+  }
+  .section-head p { color: var(--color-muted-foreground); font-size: var(--fs-lg); margin: 0; }
+  .section--ink .section-head p { color: #9FD3DE; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-primary-dark);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    margin-bottom: var(--space-2);
+  }
+  .section--ink .eyebrow { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); color: #7FE9F5; }
+
+  /* --- Buttons --- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    line-height: 1;
+    min-height: 48px;
+    padding: 0 1.6rem;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform var(--duration) var(--ease),
+                box-shadow var(--duration) var(--ease),
+                background-color var(--duration) var(--ease);
+    text-decoration: none;
+  }
+  .btn:hover { text-decoration: none; }
+  .btn:active { transform: translateY(1px); }
+
+  .btn--primary {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    box-shadow: var(--shadow-soft);
+  }
+  .btn--primary:hover { background: var(--color-accent-dark); box-shadow: var(--shadow-soft-lg); }
+
+  .btn--secondary {
+    background: var(--color-surface);
+    color: var(--color-primary-dark);
+    border-color: var(--color-border);
+  }
+  .btn--secondary:hover { background: var(--color-muted); box-shadow: var(--shadow-soft); }
+
+  .btn--ghost-light {
+    background: rgba(255,255,255,0.08);
+    color: #FFFFFF;
+    border-color: rgba(255,255,255,0.28);
+  }
+  .btn--ghost-light:hover { background: rgba(255,255,255,0.16); }
+
+  .btn--lg { min-height: 54px; padding: 0 2rem; font-size: var(--fs-base); }
+  .btn--block { width: 100%; }
+
+  /* --- Header / Nav --- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(236, 254, 255, 0.85);
+    backdrop-filter: saturate(160%) blur(12px);
+    -webkit-backdrop-filter: saturate(160%) blur(12px);
+    border-bottom: 1px solid var(--color-border-soft);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: 72px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--color-ink);
+  }
+  .brand:hover { text-decoration: none; }
+  .brand-mark {
+    width: 38px; height: 38px;
+    display: grid; place-items: center;
+    border-radius: 11px;
+    background: linear-gradient(145deg, var(--color-primary), var(--color-accent));
+    box-shadow: var(--shadow-soft);
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    list-style: none;
+    margin: 0; padding: 0;
+  }
+  .nav-links a {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: var(--fs-sm);
+    color: var(--color-foreground);
+    padding: 0.5rem 0.25rem;
+  }
+  .nav-links a:hover { color: var(--color-primary-dark); text-decoration: none; }
+  .nav-actions { display: flex; align-items: center; gap: var(--space-2); }
+
+  .nav-toggle {
+    display: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    width: 48px; height: 48px;
+    cursor: pointer;
+    color: var(--color-ink);
+  }
+
+  /* --- Hero --- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--space-7) var(--space-6);
+    background:
+      radial-gradient(900px 480px at 88% -8%, rgba(34, 211, 238, 0.30), transparent 60%),
+      radial-gradient(700px 460px at -5% 110%, rgba(22, 163, 74, 0.22), transparent 60%),
+      var(--color-background);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: var(--fs-4xl);
+    font-weight: 700;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(120deg, var(--color-primary-dark), var(--color-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-lead {
+    font-size: var(--fs-lg);
+    color: var(--color-muted-foreground);
+    max-width: 38ch;
+    margin-bottom: var(--space-4);
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .hero-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border-soft);
+  }
+  .trust-item { display: flex; align-items: center; gap: 0.55rem; font-size: var(--fs-sm); color: var(--color-foreground); }
+  .trust-item svg { color: var(--color-accent); flex-shrink: 0; }
+
+  /* Hero visual — pure CSS/SVG, no external asset */
+  .hero-visual {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft-lg);
+    padding: var(--space-4);
+  }
+  .hero-car {
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: linear-gradient(160deg, #0B2530, #0E7490);
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+  .stat {
+    text-align: center;
+    background: var(--color-muted);
+    border-radius: var(--radius);
+    padding: var(--space-2) 0.5rem;
+  }
+  .stat-num {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--color-primary-dark);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label { font-size: var(--fs-xs); color: var(--color-muted-foreground); }
+  .hero-badge {
+    position: absolute;
+    top: -16px; left: -16px;
+    background: var(--color-accent);
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: var(--fs-xs);
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* --- Logos / proof strip --- */
+  .proof-strip {
+    border-block: 1px solid var(--color-border-soft);
+    background: var(--color-surface);
+    padding-block: var(--space-3);
+  }
+  .proof-strip .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3) var(--space-5);
+  }
+  .proof-label { font-size: var(--fs-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-muted-foreground); font-family: "Poppins", sans-serif; font-weight: 600; }
+  .proof-item { display: flex; align-items: center; gap: 0.5rem; font-family: "Poppins", sans-serif; font-weight: 600; color: var(--color-foreground); opacity: 0.78; }
+
+  /* --- Process steps --- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    counter-reset: step;
+  }
+  .step {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-3) var(--space-3);
+    box-shadow: var(--shadow-soft);
+    transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+  }
+  .step:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft-lg); }
+  .step-num {
+    counter-increment: step;
+    width: 46px; height: 46px;
+    display: grid; place-items: center;
+    border-radius: 13px;
+    background: linear-gradient(145deg, var(--color-primary), var(--color-accent));
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: var(--space-2);
+  }
+  .step-num::before { content: counter(step, decimal-leading-zero); }
+  .step h4 { margin-bottom: 0.4rem; }
+  .step p { font-size: var(--fs-sm); color: var(--color-muted-foreground); margin: 0; }
+  .step-connector {
+    position: absolute;
+    top: calc(var(--space-4) + 23px);
+    right: calc(-1 * var(--space-3) / 2 - 6px);
+    color: var(--color-border);
+  }
+
+  /* --- Packages / pricing --- */
+  .packages {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    align-items: stretch;
+  }
+  .package {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-soft);
+    transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+  }
+  .package:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft-lg); }
+  .package--featured {
+    border: 2px solid var(--color-primary);
+    box-shadow: var(--shadow-soft-lg);
+  }
+  .package-tag {
+    align-self: flex-start;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-on-primary);
+    background: var(--color-primary);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    margin-bottom: var(--space-2);
+  }
+  .package h3 { margin-bottom: 0.25rem; }
+  .package-desc { font-size: var(--fs-sm); color: var(--color-muted-foreground); min-height: 3.2em; }
+  .package-price {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: var(--fs-2xl);
+    color: var(--color-ink);
+    margin: var(--space-2) 0 0.15rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .package-price small { font-size: var(--fs-sm); font-weight: 500; color: var(--color-muted-foreground); }
+  .package-range { font-size: var(--fs-xs); color: var(--color-muted-foreground); margin-bottom: var(--space-3); }
+  .feature-list { list-style: none; margin: 0 0 var(--space-3); padding: 0; display: grid; gap: 0.6rem; }
+  .feature-list li { display: flex; gap: 0.6rem; font-size: var(--fs-sm); }
+  .feature-list svg { color: var(--color-accent); flex-shrink: 0; margin-top: 2px; }
+  .package .btn { margin-top: auto; }
+
+  /* --- Gallery before/after --- */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .ba-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+  }
+  .ba-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft-lg); }
+  .ba-images { display: grid; grid-template-columns: 1fr 1fr; }
+  .ba-images figure { margin: 0; position: relative; }
+  .ba-images img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+  .ba-images figcaption {
+    position: absolute;
+    top: 0.6rem; left: 0.6rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: var(--fs-xs);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    color: #fff;
+  }
+  .ba-images figure:first-child figcaption { background: rgba(11, 37, 48, 0.85); }
+  .ba-images figure:last-child figcaption { background: var(--color-accent); }
+  .ba-images figure:last-child::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 -1px;
+    width: 2px;
+    background: var(--color-border);
+  }
+  .ba-body { padding: var(--space-3); }
+  .ba-body h4 { margin-bottom: 0.3rem; }
+  .ba-body p { font-size: var(--fs-sm); color: var(--color-muted-foreground); margin: 0; }
+  .ba-meta { display: flex; gap: var(--space-2); margin-top: var(--space-2); flex-wrap: wrap; }
+  .ba-chip {
+    font-size: var(--fs-xs);
+    background: var(--color-muted);
+    color: var(--color-foreground);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  /* --- Testimonials --- */
+  .testimonials {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .quote {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+  .quote-stars { display: flex; gap: 2px; color: #FBBF24; margin-bottom: var(--space-2); }
+  .quote p { font-style: italic; color: #E4F6FA; }
+  .quote-author { display: flex; align-items: center; gap: 0.75rem; margin-top: var(--space-3); }
+  .quote-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.25);
+  }
+  .quote-name { font-family: "Poppins", sans-serif; font-weight: 600; color: #fff; font-size: var(--fs-sm); }
+  .quote-role { font-size: var(--fs-xs); color: #9FD3DE; }
+
+  /* --- Contact --- */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+  .contact-info { display: grid; gap: var(--space-3); }
+  .info-card {
+    display: flex;
+    gap: var(--space-2);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    box-shadow: var(--shadow-soft);
+  }
+  .info-icon {
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    display: grid; place-items: center;
+    border-radius: 12px;
+    background: var(--color-muted);
+    color: var(--color-primary-dark);
+  }
+  .info-card h4 { margin: 0 0 0.15rem; font-size: var(--fs-base); }
+  .info-card p { margin: 0; font-size: var(--fs-sm); color: var(--color-muted-foreground); }
+
+  .form-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-soft-lg);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+  .field { margin-bottom: var(--space-3); }
+  .field label {
+    display: block;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    margin-bottom: 0.4rem;
+    color: var(--color-ink);
+  }
+  .field .req { color: var(--color-destructive); }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    font-family: "Open Sans", sans-serif;
+    font-size: var(--fs-base);
+    color: var(--color-foreground);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 0.85rem;
+    min-height: 48px;
+    transition: border-color var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+  }
+  .field textarea { min-height: 110px; resize: vertical; }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-ring);
+  }
+  .field-hint { font-size: var(--fs-xs); color: var(--color-muted-foreground); margin-top: 0.35rem; }
+  .field-error {
+    font-size: var(--fs-xs);
+    color: var(--color-destructive);
+    margin-top: 0.35rem;
+    display: none;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+  }
+  .field.has-error input,
+  .field.has-error select,
+  .field.has-error textarea { border-color: var(--color-destructive); }
+  .field.has-error .field-error { display: flex; }
+
+  .form-status {
+    margin-top: var(--space-2);
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .form-status.is-success { display: flex; background: #DCFCE7; color: #15803D; border: 1px solid #86EFAC; }
+  .form-status.is-error { display: flex; background: #FEE2E2; color: #B91C1C; border: 1px solid #FCA5A5; }
+
+  .btn[data-loading="true"] { opacity: 0.75; pointer-events: none; }
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2.5px solid rgba(255,255,255,0.45);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  .btn[data-loading="true"] .spinner { display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* --- Final CTA --- */
+  .cta-band {
+    background: linear-gradient(135deg, var(--color-primary-dark), var(--color-accent));
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-5);
+    text-align: center;
+    box-shadow: var(--shadow-soft-lg);
+  }
+  .cta-band h2 { color: #fff; }
+  .cta-band p { color: rgba(255,255,255,0.92); max-width: 52ch; margin: 0 auto var(--space-4); font-size: var(--fs-lg); }
+
+  /* --- Footer --- */
+  .site-footer {
+    background: #0B2530;
+    color: #9FD3DE;
+    padding-block: var(--space-6) var(--space-4);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+  .site-footer .brand { color: #fff; margin-bottom: var(--space-2); }
+  .site-footer h4 { color: #fff; font-size: var(--fs-base); margin-bottom: var(--space-2); }
+  .footer-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+  .footer-links a { color: #9FD3DE; font-size: var(--fs-sm); }
+  .footer-links a:hover { color: #fff; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+    font-size: var(--fs-xs);
+    color: #6E97A3;
+  }
+
+  /* --- Reveal-on-scroll animation --- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 460ms var(--ease), transform 460ms var(--ease);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  /* --- Responsive --- */
+  @media (max-width: 1024px) {
+    :root { --fs-4xl: 3rem; --fs-3xl: 2.5rem; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .step-connector { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 860px) {
+    .nav-links, .nav-actions .btn--secondary { display: none; }
+    .nav-toggle { display: grid; place-items: center; }
+    .nav[data-open="true"] + .mobile-menu { display: block; }
+    .hero-grid { grid-template-columns: 1fr; gap: var(--space-4); }
+    .hero-lead { max-width: none; }
+    .packages,
+    .gallery,
+    .testimonials { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: var(--space-4); }
+  }
+
+  @media (max-width: 540px) {
+    :root { --fs-4xl: 2.4rem; --fs-2xl: 1.8rem; --space-7: 4rem; --space-6: 3rem; }
+    .steps { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-actions .btn { width: 100%; }
+    .cta-band { padding: var(--space-5) var(--space-3); }
+  }
+
+  .mobile-menu {
+    display: none;
+    border-top: 1px solid var(--color-border-soft);
+    padding: var(--space-2) 0 var(--space-3);
+  }
+  .mobile-menu ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
+  .mobile-menu a {
+    display: block;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    padding: 0.75rem var(--space-3);
+    color: var(--color-foreground);
+    border-radius: var(--radius-sm);
+  }
+  .mobile-menu a:hover { background: var(--color-muted); text-decoration: none; }
+  .mobile-menu .btn { margin: var(--space-2) var(--space-3) 0; width: calc(100% - var(--space-3) * 2); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--color-ink);
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0 0 var(--radius-sm) 0;
+    z-index: 200;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+  }
+  .skip-link:focus { left: 0; text-decoration: none; }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container">
+    <nav class="nav" id="nav" aria-label="Navegación principal">
+      <a href="#inicio" class="brand" aria-label="VoltSwap, inicio">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2 3 14h7l-1 8 10-12h-7z" />
+          </svg>
+        </span>
+        VoltSwap
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#proceso">Cómo funciona</a></li>
+        <li><a href="#paquetes">Servicios</a></li>
+        <li><a href="#galeria">Antes / Después</a></li>
+        <li><a href="#precios">Precios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="tel:+528112345678" class="btn btn--secondary">Llámanos</a>
+        <a href="#contacto" class="btn btn--primary">Cotiza tu conversión</a>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Abrir menú de navegación">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="#proceso">Cómo funciona</a></li>
+        <li><a href="#paquetes">Servicios</a></li>
+        <li><a href="#galeria">Antes / Después</a></li>
+        <li><a href="#precios">Precios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#contacto" class="btn btn--primary">Cotiza tu conversión</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="inicio">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="reveal">
+          <span class="eyebrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7z" /></svg>
+            Taller de conversión eléctrica certificado
+          </span>
+          <h1>Tu auto de siempre, ahora <span class="accent">100% eléctrico</span></h1>
+          <p class="hero-lead">
+            En VoltSwap convertimos vehículos de combustión interna a propulsión
+            eléctrica con componentes de grado automotriz, garantía real y un
+            proceso de ingeniería transparente de principio a fin.
+          </p>
+          <div class="hero-actions">
+            <a href="#contacto" class="btn btn--primary btn--lg">Cotiza tu conversión</a>
+            <a href="#proceso" class="btn btn--secondary btn--lg">
+              Ver el proceso
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
+            </a>
+          </div>
+          <div class="hero-trust">
+            <span class="trust-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4" /><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.66 0 3.22.45 4.56 1.24" /></svg>
+              Garantía de 3 años
+            </span>
+            <span class="trust-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+              Componentes certificados
+            </span>
+            <span class="trust-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+              Entrega en 4–8 semanas
+            </span>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" aria-hidden="true">
+          <span class="hero-badge">+340 autos convertidos</span>
+          <div class="hero-car">
+            <svg viewBox="0 0 480 280" width="100%" role="img" aria-label="Ilustración de un auto convertido a eléctrico">
+              <defs>
+                <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#22D3EE" /><stop offset="1" stop-color="#0891B2" />
+                </linearGradient>
+                <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#16A34A" /><stop offset="1" stop-color="#22D3EE" />
+                </linearGradient>
+              </defs>
+              <ellipse cx="240" cy="232" rx="180" ry="20" fill="#06212B" />
+              <path d="M70 190 Q80 130 150 120 L210 116 Q250 80 320 92 L370 120 Q420 128 430 175 L432 196 Q432 206 422 206 L78 206 Q68 206 70 190Z" fill="url(#body)" />
+              <path d="M168 120 L208 118 Q244 92 296 100 L320 118 Z" fill="#CFFAFE" opacity="0.85" />
+              <path d="M210 116 L296 100 L320 118 L210 118 Z" fill="#A5F3FC" opacity="0.6" />
+              <circle cx="158" cy="206" r="34" fill="#0B2530" /><circle cx="158" cy="206" r="16" fill="#67E8F9" />
+              <circle cx="350" cy="206" r="34" fill="#0B2530" /><circle cx="350" cy="206" r="16" fill="#67E8F9" />
+              <g stroke="url(#glow)" stroke-width="6" stroke-linecap="round" fill="none">
+                <path d="M252 150 l-16 22 h14 l-12 20" />
+              </g>
+              <rect x="86" y="168" width="40" height="10" rx="5" fill="#06212B" opacity="0.4" />
+            </svg>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><div class="stat-num">0</div><div class="stat-label">Emisiones</div></div>
+            <div class="stat"><div class="stat-num">~280<span style="font-size:.85rem">km</span></div><div class="stat-label">Autonomía</div></div>
+            <div class="stat"><div class="stat-num">−70%</div><div class="stat-label">Costo / km</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROOF STRIP ============ -->
+  <div class="proof-strip">
+    <div class="container">
+      <span class="proof-label">Respaldados por</span>
+      <span class="proof-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z" /></svg>
+        Norma NOM-EM eléctrica
+      </span>
+      <span class="proof-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="5" /><path d="M8 13l-2 8 6-3 6 3-2-8" /></svg>
+        Ingenieros certificados SAE
+      </span>
+      <span class="proof-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l18-5v12L3 14z" /><path d="M11.6 16.8 9 22" /></svg>
+        Baterías con trazabilidad
+      </span>
+      <span class="proof-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-6 0v4" /><rect x="4" y="9" width="16" height="12" rx="2" /></svg>
+        Seguro de obra incluido
+      </span>
+    </div>
+  </div>
+
+  <!-- ============ PROCESS ============ -->
+  <section class="section section--muted" id="proceso">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">El proceso</span>
+        <h2>Cómo convertimos tu auto, paso a paso</h2>
+        <p>Un proceso de ingeniería ordenado y transparente: sabes exactamente qué pasa con tu vehículo en cada etapa.</p>
+      </div>
+
+      <div class="steps">
+        <article class="step reveal">
+          <div class="step-num" aria-hidden="true"></div>
+          <h4>Diagnóstico y plan</h4>
+          <p>Evaluamos chasís, peso y uso real del vehículo. Definimos motor, batería y autonomía objetivo en un informe escrito.</p>
+          <svg class="step-connector" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
+        </article>
+        <article class="step reveal">
+          <div class="step-num" aria-hidden="true"></div>
+          <h4>Desmontaje del tren motriz</h4>
+          <p>Retiramos motor de combustión, tanque, escape y radiador. Reciclamos los componentes con proveedores autorizados.</p>
+          <svg class="step-connector" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
+        </article>
+        <article class="step reveal">
+          <div class="step-num" aria-hidden="true"></div>
+          <h4>Integración eléctrica</h4>
+          <p>Instalamos motor eléctrico, pack de baterías, inversor y sistema de gestión (BMS) con anclajes diseñados a medida.</p>
+          <svg class="step-connector" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
+        </article>
+        <article class="step reveal">
+          <div class="step-num" aria-hidden="true"></div>
+          <h4>Pruebas y entrega</h4>
+          <p>Calibración, pruebas de ruta, verificación de seguridad y trámite. Te entregamos el auto con manual y garantía activa.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES / PACKAGES ============ -->
+  <section class="section" id="paquetes">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Servicios y paquetes</span>
+        <h2>Elige el nivel de conversión que necesitas</h2>
+        <p>Tres paquetes pensados para distintos usos y presupuestos. Todos incluyen garantía, instalación y soporte post-entrega.</p>
+      </div>
+
+      <div class="packages" id="precios">
+        <!-- Paquete Urbano -->
+        <article class="package reveal">
+          <span class="package-tag" style="background:var(--color-muted);color:var(--color-primary-dark)">Urbano</span>
+          <h3>VoltSwap City</h3>
+          <p class="package-desc">Para autos compactos de uso diario en ciudad y trayectos cortos.</p>
+          <div class="package-price">$185,000 <small>MXN</small></div>
+          <div class="package-range">Rango estimado: $170,000 – $210,000 según vehículo</div>
+          <ul class="feature-list">
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Motor eléctrico 60 kW</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Batería 24 kWh · ~160 km</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Carga doméstica nivel 2</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Garantía de 2 años</li>
+          </ul>
+          <a href="#contacto" class="btn btn--secondary btn--block">Cotizar este paquete</a>
+        </article>
+
+        <!-- Paquete Plus (featured) -->
+        <article class="package package--featured reveal">
+          <span class="package-tag">Más elegido</span>
+          <h3>VoltSwap Plus</h3>
+          <p class="package-desc">El equilibrio ideal de autonomía, potencia y costo para uso mixto.</p>
+          <div class="package-price">$315,000 <small>MXN</small></div>
+          <div class="package-range">Rango estimado: $290,000 – $360,000 según vehículo</div>
+          <ul class="feature-list">
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Motor eléctrico 110 kW</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Batería 45 kWh · ~280 km</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Carga rápida DC compatible</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Frenado regenerativo</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Garantía de 3 años</li>
+          </ul>
+          <a href="#contacto" class="btn btn--primary btn--block">Cotizar este paquete</a>
+        </article>
+
+        <!-- Paquete Pro -->
+        <article class="package reveal">
+          <span class="package-tag" style="background:var(--color-accent)">Performance</span>
+          <h3>VoltSwap Pro</h3>
+          <p class="package-desc">Máxima autonomía y potencia para clásicos, SUV y proyectos exigentes.</p>
+          <div class="package-price">$520,000 <small>MXN</small></div>
+          <div class="package-range">Rango estimado: $480,000 – $620,000 según vehículo</div>
+          <ul class="feature-list">
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Motor eléctrico 200 kW</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Batería 75 kWh · ~430 km</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Suspensión recalibrada</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Pantalla y telemetría digital</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg> Garantía de 3 años + soporte prioritario</li>
+          </ul>
+          <a href="#contacto" class="btn btn--secondary btn--block">Cotizar este paquete</a>
+        </article>
+      </div>
+
+      <p style="text-align:center;color:var(--color-muted-foreground);font-size:var(--fs-sm);margin-top:var(--space-4)">
+        Los precios son estimados de referencia en pesos mexicanos. El presupuesto final depende del modelo, estado del vehículo y disponibilidad de componentes. La cotización detallada es sin costo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ GALLERY BEFORE / AFTER ============ -->
+  <section class="section section--muted" id="galeria">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Galería antes / después</span>
+        <h2>Conversiones reales de nuestro taller</h2>
+        <p>Cada proyecto conserva el carácter del auto original; cambia lo que está debajo del cofre.</p>
+      </div>
+
+      <div class="gallery">
+        <article class="ba-card reveal">
+          <div class="ba-images">
+            <figure>
+              <img src="https://placehold.co/600x450/0B2530/9FD3DE?text=Antes" alt="Sedán compacto antes de la conversión, con motor de combustión interna" loading="lazy" width="600" height="450" />
+              <figcaption>Antes</figcaption>
+            </figure>
+            <figure>
+              <img src="https://placehold.co/600x450/0891B2/FFFFFF?text=Despues" alt="El mismo sedán compacto después de la conversión a propulsión eléctrica" loading="lazy" width="600" height="450" />
+              <figcaption>Después</figcaption>
+            </figure>
+          </div>
+          <div class="ba-body">
+            <h4>Sedán urbano 2008</h4>
+            <p>Convertido para reparto de última milla en zona metropolitana.</p>
+            <div class="ba-meta">
+              <span class="ba-chip">Paquete City</span>
+              <span class="ba-chip">~160 km</span>
+              <span class="ba-chip">5 semanas</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="ba-card reveal">
+          <div class="ba-images">
+            <figure>
+              <img src="https://placehold.co/600x450/0B2530/9FD3DE?text=Antes" alt="Camioneta pickup antes de la conversión a eléctrico" loading="lazy" width="600" height="450" />
+              <figcaption>Antes</figcaption>
+            </figure>
+            <figure>
+              <img src="https://placehold.co/600x450/16A34A/FFFFFF?text=Despues" alt="La misma camioneta pickup después de la conversión eléctrica" loading="lazy" width="600" height="450" />
+              <figcaption>Después</figcaption>
+            </figure>
+          </div>
+          <div class="ba-body">
+            <h4>Pickup de trabajo 2013</h4>
+            <p>Flotilla empresarial con carga rápida y frenado regenerativo.</p>
+            <div class="ba-meta">
+              <span class="ba-chip">Paquete Plus</span>
+              <span class="ba-chip">~280 km</span>
+              <span class="ba-chip">7 semanas</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="ba-card reveal">
+          <div class="ba-images">
+            <figure>
+              <img src="https://placehold.co/600x450/0B2530/9FD3DE?text=Antes" alt="Auto clásico antes de la restauración y conversión eléctrica" loading="lazy" width="600" height="450" />
+              <figcaption>Antes</figcaption>
+            </figure>
+            <figure>
+              <img src="https://placehold.co/600x450/22D3EE/0B2530?text=Despues" alt="El mismo auto clásico restaurado y convertido a propulsión eléctrica" loading="lazy" width="600" height="450" />
+              <figcaption>Después</figcaption>
+            </figure>
+          </div>
+          <div class="ba-body">
+            <h4>Clásico restaurado 1979</h4>
+            <p>Estética original conservada, tren motriz 100% eléctrico de alto desempeño.</p>
+            <div class="ba-meta">
+              <span class="ba-chip">Paquete Pro</span>
+              <span class="ba-chip">~430 km</span>
+              <span class="ba-chip">11 semanas</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="section section--ink">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Clientes VoltSwap</span>
+        <h2>Confianza construida auto por auto</h2>
+        <p>Lo que dicen quienes ya conducen su conversión todos los días.</p>
+      </div>
+
+      <div class="testimonials">
+        <figure class="quote reveal">
+          <div class="quote-stars" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+          </div>
+          <span class="visually-hidden">Calificación: 5 de 5 estrellas.</span>
+          <p>"Convertí mi sedán para el trabajo y bajé mi gasto de combustible casi por completo. El equipo me explicó cada etapa y me entregó un informe técnico."</p>
+          <figcaption class="quote-author">
+            <img class="quote-avatar" src="https://placehold.co/88x88/0891B2/FFFFFF?text=MR" alt="" loading="lazy" width="44" height="44" />
+            <span>
+              <span class="quote-name">Mariana Rivas</span>
+              <span class="quote-role">Repartidora independiente · Monterrey</span>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="quote reveal">
+          <div class="quote-stars" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+          </div>
+          <span class="visually-hidden">Calificación: 5 de 5 estrellas.</span>
+          <p>"Tenía dudas sobre la seguridad, pero el sistema de gestión de batería y las pruebas de ruta me dieron tranquilidad. La garantía de 3 años fue decisiva."</p>
+          <figcaption class="quote-author">
+            <img class="quote-avatar" src="https://placehold.co/88x88/16A34A/FFFFFF?text=JT" alt="" loading="lazy" width="44" height="44" />
+            <span>
+              <span class="quote-name">Jorge Treviño</span>
+              <span class="quote-role">Conductor particular · Guadalajara</span>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="quote reveal">
+          <div class="quote-stars" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.9 21l1.2-6.9-5-4.9 6.9-1z"/></svg>
+          </div>
+          <span class="visually-hidden">Calificación: 5 de 5 estrellas.</span>
+          <p>"Restauraron mi clásico y lo dejaron eléctrico sin perder su esencia. El proceso fue largo pero siempre tuve fotos y reportes del avance."</p>
+          <figcaption class="quote-author">
+            <img class="quote-avatar" src="https://placehold.co/88x88/0E7490/FFFFFF?text=AL" alt="" loading="lazy" width="44" height="44" />
+            <span>
+              <span class="quote-name">Adriana López</span>
+              <span class="quote-role">Coleccionista · Ciudad de México</span>
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section" id="contacto">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Contacto</span>
+        <h2>Cotiza la conversión de tu auto</h2>
+        <p>Cuéntanos sobre tu vehículo y te enviamos una cotización estimada sin costo en menos de 48 horas hábiles.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <div class="info-card">
+            <span class="info-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
+            </span>
+            <div>
+              <h4>Visita el taller</h4>
+              <p>Av. Industria Eléctrica 240, Parque Tecnológico, Monterrey, N.L.</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <span class="info-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" /></svg>
+            </span>
+            <div>
+              <h4>Llámanos o escríbenos</h4>
+              <p><a href="tel:+528112345678">+52 81 1234 5678</a> · <a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a></p>
+            </div>
+          </div>
+          <div class="info-card">
+            <span class="info-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+            </span>
+            <div>
+              <h4>Horario de atención</h4>
+              <p>Lunes a viernes 9:00–18:00 h · Sábados 9:00–14:00 h</p>
+            </div>
+          </div>
+        </div>
+
+        <form class="form-card reveal" id="quoteForm" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="nombre">Nombre completo <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="nombre" name="nombre" autocomplete="name" required aria-required="true" aria-describedby="err-nombre" />
+              <span class="field-error" id="err-nombre" role="alert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Escribe tu nombre.
+              </span>
+            </div>
+            <div class="field">
+              <label for="telefono">Teléfono <span class="req" aria-hidden="true">*</span></label>
+              <input type="tel" id="telefono" name="telefono" autocomplete="tel" inputmode="tel" required aria-required="true" aria-describedby="err-telefono" />
+              <span class="field-error" id="err-telefono" role="alert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Escribe un teléfono de contacto.
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required aria-required="true" aria-describedby="err-email" />
+            <span class="field-error" id="err-email" role="alert">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Escribe un correo válido (ejemplo: nombre@correo.com).
+            </span>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="vehiculo">Vehículo a convertir <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="vehiculo" name="vehiculo" placeholder="Marca, modelo y año" required aria-required="true" aria-describedby="err-vehiculo hint-vehiculo" />
+              <span class="field-hint" id="hint-vehiculo">Ej.: Nissan Tsuru 2010</span>
+              <span class="field-error" id="err-vehiculo" role="alert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Indícanos qué vehículo quieres convertir.
+              </span>
+            </div>
+            <div class="field">
+              <label for="paquete">Paquete de interés</label>
+              <select id="paquete" name="paquete" aria-describedby="hint-paquete">
+                <option value="">Aún no lo sé</option>
+                <option value="city">VoltSwap City — Urbano</option>
+                <option value="plus">VoltSwap Plus — Uso mixto</option>
+                <option value="pro">VoltSwap Pro — Performance</option>
+              </select>
+              <span class="field-hint" id="hint-paquete">Podemos asesorarte si no estás seguro.</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="mensaje">Cuéntanos sobre tu proyecto</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Uso que le das al auto, autonomía que buscas, fechas estimadas..." aria-describedby="hint-mensaje"></textarea>
+            <span class="field-hint" id="hint-mensaje">Opcional, pero nos ayuda a darte una cotización más precisa.</span>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--lg btn--block" id="submitBtn">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-label">Solicitar cotización gratuita</span>
+          </button>
+
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+
+          <p class="field-hint" style="text-align:center;margin-top:var(--space-2)">
+            Al enviar aceptas que VoltSwap te contacte sobre tu cotización. No compartimos tus datos con terceros.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="cta-band reveal">
+        <h2>El futuro de tu auto empieza con una conversación</h2>
+        <p>Agenda una valoración en el taller y descubre exactamente qué se necesita para electrificar tu vehículo. Sin compromiso.</p>
+        <a href="#contacto" class="btn btn--ghost-light btn--lg">Agendar valoración</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#inicio" class="brand" aria-label="VoltSwap, inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7z" /></svg>
+          </span>
+          VoltSwap
+        </a>
+        <p style="font-size:var(--fs-sm);max-width:34ch">Taller de conversión de autos de combustión a 100% eléctricos. Ingeniería, garantía y movilidad limpia.</p>
+      </div>
+      <div>
+        <h4>Servicios</h4>
+        <ul class="footer-links">
+          <li><a href="#paquetes">VoltSwap City</a></li>
+          <li><a href="#paquetes">VoltSwap Plus</a></li>
+          <li><a href="#paquetes">VoltSwap Pro</a></li>
+          <li><a href="#precios">Precios estimados</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Taller</h4>
+        <ul class="footer-links">
+          <li><a href="#proceso">Cómo funciona</a></li>
+          <li><a href="#galeria">Antes / Después</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+          <li><a href="#inicio">Inicio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul class="footer-links">
+          <li><a href="tel:+528112345678">+52 81 1234 5678</a></li>
+          <li><a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a></li>
+          <li>Monterrey, N.L., México</li>
+          <li>Lun–Vie 9:00–18:00 h</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 VoltSwap. Todos los derechos reservados.</span>
+      <span>Aviso de privacidad · Términos del servicio</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---- Mobile menu toggle ---- */
+  var nav = document.getElementById("nav");
+  var toggle = document.getElementById("navToggle");
+  if (toggle && nav) {
+    toggle.addEventListener("click", function () {
+      var open = nav.getAttribute("data-open") === "true";
+      nav.setAttribute("data-open", String(!open));
+      toggle.setAttribute("aria-expanded", String(!open));
+      toggle.setAttribute("aria-label", open ? "Abrir menú de navegación" : "Cerrar menú de navegación");
+    });
+    document.querySelectorAll("#mobileMenu a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        nav.setAttribute("data-open", "false");
+        toggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  /* ---- Reveal on scroll (respects reduced-motion) ---- */
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var revealEls = document.querySelectorAll(".reveal");
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry, i) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          setTimeout(function () { el.classList.add("is-visible"); }, Math.min(i * 40, 160));
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---- Form validation + submit feedback ---- */
+  var form = document.getElementById("quoteForm");
+  var status = document.getElementById("formStatus");
+  var submitBtn = document.getElementById("submitBtn");
+  var btnLabel = submitBtn ? submitBtn.querySelector(".btn-label") : null;
+
+  function getField(input) { return input.closest(".field"); }
+
+  function validateField(input) {
+    var field = getField(input);
+    var valid = true;
+    var value = input.value.trim();
+
+    if (input.hasAttribute("required") && value === "") {
+      valid = false;
+    } else if (input.type === "email" && value !== "") {
+      valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    } else if (input.type === "tel" && value !== "") {
+      valid = value.replace(/[^0-9]/g, "").length >= 8;
+    }
+
+    if (field) field.classList.toggle("has-error", !valid);
+    return valid;
+  }
+
+  if (form) {
+    /* Inline validation on blur (not on keystroke) */
+    form.querySelectorAll("input, textarea, select").forEach(function (input) {
+      input.addEventListener("blur", function () {
+        if (input.hasAttribute("required") || input.value.trim() !== "") {
+          validateField(input);
+        }
+      });
+      input.addEventListener("input", function () {
+        var field = getField(input);
+        if (field && field.classList.contains("has-error")) validateField(input);
+      });
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      status.className = "form-status";
+      status.textContent = "";
+
+      var required = form.querySelectorAll("[required]");
+      var firstInvalid = null;
+      var allValid = true;
+
+      required.forEach(function (input) {
+        var ok = validateField(input);
+        if (!ok && !firstInvalid) firstInvalid = input;
+        if (!ok) allValid = false;
+      });
+
+      if (!allValid) {
+        status.className = "form-status is-error";
+        status.textContent = "Revisa los campos marcados para poder enviar tu solicitud.";
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
+      /* Simulated async submit with loading + success feedback */
+      submitBtn.setAttribute("data-loading", "true");
+      if (btnLabel) btnLabel.textContent = "Enviando...";
+
+      setTimeout(function () {
+        submitBtn.removeAttribute("data-loading");
+        if (btnLabel) btnLabel.textContent = "Solicitar cotización gratuita";
+        status.className = "form-status is-success";
+        status.textContent = "¡Listo! Recibimos tu solicitud. Te contactaremos en menos de 48 horas hábiles.";
+        form.reset();
+      }, 1400);
+    });
+  }
+
+  /* ---- Footer year ---- */
+  var yearSpan = document.querySelector(".footer-bottom span");
+  if (yearSpan) {
+    yearSpan.textContent = "© " + new Date().getFullYear() + " VoltSwap. Todos los derechos reservados.";
+  }
+})();
+</script>
+
+</body>
+</html>

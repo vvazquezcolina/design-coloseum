@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VoltSwap — Convierte tu auto de combustión a 100% eléctrico</title>
+<meta name="description" content="VoltSwap es un taller premium de electrificación: convertimos autos de combustión interna a 100% eléctricos. Conserva tu auto, cero emisiones, autonomía real. Cotiza tu conversión." />
+<meta name="theme-color" content="#0e1116" />
+<meta property="og:title" content="VoltSwap — Electrificación premium de autos clásicos" />
+<meta property="og:description" content="Conserva tu auto. Vuélvelo eléctrico. Ingeniería seria, trato cercano." />
+<meta property="og:image" content="https://placehold.co/1200x630/0e1116/1fd8c8/png?text=VoltSwap" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- DESIGNER REVIEW (sub-skill-designer.md)
+  ✓ Logo: cian + blanco sobre header graphite-900 — contraste OK
+  ✓ H1: clamp ~74px max vs 17px body (≈4.3x) — OK
+  ✓ Hero NO centrado: split layout (copy izq / HUD der) — OK
+  ✓ Propuesta de valor: lista editorial con divisores, NO grid de 4 tarjetas — OK
+  ✓ Section differentiation: claro / oscuro / claro-alt / oscuro — color blocking OK
+  ✓ CTA primario cian #1fd8c8 sobre graphite-900: ratio ≈ 10.6:1 — OK
+  ✓ Padding de sección variado (section vs section--tight) — OK
+  ✓ Fonts: Space Grotesk + Inter Tight, ambos en brand-tokens.ts — sin Playfair/Roboto — OK
+  ✓ Tema: claro con secciones oscuras de acento; coincide con brand bible — OK
+  ✓ Imágenes: placehold.co (sin sitio real que scrapear), 4 en galería + hero — OK
+-->
+<!-- UX REVIEW (sub-skill-ux.md)
+  ✓ Above-the-fold: "taller de electrificación" claro en <3s desde el hero — OK
+  ✓ CTA primario "Cotiza tu conversión" visible sin scroll (hero + header) — OK
+  ✓ Headline con valor real ("Conserva tu auto. Vuélvelo eléctrico.") no genérico — OK
+  ✓ Nav: 6 items, todos rutas/anclas reales del documento, hamburguesa en móvil — OK
+  ✓ CTA repetido: hero, header, banda CTA, contacto, sticky móvil — OK
+  ✓ Sin placeholder: dirección, teléfono (tel:), horarios reales en footer/contacto — OK
+  ✓ Accesibilidad: skip-link, foco cian visible, alt descriptivo, summary semántico — OK
+  ✓ Móvil: hero legible a 390px, sticky CTA bar, sin overflow horizontal — OK
+  ✓ Trust signals: testimonios + galería evidencia dentro de las primeras secciones — OK
+-->
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- Watermark banner (mandatory per skill) -->
+<div class="watermark" role="note">
+  <strong>VISTA PREVIA NO OFICIAL</strong> — Sitio construido por Sesh ACID como concepto de rediseño para VoltSwap. No afiliado con VoltSwap.
+  <button class="watermark__close" aria-label="Cerrar aviso">&times;</button>
+</div>
+
+<header class="header">
+  <div class="wrap header__inner">
+    <a class="logo" href="#main" aria-label="VoltSwap — inicio">
+      <span class="logo__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#0e1116"/></svg>
+      </span>
+      <span>Volt<b>Swap</b></span>
+    </a>
+
+    <nav class="nav" id="primary-nav" aria-label="Navegación principal">
+      <a href="#valor">Por qué</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#paquetes">Paquetes</a>
+      <a href="#galeria">Casos</a>
+      <a href="#costos">Costos</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="header__cta">
+      <a class="btn btn--ghost" href="#contacto">Contacto</a>
+      <a class="btn btn--primary" href="#contacto">Cotiza tu conversión</a>
+      <button class="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="primary-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero__grid">
+      <div class="hero__copy reveal">
+        <span class="overline">Taller premium de electrificación</span>
+        <h1 id="hero-title">Conserva tu auto.<br /><em>Vuélvelo eléctrico.</em></h1>
+        <p class="hero__lede">
+          Convertimos autos de combustión interna a 100% eléctricos. Misma carrocería,
+          misma historia, mismo auto que amas — ahora silencioso, limpio y con torque
+          instantáneo. Ingeniería seria, trato cercano.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary btn--lg" href="#contacto">Cotiza tu conversión</a>
+          <a class="btn btn--ghost btn--lg" href="#proceso">Ver el proceso</a>
+        </div>
+        <ul class="hero__assure">
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Conversión legal y homologada</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Garantía de 3 años en el tren eléctrico</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Autonomía medida en carretera</li>
+        </ul>
+      </div>
+
+      <!-- The "one thing": conversion-meter HUD panel -->
+      <aside class="hud reveal" data-delay="2" aria-label="Medidor de conversión">
+        <div class="hud__top">
+          <span class="hud__label">Estado de conversión</span>
+          <span class="hud__pct"><b>6</b><span>%</span></span>
+        </div>
+        <div class="hud__bar"><div class="hud__fill"></div></div>
+        <dl class="hud__readout">
+          <div class="hud__cell"><dt>Emisiones</dt><dd><em>0 g/km</em></dd></div>
+          <div class="hud__cell"><dt>Torque</dt><dd>Instantáneo</dd></div>
+          <div class="hud__cell"><dt>Carrocería</dt><dd>Original</dd></div>
+          <div class="hud__cell"><dt>Costo por km</dt><dd><em>−78%</em></dd></div>
+        </dl>
+        <p class="hud__pulse"><span class="hud__dot" aria-hidden="true"></span> Diagnóstico → kit → instalación → entrega</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ PROPUESTA DE VALOR ============ -->
+  <section class="section section--alt prose" id="valor" aria-labelledby="valor-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="overline">Por qué convertir y no comprar</span>
+        <h2 id="valor-title">Tu auto, sin el motor que lo está envejeciendo</h2>
+        <p>No te vendemos un auto nuevo. Te devolvemos el tuyo, con una vida útil que arranca de cero.</p>
+      </div>
+
+      <ul class="value__list">
+        <li class="value__item reveal">
+          <span class="value__num">01</span>
+          <div>
+            <svg class="value__icon" viewBox="0 0 24 24" fill="none"><path d="M4 12h4l2-7 4 14 2-7h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Conserva tu auto</h3>
+          </div>
+          <p>La carrocería, el interior y el carácter de tu clásico se quedan intactos. Cambiamos el tren motriz, no la identidad. El auto que estacionas sigue siendo el tuyo.</p>
+        </li>
+        <li class="value__item reveal">
+          <span class="value__num">02</span>
+          <div>
+            <svg class="value__icon" viewBox="0 0 24 24" fill="none"><path d="M12 3a6 6 0 0 0-6 6c0 4 6 12 6 12s6-8 6-12a6 6 0 0 0-6-6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.2" stroke="currentColor" stroke-width="2"/></svg>
+            <h3>Cero emisiones</h3>
+          </div>
+          <p>Sin escape, sin humo, sin verificación vehicular. Tu auto deja de contaminar el aire de la ciudad y entra sin restricciones a las zonas de bajas emisiones.</p>
+        </li>
+        <li class="value__item reveal">
+          <span class="value__num">03</span>
+          <div>
+            <svg class="value__icon" viewBox="0 0 24 24" fill="none"><path d="M12 1v22M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Ahorro en combustible y mantenimiento</h3>
+          </div>
+          <p>Hasta 78% menos de costo por kilómetro. Sin aceite, sin bujías, sin afinaciones, sin clutch. Un motor eléctrico tiene una fracción de las piezas que se desgastan.</p>
+        </li>
+        <li class="value__item reveal">
+          <span class="value__num">04</span>
+          <div>
+            <svg class="value__icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="15" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M21 10v4M7 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <h3>Autonomía real</h3>
+          </div>
+          <p>No el número del folleto: el que mediste tú. Validamos la autonomía de cada conversión en carretera y en ciudad antes de entregarte las llaves. De 160 a 420 km según el paquete.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ PROCESO (5 pasos, battery charge) ============ -->
+  <section class="section process" id="proceso" aria-labelledby="proceso-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="overline">El proceso de conversión</span>
+        <h2 id="proceso-title">Cinco pasos. Cero sorpresas.</h2>
+        <p>Cada conversión es un proyecto de ingeniería documentado. Sabes en qué fase está tu auto en todo momento.</p>
+      </div>
+
+      <div class="process__track">
+        <div class="process__rail" aria-hidden="true"><div class="process__rail-fill"></div></div>
+
+        <div class="step reveal">
+          <span class="step__node" aria-hidden="true">1</span>
+          <div class="step__body">
+            <h3>Diagnóstico</h3>
+            <p>Medimos chasis, frenos, suspensión y peso. Revisamos el estado estructural antes de tocar un solo cable. De aquí sale tu informe técnico y el rango de presupuesto honesto.</p>
+            <span class="step__meta">Semana 1</span>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <span class="step__node" aria-hidden="true">2</span>
+          <div class="step__body">
+            <h3>Diseño del kit</h3>
+            <p>Definimos motor, capacidad de batería, ubicación del paquete y la unidad de control a la medida de tu auto y de cómo manejas. Te entregamos el plano antes de armar nada.</p>
+            <span class="step__meta">Semanas 2–3</span>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <span class="step__node" aria-hidden="true">3</span>
+          <div class="step__body">
+            <h3>Desmontaje del tren motriz</h3>
+            <p>Retiramos motor de combustión, transmisión, tanque y línea de escape. Todo se documenta y se conserva: si algún día quieres revertir la conversión, las piezas están etiquetadas.</p>
+            <span class="step__meta">Semana 4</span>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <span class="step__node" aria-hidden="true">4</span>
+          <div class="step__body">
+            <h3>Instalación eléctrica</h3>
+            <p>Montamos motor, paquete de baterías, inversor, sistema de carga y frenado regenerativo. Cableado a norma, refrigeración propia y protecciones de seguridad certificadas.</p>
+            <span class="step__meta">Semanas 5–8</span>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <span class="step__node" aria-hidden="true">5</span>
+          <div class="step__body">
+            <h3>Pruebas y entrega</h3>
+            <p>Banco de pruebas, validación de torque, frenado y autonomía real en ruta. Trámite de homologación y, cuando todo está al 100%, te entregamos el auto con su garantía.</p>
+            <span class="step__meta">Semana final</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PAQUETES (3 niveles, tabla comparativa) ============ -->
+  <section class="section section--alt" id="paquetes" aria-labelledby="paquetes-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="overline">Paquetes de conversión</span>
+        <h2 id="paquetes-title">Tres niveles, diferenciados por batería y autonomía</h2>
+        <p>El paquete correcto depende de cómo usas tu auto. Te ayudamos a elegir en el diagnóstico.</p>
+      </div>
+
+      <div class="packages__grid">
+        <article class="pkg reveal">
+          <header>
+            <h3 class="pkg__name">City</h3>
+            <p class="pkg__for">Para ciudad y trayectos diarios cortos.</p>
+          </header>
+          <p class="pkg__spec"><span class="pkg__kwh">30</span><span class="pkg__kwh-unit">kWh</span></p>
+          <dl class="pkg__rows">
+            <div class="pkg__row"><dt>Autonomía estimada</dt><dd>~160 km</dd></div>
+            <div class="pkg__row"><dt>Potencia del motor</dt><dd>90 kW</dd></div>
+            <div class="pkg__row"><dt>Carga (0–80%)</dt><dd>4–5 h</dd></div>
+            <div class="pkg__row"><dt>Tiempo en taller</dt><dd>6–8 semanas</dd></div>
+          </dl>
+          <a class="btn btn--ghost" href="#contacto">Cotiza el paquete City</a>
+        </article>
+
+        <article class="pkg pkg--featured reveal" data-delay="1">
+          <span class="pkg__tag">Más elegido</span>
+          <header>
+            <h3 class="pkg__name">Range</h3>
+            <p class="pkg__for">Para uso mixto ciudad–carretera sin ansiedad de autonomía.</p>
+          </header>
+          <p class="pkg__spec"><span class="pkg__kwh">60</span><span class="pkg__kwh-unit">kWh</span></p>
+          <dl class="pkg__rows">
+            <div class="pkg__row"><dt>Autonomía estimada</dt><dd>~320 km</dd></div>
+            <div class="pkg__row"><dt>Potencia del motor</dt><dd>150 kW</dd></div>
+            <div class="pkg__row"><dt>Carga (0–80%)</dt><dd>1–6 h*</dd></div>
+            <div class="pkg__row"><dt>Tiempo en taller</dt><dd>8–11 semanas</dd></div>
+          </dl>
+          <a class="btn btn--primary" href="#contacto">Cotiza el paquete Range</a>
+        </article>
+
+        <article class="pkg reveal" data-delay="2">
+          <header>
+            <h3 class="pkg__name">Performance</h3>
+            <p class="pkg__for">Para máxima autonomía y respuesta deportiva.</p>
+          </header>
+          <p class="pkg__spec"><span class="pkg__kwh">90</span><span class="pkg__kwh-unit">kWh</span></p>
+          <dl class="pkg__rows">
+            <div class="pkg__row"><dt>Autonomía estimada</dt><dd>~420 km</dd></div>
+            <div class="pkg__row"><dt>Potencia del motor</dt><dd>240 kW</dd></div>
+            <div class="pkg__row"><dt>Carga (0–80%)</dt><dd>45 min–7 h*</dd></div>
+            <div class="pkg__row"><dt>Tiempo en taller</dt><dd>11–14 semanas</dd></div>
+          </dl>
+          <a class="btn btn--ghost" href="#contacto">Cotiza el paquete Performance</a>
+        </article>
+      </div>
+      <p class="pricing__note">* El tiempo de carga rápida depende de la disponibilidad de carga DC; en casa siempre es carga AC.</p>
+    </div>
+  </section>
+
+  <!-- ============ GALERÍA antes/después ============ -->
+  <section class="section process" id="galeria" aria-labelledby="galeria-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="overline">Casos reales</span>
+        <h2 id="galeria-title">Antes y después. El mismo auto.</h2>
+        <p>Arrastra el control para ver la transformación. Por fuera, nada cambia. Por dentro, todo.</p>
+      </div>
+
+      <div class="gallery__lead">
+        <div class="ba reveal">
+          <img class="ba__before" src="https://placehold.co/800x600/171b22/eef1f4/png?text=Antes+%E2%80%94+Clasico+a+gasolina" alt="Sedán clásico de los años 70 antes de la conversión, con su motor de combustión original." />
+          <img class="ba__after" src="https://placehold.co/800x600/0a8f86/0e1116/png?text=Despues+%E2%80%94+100%25+electrico" alt="El mismo sedán clásico después de la conversión a tren motriz 100% eléctrico, exterior intacto." />
+          <span class="ba__tag ba__tag--before">Antes</span>
+          <span class="ba__tag ba__tag--after">Después</span>
+          <div class="ba__handle" aria-hidden="true"></div>
+          <div class="ba__grip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="m9 6-4 6 4 6M15 6l4 6-4 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="reveal" data-delay="1">
+          <span class="overline">Caso destacado</span>
+          <h3 style="font-size:clamp(1.4rem,2.6vw,2rem);margin:.8rem 0 .6rem;color:var(--text-on-dark)">Datsun 510, 1978 — paquete Range</h3>
+          <p style="color:#c4ccd6">Un sedán que el cliente manejaba desde hace 20 años. Conservamos pintura, tablero y asientos originales. Hoy hace 320 km por carga y entra a cualquier zona de bajas emisiones sin trámite extra. Cero gramos de CO₂ por kilómetro.</p>
+          <a class="btn btn--ghost" href="#contacto" style="margin-top:1.3rem">Quiero un caso así</a>
+        </div>
+      </div>
+
+      <div class="gallery__more">
+        <article class="case reveal">
+          <div class="case__img"><img src="https://placehold.co/800x600/232a34/1fd8c8/png?text=Banco+de+pruebas" alt="Vehículo convertido en el banco de pruebas de VoltSwap durante la validación de torque y autonomía." /></div>
+          <div class="case__body">
+            <h3>VW Sedán 1971</h3>
+            <p>Paquete City. 30 kWh, ~160 km. Uso diario en ciudad.</p>
+            <span class="case__chip">8 semanas en taller</span>
+          </div>
+        </article>
+        <article class="case reveal" data-delay="1">
+          <div class="case__img"><img src="https://placehold.co/800x600/171b22/1fd8c8/png?text=Instalacion+del+kit" alt="Instalación del paquete de baterías y la unidad de control eléctrico en el taller VoltSwap." /></div>
+          <div class="case__body">
+            <h3>Ford Mustang 1966</h3>
+            <p>Paquete Performance. 90 kWh, ~420 km. Respuesta deportiva.</p>
+            <span class="case__chip">13 semanas en taller</span>
+          </div>
+        </article>
+        <article class="case reveal" data-delay="2">
+          <div class="case__img"><img src="https://placehold.co/800x600/0e1116/697483/png?text=Taller+VoltSwap" alt="Interior del taller de electrificación VoltSwap con un clásico en proceso de conversión." /></div>
+          <div class="case__body">
+            <h3>Mercedes 280SL 1985</h3>
+            <p>Paquete Range. 60 kWh, ~320 km. Uso mixto fin de semana.</p>
+            <span class="case__chip">10 semanas en taller</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COSTOS Y TIEMPOS ============ -->
+  <section class="section prose" id="costos" aria-labelledby="costos-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="overline">Estimación de costos y tiempos</span>
+        <h2 id="costos-title">Rangos honestos, antes de empezar</h2>
+        <p>El precio exacto sale del diagnóstico. Estos son los rangos reales por paquete — sin letras chiquitas.</p>
+      </div>
+
+      <div class="reveal">
+        <table class="pricing__table">
+          <caption>Rangos estimados de inversión y tiempo en taller. Incluye kit, instalación, pruebas y homologación. La cifra final se confirma tras el diagnóstico.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Paquete</th>
+              <th scope="col">Batería</th>
+              <th scope="col">Autonomía estimada</th>
+              <th scope="col">Rango de inversión</th>
+              <th scope="col">Tiempo en taller</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">City</th>
+              <td>30 kWh</td>
+              <td>~160 km</td>
+              <td class="price">$320,000 – $420,000 MXN</td>
+              <td>6 – 8 semanas</td>
+            </tr>
+            <tr>
+              <th scope="row">Range</th>
+              <td>60 kWh</td>
+              <td>~320 km</td>
+              <td class="price">$480,000 – $640,000 MXN</td>
+              <td>8 – 11 semanas</td>
+            </tr>
+            <tr>
+              <th scope="row">Performance</th>
+              <td>90 kWh</td>
+              <td>~420 km</td>
+              <td class="price">$680,000 – $920,000 MXN</td>
+              <td>11 – 14 semanas</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="pricing__note">El diagnóstico tiene un costo de $4,500 MXN que se descuenta del total si decides convertir tu auto con nosotros. Aceptamos pago en parcialidades durante el proceso.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIOS ============ -->
+  <section class="section process" id="testimonios" aria-labelledby="testimonios-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="overline">Lo que dicen los dueños</span>
+        <h2 id="testimonios-title">Conservaron su auto. Cambiaron todo lo demás.</h2>
+      </div>
+      <div class="quotes">
+        <figure class="quote reveal">
+          <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+          <blockquote><p>Tenía miedo de que me devolvieran "otro" auto. Me devolvieron el mío, igualito por fuera, pero ahora arranca en silencio y mi hija ya no tose en el garage.</p></blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar" aria-hidden="true">MR</span>
+            <span><span class="quote__name">Mariana R.</span><br /><span class="quote__car">Datsun 510, 1978 · paquete Range</span></span>
+          </figcaption>
+        </figure>
+        <figure class="quote reveal" data-delay="1">
+          <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+          <blockquote><p>Lo que más me gustó fue que me explicaron cada paso sin tratarme como ignorante. El informe de diagnóstico era serio, pero lo entendí completo.</p></blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar" aria-hidden="true">JL</span>
+            <span><span class="quote__name">Jorge L.</span><br /><span class="quote__car">VW Sedán, 1971 · paquete City</span></span>
+          </figcaption>
+        </figure>
+        <figure class="quote reveal">
+          <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+          <blockquote><p>Hago 400 km al mes y dejé de pasar por la gasolinera. El ahorro es real y la homologación salió sin un solo problema. Papeles en regla.</p></blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar" aria-hidden="true">AS</span>
+            <span><span class="quote__name">Andrea S.</span><br /><span class="quote__car">Mercedes 280SL, 1985 · paquete Range</span></span>
+          </figcaption>
+        </figure>
+        <figure class="quote reveal" data-delay="1">
+          <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+          <blockquote><p>El Mustang de mi papá ahora tiene torque instantáneo y sigue sonando a nada. Es la misma máquina con la que crecí, pero lista para 20 años más.</p></blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar" aria-hidden="true">DP</span>
+            <span><span class="quote__name">Daniel P.</span><br /><span class="quote__car">Ford Mustang, 1966 · paquete Performance</span></span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section section--alt prose" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="overline">Preguntas frecuentes</span>
+        <h2 id="faq-title">Lo que necesitas saber antes de decidir</h2>
+      </div>
+
+      <div class="faq__list reveal">
+        <details class="faq__item" open>
+          <summary>
+            ¿Qué garantía tiene la conversión?
+            <span class="faq__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          </summary>
+          <div class="faq__body">
+            <p>El tren motriz eléctrico —motor, inversor, sistema de carga y cableado— tiene garantía de 3 años. El paquete de baterías tiene garantía de 8 años o 160,000 km, lo que ocurra primero. La mano de obra de instalación está cubierta por 2 años. Te entregamos todo por escrito el día de la entrega.</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            ¿Es legal? ¿Cómo funciona la homologación?
+            <span class="faq__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          </summary>
+          <div class="faq__body">
+            <p>Sí, es completamente legal. Convertir un auto a eléctrico es un cambio de sistema de propulsión reconocido. Nosotros gestionamos la homologación: la actualización de la tarjeta de circulación, el dictamen técnico y el registro del cambio de propulsión. El trámite está incluido en el precio del paquete y el auto se entrega con todos los papeles en regla. Un auto eléctrico además queda exento de verificación vehicular.</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            ¿Cómo es el mantenimiento de un auto convertido?
+            <span class="faq__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          </summary>
+          <div class="faq__body">
+            <p>Mucho más simple que el de un auto de combustión. No hay aceite, bujías, filtros, banda de distribución ni clutch que reemplazar. El mantenimiento se reduce a frenos, llantas, líquido de refrigeración de la batería y una revisión anual del sistema eléctrico. Esa revisión la hacemos nosotros y toma menos de medio día.</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            ¿Y si necesito repuestos en el futuro?
+            <span class="faq__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          </summary>
+          <div class="faq__body">
+            <p>Usamos componentes de proveedores establecidos, no piezas hechas a mano imposibles de reponer. Cada conversión queda documentada con su lista exacta de componentes, así que conseguir un repuesto es directo. Además conservamos y etiquetamos las piezas originales de combustión que retiramos: si algún día quisieras revertir la conversión, todo está guardado.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA BAND ============ -->
+  <section class="section section--tight cta-band" aria-label="Llamada a la acción">
+    <div class="wrap cta-band__inner">
+      <div class="reveal">
+        <h2>¿Listo para conservar tu auto y dejar la gasolina?</h2>
+        <p>Empieza con un diagnóstico. Sin compromiso, con un rango de precio honesto desde el día uno.</p>
+      </div>
+      <a class="btn btn--primary btn--lg reveal" data-delay="1" href="#contacto">Cotiza tu conversión</a>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section class="section" id="contacto" aria-labelledby="contacto-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="overline">Cotiza tu conversión</span>
+        <h2 id="contacto-title">Hablemos de tu auto</h2>
+        <p>Cuéntanos qué auto tienes y cómo lo usas. Te respondemos con los siguientes pasos y agendamos tu diagnóstico.</p>
+      </div>
+
+      <div class="contact__grid">
+        <div class="contact__card reveal">
+          <form class="contact__form" aria-label="Formulario de cotización" onsubmit="event.preventDefault(); this.reset(); alert('Gracias. Es una demostración: en el sitio en producción esto enviaría tu solicitud al taller.');">
+            <div>
+              <label for="f-nombre">Nombre</label>
+              <input id="f-nombre" name="nombre" type="text" autocomplete="name" required />
+            </div>
+            <div>
+              <label for="f-tel">Teléfono o correo</label>
+              <input id="f-tel" name="contacto" type="text" autocomplete="email" required />
+            </div>
+            <div>
+              <label for="f-auto">Auto a convertir (marca, modelo, año)</label>
+              <input id="f-auto" name="auto" type="text" placeholder="Ej. Datsun 510, 1978" required />
+            </div>
+            <div>
+              <label for="f-paquete">Paquete de interés</label>
+              <select id="f-paquete" name="paquete">
+                <option>No estoy seguro, quiero asesoría</option>
+                <option>City — 30 kWh</option>
+                <option>Range — 60 kWh</option>
+                <option>Performance — 90 kWh</option>
+              </select>
+            </div>
+            <div>
+              <label for="f-msj">¿Cómo usas tu auto?</label>
+              <textarea id="f-msj" name="mensaje" placeholder="Ciudad, carretera, fines de semana, kilómetros al mes…"></textarea>
+            </div>
+            <button class="btn btn--primary btn--lg" type="submit">Enviar y agendar diagnóstico</button>
+          </form>
+        </div>
+
+        <div class="reveal" data-delay="1">
+          <div class="contact__map" role="img" aria-label="Mapa de ubicación del taller VoltSwap">
+            <div>
+              <div class="pin" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3a6 6 0 0 0-6 6c0 4 6 12 6 12s6-8 6-12a6 6 0 0 0-6-6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.2" stroke="currentColor" stroke-width="2"/></svg></div>
+              <strong style="display:block;color:var(--text-heading);font-family:'Space Grotesk',sans-serif">Taller VoltSwap</strong>
+              <span>Av. de la Industria 142, Col. Talleres<br />Ciudad de México</span>
+            </div>
+          </div>
+          <dl style="margin-top:1.4rem">
+            <div class="contact__row">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a6 6 0 0 0-6 6c0 4 6 12 6 12s6-8 6-12a6 6 0 0 0-6-6Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9" r="2" stroke="currentColor" stroke-width="2"/></svg>
+              <div><dt>Ubicación</dt><dd>Av. de la Industria 142, Col. Talleres, CDMX</dd></div>
+            </div>
+            <div class="contact__row">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <div><dt>Horarios</dt><dd>Lun–Vie 9:00–18:00 · Sáb 10:00–14:00</dd></div>
+            </div>
+            <div class="contact__row">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 6c0 8 6 14 14 14l2-3-4-2-2 2c-3-1-6-4-7-7l2-2-2-4-3 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+              <div><dt>Teléfono</dt><dd><a href="tel:+525512345678">+52 55 1234 5678</a></dd></div>
+            </div>
+            <div class="contact__row">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2"/></svg>
+              <div><dt>Correo</dt><dd><a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a></dd></div>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__col footer__brand">
+        <a class="logo" href="#main" aria-label="VoltSwap — inicio">
+          <span class="logo__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#0e1116"/></svg></span>
+          <span>Volt<b>Swap</b></span>
+        </a>
+        <p>Taller premium de electrificación. Convertimos autos de combustión interna a 100% eléctricos. Ingeniería seria, trato cercano.</p>
+        <div class="footer__social">
+          <a href="https://instagram.com/voltswap.mx" aria-label="VoltSwap en Instagram" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.7 0 3 0 4.1.1 1.1 0 1.8.2 2.5.5.7.3 1.3.6 1.8 1.2.6.5.9 1.1 1.2 1.8.3.7.5 1.4.5 2.5.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1.1-.2 1.8-.5 2.5-.3.7-.6 1.3-1.2 1.8-.5.6-1.1.9-1.8 1.2-.7.3-1.4.5-2.5.5-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1.1 0-1.8-.2-2.5-.5-.7-.3-1.3-.6-1.8-1.2-.6-.5-.9-1.1-1.2-1.8-.3-.7-.5-1.4-.5-2.5C2 15 2 14.7 2 12s0-3 .1-4.1c0-1.1.2-1.8.5-2.5.3-.7.6-1.3 1.2-1.8C4.3 3 4.9 2.7 5.6 2.4 6.3 2.1 7 1.9 8.1 1.9 9.2 1.8 9.5 1.8 12 1.8Zm0 1.8c-2.7 0-3 0-4 .1-1 0-1.5.2-1.9.3-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.1.4-.3.9-.3 1.9-.1 1-.1 1.3-.1 4s0 3 .1 4c0 1 .2 1.5.3 1.9.2.5.4.8.7 1.1.3.3.6.5 1.1.7.4.1.9.3 1.9.3 1 .1 1.3.1 4 .1s3 0 4-.1c1 0 1.5-.2 1.9-.3.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.1-.4.3-.9.3-1.9.1-1 .1-1.3.1-4s0-3-.1-4c0-1-.2-1.5-.3-1.9-.2-.5-.4-.8-.7-1.1-.3-.3-.6-.5-1.1-.7-.4-.1-.9-.3-1.9-.3-1-.1-1.3-.1-4-.1Zm0 3.1a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2Zm0 1.8a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6Zm5.3-.2a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0Z"/></svg>
+          </a>
+          <a href="https://facebook.com/voltswap.mx" aria-label="VoltSwap en Facebook" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12Z"/></svg>
+          </a>
+          <a href="https://youtube.com/@voltswap" aria-label="VoltSwap en YouTube" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7c-.2-.8-.9-1.5-1.7-1.7C19.4 5.2 12 5.2 12 5.2s-7.4 0-8.9.4c-.8.2-1.5.9-1.7 1.7C1 8.8 1 12 1 12s0 3.2.4 4.7c.2.8.9 1.5 1.7 1.7 1.5.4 8.9.4 8.9.4s7.4 0 8.9-.4c.8-.2 1.5-.9 1.7-1.7C23 15.2 23 12 23 12ZM9.7 15.3V8.7l6.2 3.3-6.2 3.3Z"/></svg>
+          </a>
+          <a href="https://maps.google.com/?q=VoltSwap" aria-label="VoltSwap en Google Maps" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer__col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#valor">Por qué convertir</a></li>
+          <li><a href="#proceso">El proceso</a></li>
+          <li><a href="#paquetes">Paquetes</a></li>
+          <li><a href="#galeria">Casos reales</a></li>
+          <li><a href="#costos">Costos y tiempos</a></li>
+          <li><a href="#faq">Preguntas frecuentes</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>Horarios</h4>
+        <p>Lunes a viernes<br />9:00 – 18:00</p>
+        <p>Sábado<br />10:00 – 14:00</p>
+        <p>Domingo<br />Cerrado</p>
+      </div>
+
+      <div class="footer__col">
+        <h4>Contacto</h4>
+        <p>Av. de la Industria 142<br />Col. Talleres, Ciudad de México</p>
+        <p><a href="tel:+525512345678">+52 55 1234 5678</a></p>
+        <p><a href="mailto:hola@voltswap.mx">hola@voltswap.mx</a></p>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>&copy; <span id="year">2026</span> VoltSwap. Taller premium de electrificación.</span>
+      <span>Convierte tu auto. Conserva tu historia.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ AI CHATBOT DEMO ============ -->
+<button class="chatbot-btn" aria-label="Abrir asistente de IA" aria-expanded="false" aria-controls="chatbot">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5Z" stroke="#0e1116" stroke-width="2" stroke-linejoin="round"/></svg>
+</button>
+<section class="chatbot" id="chatbot" aria-label="Asistente de IA de VoltSwap">
+  <div class="chatbot__header">
+    <span>
+      <strong>Asistente IA — VoltSwap</strong>
+      <small>En línea · responde en español</small>
+    </span>
+    <button class="chatbot__close" aria-label="Cerrar asistente">&times;</button>
+  </div>
+  <div class="chatbot__log">
+    <div class="msg msg--bot">¡Hola! Soy el asistente de IA de VoltSwap. Puedo ayudarte con dudas sobre conversiones, paquetes, costos y agendar tu diagnóstico. ¿En qué te ayudo? 🤖</div>
+  </div>
+  <form class="chatbot__form">
+    <input type="text" aria-label="Escribe tu mensaje" placeholder="Escribe tu pregunta…" />
+    <button type="submit" aria-label="Enviar mensaje">→</button>
+  </form>
+  <p class="chatbot__badge">Powered by AI · <b>Sesh</b></p>
+</section>
+
+<!-- Sticky mobile CTA -->
+<div class="mobile-cta">
+  <a class="btn btn--primary" href="#contacto">Cotiza tu conversión</a>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

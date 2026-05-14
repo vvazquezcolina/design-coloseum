@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Vendored third-party skill repos (cloned for the experiment, ~176 MB, not ours to redistribute)
+_models/
+
+# Derived / unused-by-viewer artifacts
+evaluation/screenshots/_montage/
+evaluation/screenshots/*-mobile.png
+
+# OS cruft
+.DS_Store
+**/.DS_Store
