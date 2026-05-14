@@ -11,3 +11,4 @@ evaluation/screenshots/*-mobile.png
 # OS cruft
 .DS_Store
 **/.DS_Store
+.vercel
