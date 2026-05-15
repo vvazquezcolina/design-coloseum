@@ -26,83 +26,150 @@
     line-height: 1.5;
   }
   a { color: inherit; }
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 24px 80px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 80px; }
 
   header.site {
-    display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
-    border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 36px;
+    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--border); padding-bottom: 18px; margin-bottom: 24px;
   }
   header.site h1 { font-size: 20px; letter-spacing: -0.01em; }
   header.site .tag {
     font-size: 12px; color: var(--accent); border: 1px solid var(--accent-dim);
     padding: 2px 8px; border-radius: 999px;
   }
-  header.site .crumbs { margin-left: auto; font-size: 13px; color: var(--text-dim); }
-  header.site .crumbs button {
-    background: none; border: none; color: var(--accent); cursor: pointer;
-    font: inherit; padding: 0;
+
+  /* Botón Volver — visible y claro, en cada pantalla que no sea la inicial */
+  .backbtn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
+    padding: 9px 16px 9px 13px; border-radius: 999px; cursor: pointer;
+    font: inherit; font-size: 14px; font-weight: 600; transition: all .15s ease;
   }
-  header.site .crumbs button:hover { text-decoration: underline; }
+  .backbtn:hover { border-color: var(--accent); color: var(--accent); transform: translateX(-2px); }
+  .backbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .backbtn .arrow { font-size: 16px; }
 
-  h2.screen-title { font-size: 15px; font-weight: 600; color: var(--text-dim); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .navrow { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+  .navrow .here { font-size: 13px; color: var(--text-dim); }
+  .navrow .here b { color: var(--text); font-weight: 600; }
 
-  /* Screen 1 — prompt picker */
-  .prompts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  h2.screen-title { font-size: 15px; font-weight: 600; color: var(--text-dim); margin-bottom: 18px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* Pantalla 1 — selector de prompt */
+  .prompts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   .prompt-card {
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 26px 24px; cursor: pointer; transition: transform .15s ease, border-color .15s ease, background .15s ease;
-    display: flex; flex-direction: column; gap: 14px; text-align: left;
+    padding: 24px 22px; cursor: pointer; transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    display: flex; flex-direction: column; gap: 12px; text-align: left;
   }
   .prompt-card:hover { transform: translateY(-3px); border-color: var(--accent-dim); background: var(--surface-2); }
+  .prompt-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .prompt-card .lvl { font-size: 12px; color: var(--accent); font-weight: 700; letter-spacing: 0.08em; }
   .prompt-card h3 { font-size: 19px; letter-spacing: -0.01em; }
   .prompt-card p { font-size: 13px; color: var(--text-dim); }
-  .prompt-card .meta { margin-top: auto; font-size: 12px; color: var(--text-dim); padding-top: 10px; }
+  .prompt-card .meta {
+    margin-top: auto; font-size: 12px; color: var(--accent); padding-top: 10px; font-weight: 600;
+  }
 
-  /* Screen 2 — design grid */
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
+  /* Panel "cómo se calificó" */
+  .method {
+    margin-top: 30px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px 24px;
+  }
+  .method h3 { font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .method h3 .ico {
+    width: 20px; height: 20px; border-radius: 50%; background: var(--accent-dim); color: #0e1014;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800;
+  }
+  .method ul { list-style: none; display: grid; gap: 8px; }
+  .method li { font-size: 13px; color: var(--text-dim); padding-left: 18px; position: relative; }
+  .method li::before { content: "\25B8"; position: absolute; left: 0; color: var(--accent-dim); }
+  .method li b { color: var(--text); font-weight: 600; }
+  .method .dims {
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border);
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 22px;
+  }
+  .method .dims .d { font-size: 12px; color: var(--text-dim); }
+  .method .dims .d b { color: var(--text); font-weight: 600; }
+
+  /* Pantalla 2 — grid de diseños */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
   .cell-card {
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
     overflow: hidden; cursor: pointer; transition: transform .15s ease, border-color .15s ease;
     display: flex; flex-direction: column;
   }
-  .cell-card:hover { transform: translateY(-3px); border-color: var(--accent-dim); }
+  .cell-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .cell-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .cell-card .thumb {
     aspect-ratio: 16 / 10; background: var(--surface-2) center top / cover no-repeat;
     border-bottom: 1px solid var(--border);
   }
   .cell-card .thumb.empty { display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 13px; }
-  .cell-card .body { padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
+  .cell-card .body { padding: 15px 17px; display: flex; flex-direction: column; gap: 5px; }
   .cell-card .body .name { font-size: 15px; font-weight: 600; }
   .cell-card .body .sub { font-size: 12px; color: var(--text-dim); }
   .cell-card .body .score {
-    margin-top: 6px; font-size: 13px; display: flex; align-items: baseline; gap: 6px;
+    margin-top: 8px; display: flex; align-items: baseline; gap: 6px;
   }
-  .cell-card .body .score b { font-size: 20px; color: var(--accent); }
+  .cell-card .body .score b { font-size: 22px; color: var(--accent); }
+  .cell-card .body .score span { font-size: 12px; color: var(--text-dim); }
   .cell-card .body .score.unscored b { color: var(--text-dim); }
+  .cell-card .body .open-hint { margin-top: 2px; font-size: 11px; color: var(--text-dim); }
 
-  /* Detail */
+  /* Detalle */
   .detail-bar {
-    display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;
+    display: flex; align-items: center; gap: 12px; margin: 16px 0; flex-wrap: wrap;
   }
+  .detail-bar .title { font-size: 15px; font-weight: 600; }
+  .detail-bar .title span { color: var(--text-dim); font-weight: 400; }
   .detail-bar .btn {
     background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
     padding: 8px 14px; border-radius: 8px; cursor: pointer; font: inherit; font-size: 13px;
+    text-decoration: none; display: inline-block;
   }
   .detail-bar .btn:hover { border-color: var(--accent-dim); }
   .detail-bar .btn.primary { border-color: var(--accent-dim); color: var(--accent); }
-  .detail-bar .title { font-size: 15px; font-weight: 600; }
-  .detail-bar .title span { color: var(--text-dim); font-weight: 400; }
+  .detail-bar .spacer { flex: 1; }
+
+  /* Panel de calificación en el detalle */
+  .score-panel {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px 22px; margin-bottom: 6px;
+  }
+  .score-panel .sp-head {
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px;
+  }
+  .score-panel .sp-head h3 { font-size: 14px; }
+  .score-panel .sp-head .total { margin-left: auto; font-size: 13px; color: var(--text-dim); }
+  .score-panel .sp-head .total b { font-size: 26px; color: var(--accent); }
+  .score-panel .sp-note { font-size: 12px; color: var(--text-dim); margin-bottom: 14px; }
+  .dims-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px 28px; }
+  .dim-row { display: flex; align-items: center; gap: 10px; }
+  .dim-row .dim-label { font-size: 12.5px; flex: 1; color: var(--text); }
+  .dim-row .dim-bar { display: flex; gap: 3px; }
+  .dim-row .dim-bar i {
+    width: 16px; height: 7px; border-radius: 2px; background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .dim-row .dim-bar i.on { background: var(--accent); border-color: var(--accent); }
+  .dim-row .dim-val { font-size: 12px; color: var(--text-dim); width: 26px; text-align: right; }
+  .score-panel .sp-foot {
+    margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);
+    font-size: 11.5px; color: var(--text-dim);
+  }
+
   .frame {
-    width: 100%; height: 78vh; border: 1px solid var(--border); border-radius: var(--radius);
+    width: 100%; height: 76vh; border: 1px solid var(--border); border-radius: var(--radius);
     background: #fff;
   }
 
   .hidden { display: none !important; }
-  footer.site { margin-top: 56px; font-size: 12px; color: var(--text-dim); text-align: center; }
+  footer.site { margin-top: 48px; font-size: 12px; color: var(--text-dim); text-align: center; }
 
   @media (max-width: 760px) {
     .prompts { grid-template-columns: 1fr; }
+    .method .dims, .dims-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -111,27 +178,36 @@
   <header class="site">
     <h1>Design Colosseum</h1>
     <span class="tag">visor de resultados</span>
-    <nav class="crumbs" id="crumbs"></nav>
   </header>
 
   <main id="app">
     <section id="screen-prompts">
-      <h2 class="screen-title">Elige un prompt</h2>
+      <h2 class="screen-title">Paso 1 &middot; Elige un prompt</h2>
       <div class="prompts" id="prompts"></div>
+      <div class="method" id="method"></div>
     </section>
 
     <section id="screen-grid" class="hidden">
+      <div class="navrow">
+        <button class="backbtn" data-nav="prompts"><span class="arrow">&larr;</span> Volver a prompts</button>
+        <span class="here">Paso 2 &middot; Estás viendo: <b id="grid-here"></b></span>
+      </div>
       <h2 class="screen-title" id="grid-title">Diseños</h2>
       <div class="grid" id="grid"></div>
     </section>
 
     <section id="screen-detail" class="hidden">
+      <div class="navrow">
+        <button class="backbtn" data-nav="grid"><span class="arrow">&larr;</span> Volver a la grilla</button>
+        <span class="here">Paso 3 &middot; Estás viendo: <b id="detail-here"></b></span>
+      </div>
+      <div id="score-panel-host"></div>
       <div class="detail-bar" id="detail-bar"></div>
       <iframe class="frame" id="detail-frame" title="Sitio generado"></iframe>
     </section>
   </main>
 
-  <footer class="site">21 celdas · 7 modelos × 3 niveles de prompt · scoring a ciegas</footer>
+  <footer class="site">21 celdas &middot; 7 modelos &times; 3 niveles de prompt &middot; scoring a ciegas</footer>
 </div>
 <script src="app.js"></script>
 </body>
