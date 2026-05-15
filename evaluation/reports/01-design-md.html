@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe — 01-design-md — Design Colosseum</title>
+<style>
+  :root {
+    --bg:#0e1014; --surface:#171a21; --surface-2:#1e222b; --border:#2a2f3a;
+    --text:#e6e8ec; --text-dim:#9aa0ac; --accent:#3ad8c4; --accent-dim:#1f8d7f;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.65;
+  }
+  .wrap { max-width:760px; margin:0 auto; padding:28px 24px 96px; }
+  .topbar {
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding-bottom:18px; margin-bottom:32px;
+  }
+  .topbar .brand { font-size:15px; font-weight:700; }
+  .topbar .tag {
+    font-size:11px; color:var(--accent); border:1px solid var(--accent-dim);
+    padding:2px 8px; border-radius:999px;
+  }
+  .topbar .back {
+    margin-left:auto; font-size:13px; font-weight:600; color:var(--text);
+    text-decoration:none; background:var(--surface-2); border:1px solid var(--border);
+    padding:8px 15px 8px 12px; border-radius:999px; transition:all .15s ease;
+  }
+  .topbar .back:hover { border-color:var(--accent); color:var(--accent); }
+
+  .prose h1 { font-size:28px; letter-spacing:-0.01em; margin:8px 0 20px; line-height:1.25; }
+  .prose h2 { font-size:19px; margin:34px 0 12px; letter-spacing:-0.01em;
+    padding-bottom:6px; border-bottom:1px solid var(--border); }
+  .prose h3 { font-size:15px; margin:24px 0 8px; color:var(--text); }
+  /* Texto largo justificado (regla global del entorno) */
+  .prose p, .prose li {
+    text-align:justify; text-justify:inter-word; hyphens:manual; -webkit-hyphens:manual;
+  }
+  .prose p { margin:12px 0; color:var(--text); }
+  .prose ul, .prose ol { margin:12px 0 12px 22px; }
+  .prose li { margin:5px 0; }
+  .prose li::marker { color:var(--accent-dim); }
+  .prose strong { color:#fff; font-weight:650; }
+  .prose a { color:var(--accent); }
+  .prose hr { border:0; border-top:1px solid var(--border); margin:30px 0; }
+  .prose blockquote {
+    margin:16px 0; padding:12px 18px; background:var(--surface);
+    border-left:3px solid var(--accent-dim); border-radius:0 8px 8px 0; color:var(--text-dim);
+  }
+  .prose blockquote p { color:var(--text-dim); }
+  .prose code {
+    background:var(--surface-2); border:1px solid var(--border); border-radius:4px;
+    padding:1px 5px; font-size:0.88em;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  .prose pre {
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:16px; overflow:auto; margin:16px 0;
+  }
+  .prose pre code { background:none; border:0; padding:0; }
+  .prose table {
+    width:100%; border-collapse:collapse; margin:18px 0; font-size:13.5px;
+  }
+  .prose th, .prose td {
+    border:1px solid var(--border); padding:8px 11px; text-align:left;
+  }
+  .prose th { background:var(--surface-2); font-weight:650; }
+  .prose tr:nth-child(even) td { background:rgba(255,255,255,0.015); }
+  .prose sub, .prose small { color:var(--text-dim); font-size:12px; }
+  footer {
+    margin-top:48px; padding-top:18px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--text-dim); text-align:center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="brand">Design Colosseum</span>
+    <span class="tag">informe</span>
+    <a class="back" href="/">&larr; Volver al visor</a>
+  </div>
+  <article class="prose">
+<h1>Informe — 01-design-md</h1>
+<p><strong>Total: 115/150</strong> · S 38 · M 37 · L 40</p>
+<blockquote>
+<p>Asimetría declarada (PLAN.md §1 y §5): <code>design.md</code> no es un skill de estilo, es una
+<strong>spec de formato + CLI para documentar sistemas de diseño</strong>. Se probó en su uso
+intencionado — el subagente redactó un <code>DESIGN.md</code> con tokens y construyó el sitio
+desde ahí. Su puntaje se lee con ese contexto.</p>
+</blockquote>
+<h2>Puntajes por dimensión</h2>
+<table>
+<thead>
+<tr>
+<th>Dimensión</th>
+<th>S</th>
+<th>M</th>
+<th>L</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. Primera impresión / wow</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2. Jerarquía visual y layout</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>3. Tipografía</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>4. Color y contraste</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>5. Espaciado y ritmo</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>6. Responsive</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>7. Motion e interacción</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>8. Accesibilidad</td>
+<td>4</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>9. Calidad de código</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10. Adherencia al prompt</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>38</strong></td>
+<td><strong>37</strong></td>
+<td><strong>40</strong></td>
+</tr>
+</tbody></table>
+<h2>Escalado con el prompt</h2>
+<p>Curva <strong>plana</strong> (38 / 37 / 40). El valor de design.md no está en escalar con el brief
+sino en la <strong>disciplina de tokens</strong>: las tres celdas son internamente coherentes porque
+derivan de un <code>DESIGN.md</code> explícito. Pero esa misma disciplina produce resultados
+<em>correctos y predecibles</em>, no memorables — el &quot;wow&quot; se queda en 3 en los tres niveles.</p>
+<h2>Fortalezas</h2>
+<ul>
+<li><strong>Coherencia sistémica</strong>: color, tipografía, espaciado y radios salen de tokens
+declarados; nada se siente improvisado.</li>
+<li><strong>Trazabilidad</strong>: el <code>DESIGN.md</code> queda como artefacto auditable junto al <code>index.html</code>.</li>
+<li><strong>Buen código</strong> en L (token discipline, 9 <code>role=</code>, 9 <code>:focus</code>).</li>
+</ul>
+<h2>Debilidades</h2>
+<ul>
+<li><strong>Bajo impacto visual</strong>: tokens correctos ≠ diseño con voz. Se ve como el baseline pero
+un punto por debajo en primera impresión.</li>
+<li><strong>Galería antes/después floja</strong>: bloques de gradiente de color en S y L en lugar de
+composiciones reales — el punto más débil de adherencia.</li>
+<li><strong>Motion mínimo</strong> en los tres niveles.</li>
+</ul>
+<h2>Para qué sirve</h2>
+<p>Para <strong>documentar y mantener</strong> un sistema de diseño existente, o para equipos que
+necesitan que el diseño sea auditable y reproducible. No es la herramienta para &quot;haz que
+se vea increíble&quot; — es la herramienta para &quot;haz que sea consistente y rastreable&quot;.</p>
+<h2>Fricción de uso</h2>
+<p><strong>Media-alta para este caso de uso.</strong> El CLI requiere <code>bun</code> (no disponible en el
+entorno), así que el subagente validó el <code>DESIGN.md</code> a mano. El flujo &quot;escribe tokens →
+construye desde tokens&quot; añade un paso intermedio que no todos los proyectos quieren.</p>
+
+  </article>
+  <footer>Design Colosseum &middot; evaluación a ciegas &middot; 7 modelos &times; 3 prompts</footer>
+</div>
+</body>
+</html>

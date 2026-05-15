@@ -11,4 +11,8 @@ evaluation/screenshots/*-mobile.png
 # OS cruft
 .DS_Store
 **/.DS_Store
+
+# macOS / iCloud duplicate-file junk ("foo 2.png", "bar 3.pdf"…)
+* [0-9].*
+*\ [0-9].*
 .vercel

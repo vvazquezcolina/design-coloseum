@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decisión — Design Colosseum — Design Colosseum</title>
+<style>
+  :root {
+    --bg:#0e1014; --surface:#171a21; --surface-2:#1e222b; --border:#2a2f3a;
+    --text:#e6e8ec; --text-dim:#9aa0ac; --accent:#3ad8c4; --accent-dim:#1f8d7f;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.65;
+  }
+  .wrap { max-width:760px; margin:0 auto; padding:28px 24px 96px; }
+  .topbar {
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding-bottom:18px; margin-bottom:32px;
+  }
+  .topbar .brand { font-size:15px; font-weight:700; }
+  .topbar .tag {
+    font-size:11px; color:var(--accent); border:1px solid var(--accent-dim);
+    padding:2px 8px; border-radius:999px;
+  }
+  .topbar .back {
+    margin-left:auto; font-size:13px; font-weight:600; color:var(--text);
+    text-decoration:none; background:var(--surface-2); border:1px solid var(--border);
+    padding:8px 15px 8px 12px; border-radius:999px; transition:all .15s ease;
+  }
+  .topbar .back:hover { border-color:var(--accent); color:var(--accent); }
+
+  .prose h1 { font-size:28px; letter-spacing:-0.01em; margin:8px 0 20px; line-height:1.25; }
+  .prose h2 { font-size:19px; margin:34px 0 12px; letter-spacing:-0.01em;
+    padding-bottom:6px; border-bottom:1px solid var(--border); }
+  .prose h3 { font-size:15px; margin:24px 0 8px; color:var(--text); }
+  /* Texto largo justificado (regla global del entorno) */
+  .prose p, .prose li {
+    text-align:justify; text-justify:inter-word; hyphens:manual; -webkit-hyphens:manual;
+  }
+  .prose p { margin:12px 0; color:var(--text); }
+  .prose ul, .prose ol { margin:12px 0 12px 22px; }
+  .prose li { margin:5px 0; }
+  .prose li::marker { color:var(--accent-dim); }
+  .prose strong { color:#fff; font-weight:650; }
+  .prose a { color:var(--accent); }
+  .prose hr { border:0; border-top:1px solid var(--border); margin:30px 0; }
+  .prose blockquote {
+    margin:16px 0; padding:12px 18px; background:var(--surface);
+    border-left:3px solid var(--accent-dim); border-radius:0 8px 8px 0; color:var(--text-dim);
+  }
+  .prose blockquote p { color:var(--text-dim); }
+  .prose code {
+    background:var(--surface-2); border:1px solid var(--border); border-radius:4px;
+    padding:1px 5px; font-size:0.88em;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  .prose pre {
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:16px; overflow:auto; margin:16px 0;
+  }
+  .prose pre code { background:none; border:0; padding:0; }
+  .prose table {
+    width:100%; border-collapse:collapse; margin:18px 0; font-size:13.5px;
+  }
+  .prose th, .prose td {
+    border:1px solid var(--border); padding:8px 11px; text-align:left;
+  }
+  .prose th { background:var(--surface-2); font-weight:650; }
+  .prose tr:nth-child(even) td { background:rgba(255,255,255,0.015); }
+  .prose sub, .prose small { color:var(--text-dim); font-size:12px; }
+  footer {
+    margin-top:48px; padding-top:18px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--text-dim); text-align:center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="brand">Design Colosseum</span>
+    <span class="tag">informe</span>
+    <a class="back" href="/">&larr; Volver al visor</a>
+  </div>
+  <article class="prose">
+<h1>Decisión — Design Colosseum</h1>
+<p><strong>Fecha:</strong> 2026-05-14
+<strong>Tema de prueba:</strong> web de conversión de autos de combustión a eléctricos (marca ficticia VoltSwap)
+<strong>Método:</strong> 7 modelos (baseline + 6 skills) × 3 niveles de prompt (S/M/L) = 21 sitios.
+Cada uno generado por un subagente aislado. Scoring a ciegas, 1–5 en 10 dimensiones, /50 por celda.</p>
+<h2>Ranking final</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Modelo</th>
+<th>S</th>
+<th>M</th>
+<th>L</th>
+<th>Total /150</th>
+<th>vs. baseline</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🏆 1</td>
+<td><strong>03-impeccable</strong></td>
+<td>46</td>
+<td>46</td>
+<td>48</td>
+<td><strong>140</strong></td>
+<td>+20</td>
+</tr>
+<tr>
+<td>2</td>
+<td>02-ui-ux-pro-max</td>
+<td>41</td>
+<td>42</td>
+<td>44</td>
+<td>127</td>
+<td>+7</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>00-baseline</strong> (control)</td>
+<td>39</td>
+<td>39</td>
+<td>42</td>
+<td><strong>120</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>4</td>
+<td>05-taste-skill</td>
+<td>39</td>
+<td>38</td>
+<td>42</td>
+<td>119</td>
+<td>−1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>01-design-md *</td>
+<td>38</td>
+<td>37</td>
+<td>40</td>
+<td>115</td>
+<td>−5</td>
+</tr>
+<tr>
+<td>6</td>
+<td>06-sesh-acid-pipeline *</td>
+<td>35</td>
+<td>38</td>
+<td>38</td>
+<td>111</td>
+<td>−9</td>
+</tr>
+<tr>
+<td>7</td>
+<td>04-huashu-design</td>
+<td>36</td>
+<td>35</td>
+<td>39</td>
+<td>110</td>
+<td>−10</td>
+</tr>
+</tbody></table>
+<p>* Herramientas de otra categoría (ver PLAN.md §5): <code>design.md</code> documenta sistemas de
+diseño; <code>sesh-acid-pipeline</code> es un pipeline de ventas. Sus puntajes se leen en contexto.</p>
+<h2>Ganador: <strong>03-impeccable</strong></h2>
+<p>Único modelo que <strong>sube el techo</strong>, no solo el piso:</p>
+<ul>
+<li><strong>140/150</strong>, con la celda más débil (46) por encima de la mejor de cualquier otro (44).</li>
+<li>5/5 sostenido en primera impresión, jerarquía, tipografía, color y espaciado en los 3 niveles.</li>
+<li><strong>Ya brilla con el prompt corto</strong> — no depende del brief largo para destacar (curva alta y plana).</li>
+<li>Es el único resultado que se ve <em>diseñado</em> y con voz propia, no <em>generado</em>.</li>
+<li>Fricción de uso media (espera <code>PRODUCT.md</code>/<code>DESIGN.md</code> de contexto, corre scripts de node) — se paga una vez.</li>
+</ul>
+<h2>Hallazgo principal</h2>
+<p><strong>Solo 2 de 6 skills superan al baseline</strong> (impeccable y ui-ux-pro-max). Los otros cuatro
+empatan o quedan por debajo de Claude sin skill — añadieron fricción de invocación sin
+añadir calidad. El baseline a 120/150 es un control sano: confirma que Claude solo ya
+entrega sitios competentes y completos, y que un skill solo vale la pena si su techo
+supera ese piso.</p>
+<ul>
+<li><strong>Recomendación de adopción:</strong> quedarse con <strong>impeccable</strong>.</li>
+<li><strong>Mención honorable:</strong> <strong>ui-ux-pro-max</strong> como caballo de batalla de bajo riesgo /
+alta accesibilidad cuando no se busca originalidad.</li>
+</ul>
+<h2>Pendiente (requiere confirmación del usuario)</h2>
+<p>PLAN.md §6 contempla <strong>borrar <code>_models/</code></strong> y los repos perdedores, conservando solo el
+del ganador. Es destructivo e irreversible — <strong>no se ejecutó</strong>; queda a confirmación
+explícita. Recomendado conservar <code>_models/impeccable/</code> y borrar el resto.</p>
+<h2>Artefactos</h2>
+<ul>
+<li><code>evaluation/scores.csv</code> — matriz completa modelo × prompt × dimensión.</li>
+<li><code>evaluation/reports/*.md</code> — 7 informes individuales.</li>
+<li><code>evaluation/screenshots/</code> — 42 capturas (desktop 1440px + mobile 390px).</li>
+<li><code>viewer/</code> — visor en <code>localhost:3500/viewer/</code> (servir el raíz del proyecto).</li>
+</ul>
+
+  </article>
+  <footer>Design Colosseum &middot; evaluación a ciegas &middot; 7 modelos &times; 3 prompts</footer>
+</div>
+</body>
+</html>

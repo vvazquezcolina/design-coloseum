@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-15T01:19:10.535Z",
+  "generated": "2026-05-15T01:25:48.579Z",
   "title": "Design Colosseum",
   "note": "7 modelos (baseline + 6 skills) × 3 niveles de prompt. Tema: conversión de autos de combustión a eléctricos. Scoring 1-5 en 10 dimensiones, /50 por celda.",
   "rubric": [
@@ -111,7 +111,7 @@
       "site": "results/00-baseline/S/index.html",
       "thumb": "evaluation/screenshots/00-baseline-S-desktop.png",
       "thumbMobile": "evaluation/screenshots/00-baseline-S-mobile.png",
-      "report": "evaluation/reports/00-baseline.md",
+      "report": "evaluation/reports/00-baseline.html",
       "total": 39,
       "scores": {
         "d1_wow": 4,
@@ -132,7 +132,7 @@
       "site": "results/00-baseline/M/index.html",
       "thumb": "evaluation/screenshots/00-baseline-M-desktop.png",
       "thumbMobile": "evaluation/screenshots/00-baseline-M-mobile.png",
-      "report": "evaluation/reports/00-baseline.md",
+      "report": "evaluation/reports/00-baseline.html",
       "total": 39,
       "scores": {
         "d1_wow": 4,
@@ -153,7 +153,7 @@
       "site": "results/00-baseline/L/index.html",
       "thumb": "evaluation/screenshots/00-baseline-L-desktop.png",
       "thumbMobile": "evaluation/screenshots/00-baseline-L-mobile.png",
-      "report": "evaluation/reports/00-baseline.md",
+      "report": "evaluation/reports/00-baseline.html",
       "total": 42,
       "scores": {
         "d1_wow": 4,
@@ -174,7 +174,7 @@
       "site": "results/01-design-md/S/index.html",
       "thumb": "evaluation/screenshots/01-design-md-S-desktop.png",
       "thumbMobile": "evaluation/screenshots/01-design-md-S-mobile.png",
-      "report": "evaluation/reports/01-design-md.md",
+      "report": "evaluation/reports/01-design-md.html",
       "total": 38,
       "scores": {
         "d1_wow": 3,
@@ -195,7 +195,7 @@
       "site": "results/01-design-md/M/index.html",
       "thumb": "evaluation/screenshots/01-design-md-M-desktop.png",
       "thumbMobile": "evaluation/screenshots/01-design-md-M-mobile.png",
-      "report": "evaluation/reports/01-design-md.md",
+      "report": "evaluation/reports/01-design-md.html",
       "total": 37,
       "scores": {
         "d1_wow": 3,
@@ -216,7 +216,7 @@
       "site": "results/01-design-md/L/index.html",
       "thumb": "evaluation/screenshots/01-design-md-L-desktop.png",
       "thumbMobile": "evaluation/screenshots/01-design-md-L-mobile.png",
-      "report": "evaluation/reports/01-design-md.md",
+      "report": "evaluation/reports/01-design-md.html",
       "total": 40,
       "scores": {
         "d1_wow": 3,
@@ -237,7 +237,7 @@
       "site": "results/02-ui-ux-pro-max/S/index.html",
       "thumb": "evaluation/screenshots/02-ui-ux-pro-max-S-desktop.png",
       "thumbMobile": "evaluation/screenshots/02-ui-ux-pro-max-S-mobile.png",
-      "report": "evaluation/reports/02-ui-ux-pro-max.md",
+      "report": "evaluation/reports/02-ui-ux-pro-max.html",
       "total": 41,
       "scores": {
         "d1_wow": 4,
@@ -258,7 +258,7 @@
       "site": "results/02-ui-ux-pro-max/M/index.html",
       "thumb": "evaluation/screenshots/02-ui-ux-pro-max-M-desktop.png",
       "thumbMobile": "evaluation/screenshots/02-ui-ux-pro-max-M-mobile.png",
-      "report": "evaluation/reports/02-ui-ux-pro-max.md",
+      "report": "evaluation/reports/02-ui-ux-pro-max.html",
       "total": 42,
       "scores": {
         "d1_wow": 4,
@@ -279,7 +279,7 @@
       "site": "results/02-ui-ux-pro-max/L/index.html",
       "thumb": "evaluation/screenshots/02-ui-ux-pro-max-L-desktop.png",
       "thumbMobile": "evaluation/screenshots/02-ui-ux-pro-max-L-mobile.png",
-      "report": "evaluation/reports/02-ui-ux-pro-max.md",
+      "report": "evaluation/reports/02-ui-ux-pro-max.html",
       "total": 44,
       "scores": {
         "d1_wow": 4,
@@ -300,7 +300,7 @@
       "site": "results/03-impeccable/S/index.html",
       "thumb": "evaluation/screenshots/03-impeccable-S-desktop.png",
       "thumbMobile": "evaluation/screenshots/03-impeccable-S-mobile.png",
-      "report": "evaluation/reports/03-impeccable.md",
+      "report": "evaluation/reports/03-impeccable.html",
       "total": 46,
       "scores": {
         "d1_wow": 5,
@@ -321,7 +321,7 @@
       "site": "results/03-impeccable/M/index.html",
       "thumb": "evaluation/screenshots/03-impeccable-M-desktop.png",
       "thumbMobile": "evaluation/screenshots/03-impeccable-M-mobile.png",
-      "report": "evaluation/reports/03-impeccable.md",
+      "report": "evaluation/reports/03-impeccable.html",
       "total": 46,
       "scores": {
         "d1_wow": 5,
@@ -342,7 +342,7 @@
       "site": "results/03-impeccable/L/index.html",
       "thumb": "evaluation/screenshots/03-impeccable-L-desktop.png",
       "thumbMobile": "evaluation/screenshots/03-impeccable-L-mobile.png",
-      "report": "evaluation/reports/03-impeccable.md",
+      "report": "evaluation/reports/03-impeccable.html",
       "total": 48,
       "scores": {
         "d1_wow": 5,
@@ -363,7 +363,7 @@
       "site": "results/04-huashu-design/S/index.html",
       "thumb": "evaluation/screenshots/04-huashu-design-S-desktop.png",
       "thumbMobile": "evaluation/screenshots/04-huashu-design-S-mobile.png",
-      "report": "evaluation/reports/04-huashu-design.md",
+      "report": "evaluation/reports/04-huashu-design.html",
       "total": 36,
       "scores": {
         "d1_wow": 3,
@@ -384,7 +384,7 @@
       "site": "results/04-huashu-design/M/index.html",
       "thumb": "evaluation/screenshots/04-huashu-design-M-desktop.png",
       "thumbMobile": "evaluation/screenshots/04-huashu-design-M-mobile.png",
-      "report": "evaluation/reports/04-huashu-design.md",
+      "report": "evaluation/reports/04-huashu-design.html",
       "total": 35,
       "scores": {
         "d1_wow": 3,
@@ -405,7 +405,7 @@
       "site": "results/04-huashu-design/L/index.html",
       "thumb": "evaluation/screenshots/04-huashu-design-L-desktop.png",
       "thumbMobile": "evaluation/screenshots/04-huashu-design-L-mobile.png",
-      "report": "evaluation/reports/04-huashu-design.md",
+      "report": "evaluation/reports/04-huashu-design.html",
       "total": 39,
       "scores": {
         "d1_wow": 3,
@@ -426,7 +426,7 @@
       "site": "results/05-taste-skill/S/index.html",
       "thumb": "evaluation/screenshots/05-taste-skill-S-desktop.png",
       "thumbMobile": "evaluation/screenshots/05-taste-skill-S-mobile.png",
-      "report": "evaluation/reports/05-taste-skill.md",
+      "report": "evaluation/reports/05-taste-skill.html",
       "total": 39,
       "scores": {
         "d1_wow": 4,
@@ -447,7 +447,7 @@
       "site": "results/05-taste-skill/M/index.html",
       "thumb": "evaluation/screenshots/05-taste-skill-M-desktop.png",
       "thumbMobile": "evaluation/screenshots/05-taste-skill-M-mobile.png",
-      "report": "evaluation/reports/05-taste-skill.md",
+      "report": "evaluation/reports/05-taste-skill.html",
       "total": 38,
       "scores": {
         "d1_wow": 4,
@@ -468,7 +468,7 @@
       "site": "results/05-taste-skill/L/index.html",
       "thumb": "evaluation/screenshots/05-taste-skill-L-desktop.png",
       "thumbMobile": "evaluation/screenshots/05-taste-skill-L-mobile.png",
-      "report": "evaluation/reports/05-taste-skill.md",
+      "report": "evaluation/reports/05-taste-skill.html",
       "total": 42,
       "scores": {
         "d1_wow": 4,
@@ -489,7 +489,7 @@
       "site": "results/06-sesh-acid-pipeline/S/index.html",
       "thumb": "evaluation/screenshots/06-sesh-acid-pipeline-S-desktop.png",
       "thumbMobile": "evaluation/screenshots/06-sesh-acid-pipeline-S-mobile.png",
-      "report": "evaluation/reports/06-sesh-acid-pipeline.md",
+      "report": "evaluation/reports/06-sesh-acid-pipeline.html",
       "total": 35,
       "scores": {
         "d1_wow": 3,
@@ -510,7 +510,7 @@
       "site": "results/06-sesh-acid-pipeline/M/index.html",
       "thumb": "evaluation/screenshots/06-sesh-acid-pipeline-M-desktop.png",
       "thumbMobile": "evaluation/screenshots/06-sesh-acid-pipeline-M-mobile.png",
-      "report": "evaluation/reports/06-sesh-acid-pipeline.md",
+      "report": "evaluation/reports/06-sesh-acid-pipeline.html",
       "total": 38,
       "scores": {
         "d1_wow": 3,
@@ -531,7 +531,7 @@
       "site": "results/06-sesh-acid-pipeline/L/index.html",
       "thumb": "evaluation/screenshots/06-sesh-acid-pipeline-L-desktop.png",
       "thumbMobile": "evaluation/screenshots/06-sesh-acid-pipeline-L-mobile.png",
-      "report": "evaluation/reports/06-sesh-acid-pipeline.md",
+      "report": "evaluation/reports/06-sesh-acid-pipeline.html",
       "total": 38,
       "scores": {
         "d1_wow": 3,

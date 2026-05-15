@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/evaluation/reports/:slug.md",
+      "destination": "/evaluation/reports/:slug.html"
+    },
+    {
+      "source": "/evaluation/DECISION.md",
+      "destination": "/evaluation/DECISION.html"
+    }
+  ]
+}

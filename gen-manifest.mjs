@@ -73,7 +73,7 @@ for (const m of MODELS) {
       site: `results/${m.id}/${level}/index.html`,
       thumb: existsSync(join(ROOT, thumbPath)) ? thumbPath.replace(/\\/g, "/") : null,
       thumbMobile: `evaluation/screenshots/${m.id}-${level}-mobile.png`,
-      report: `evaluation/reports/${m.id}.md`,
+      report: `evaluation/reports/${m.id}.html`,
     };
     if (row) {
       cell.total = Number(row.total_50);
